@@ -7,6 +7,7 @@ dotenv.config();
 
 // This function is used as middleware to authenticate user requests
 exports.auth = async (req, res, next) => {
+
 	try {
 		// Extracting JWT from request cookies, body or header
 		const token =
@@ -14,6 +15,7 @@ exports.auth = async (req, res, next) => {
 			req.body.token ||
 			req.header("Authorization").replace("Bearer ", "");
 
+		
 		// If JWT is missing, return 401 Unauthorized response
 		if (!token) {
 			return res.status(401).json({ success: false, message: `Token Missing` });
@@ -22,7 +24,7 @@ exports.auth = async (req, res, next) => {
 		try {
 			// Verifying the JWT using the secret key stored in environment variables
 			const decode = await jwt.verify(token, process.env.JWT_SECRET);
-			console.log(decode);
+		
 			// Storing the decoded JWT payload in the request object for further use
 			req.user = decode;
 		} catch (error) {
@@ -62,6 +64,7 @@ exports.isCustomre = async (req, res, next) => {
 exports.isAdmin = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
+
 
 		if (userDetails.accountType !== "Admin") {
 			return res.status(401).json({

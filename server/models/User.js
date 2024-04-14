@@ -11,15 +11,22 @@ const userSchema = new mongoose.Schema(
     },
     lastName: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     email: {
       type: String,
       required: true,
-      trim: true,
-    },
+      unique: true,
+      trim:true
 
+    },
+    contactNumber: {
+      type: String,
+      // required: true,
+      unique: true,
+      trim:true
+    },
     password: {
       type: String,
       required: true,
@@ -27,6 +34,7 @@ const userSchema = new mongoose.Schema(
     accountType: {
       type: String,
       enum: ["Custmore", "Admin"],
+      default: "Custmore",
       required: true,
     },
     active: {
@@ -43,6 +51,13 @@ const userSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    address: {
+      type: String,
+    },
+    OTPLogin:{
+      type:Number,
+    }
+   
     
 
   },

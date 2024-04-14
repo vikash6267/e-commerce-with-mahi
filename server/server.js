@@ -1,3 +1,4 @@
+const bodyParser = require("body-parser");
 
 const express = require("express")
 const app = express();
@@ -7,9 +8,10 @@ const dotenv = require("dotenv");
 const fileUpload = require("express-fileupload");
 const database = require("./config/database");
 const { cloudinaryConnect } = require("./config/cloudinary");
-
-
-
+const {errorHandler} = require("./middlewares/errorHandler")
+const uploadRouter = require("./routes/uploadRoute");
+const productsRoutes = require("./routes/products")
+const userRoutes = require("./routes/user")
 
 // Loading environment variables from .env file
 dotenv.config();
@@ -21,7 +23,11 @@ database.connect();
 
 // Middlewares
 app.use(express.json());
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(express.json());
 app.use(cookieParser());
+
 app.use(
 	cors({
 		origin: "*",
@@ -41,10 +47,14 @@ cloudinaryConnect();
 
 
 // Setting up routes
+app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/product", productsRoutes);
 
 
+app.use("/api/v1/upload", uploadRouter);
 
 
+app.use(errorHandler)
 // Testing the server
 app.get("/", (req, res) => {
 	return res.json({
