@@ -1,4 +1,3 @@
-const Razorpay = require("razorpay");
 const instance = require ("../config/razorpay")
 const Order = require("../models/Order")
 const asyncHandler = require("express-async-handler");

@@ -15,9 +15,5 @@ router.post("/adminlogin", adminLogin)
 
 
 
-router.get("/getMonthWiseOrderIncome", auth, isAdmin,  getMonthWiseOrderIncome);
-router.get("/getyearlyorders", auth, isAdmin,  getYearlyTotalOrder);
-router.get("/getAllOrders", auth, isAdmin, getAllOrders)
-
 
 module.exports = router
