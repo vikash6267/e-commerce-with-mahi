@@ -23,14 +23,13 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     category: {
-      type: mongoose.Schema.Types.ObjectId,
-      // required: true,
-      ref: "Category",
-    },
-    tag: {
-      type: [String],
+      type: String,
       required: true,
     },
+    sizes:[{
+      type : String,
+      required: true
+  }],
  
     quantity: {
       type: Number,
@@ -42,23 +41,17 @@ const productSchema = new mongoose.Schema(
     },
     images: [
       {
-      
-        url: String,
+        product_id: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
       },
     ],
-    color: [{ type: mongoose.Schema.Types.ObjectId, ref: "Color" }],
-    sizes: [{
-      size: {
-        type: [String],
-        required: true
-      },
-      // stock: {
-      //   type: Number,
-      //   required: true,
-      //   default: 0
-      // }
-    }],
-
+   
 
     ratings: [
       {
