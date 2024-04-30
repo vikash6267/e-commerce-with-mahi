@@ -7,7 +7,7 @@ export const MobileLinks = [
         id :1,
         title : "Home",
         icon : <IoHomeOutline  className=" text-lg" />,
-        path : "/home"
+        path : "/"
     },
     {   
         id :2,

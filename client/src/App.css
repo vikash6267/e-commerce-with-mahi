@@ -37,6 +37,10 @@ body {
 }
 
 
+.imagep{
+height: 100%;
+ object-fit: fit;
+}
 @media only screen and (max-width:639px) {
   .mobile{
    display: none;
