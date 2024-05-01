@@ -1,0 +1,33 @@
+
+
+
+#featured {
+  margin-top: 1px;
+}
+
+.featured_slides {
+  text-align: center;
+  overflow: hidden;
+}
+
+@media (max-width: 767.98px) {
+  .featured_slides {
+      width: 16rem;
+  }
+}
+
+.featured_swiper {
+  padding-top: 3rem !important;
+  padding-bottom: 5rem !important;
+}
+
+.featured_img {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.featured_img img {
+  width: 100%;
+  height: auto;
+}

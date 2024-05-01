@@ -14,7 +14,7 @@ import 'swiper/css/virtual';
 
 const slides = [
   {
-    image: require("../../assests/hero/1.jpg"),
+    image: require("../../../assests/hero/1.jpg"),
     quote:
       "Unleash Your Passion for Cricket and Embrace the Thrill of the Game",
     saleText:
@@ -22,7 +22,7 @@ const slides = [
     productText: "Shop Now",
   },
   {
-    image: require("../../assests/hero/2.jpg"),
+    image: require("../../../assests/hero/2.jpg"),
     quote:
       "Experience the Unparalleled Excitement and Achieve Victory with Our Premium Cricket Equipment",
     saleText:
@@ -30,7 +30,7 @@ const slides = [
     productText: "Buy Now",
   },
   {
-    image: require("../../assests/hero/3.jpg"),
+    image: require("../../../assests/hero/3.jpg"),
     quote:
       "Gear up with the Latest Innovations and Dominate the Field like Never Before",
     saleText: "Discover New Arrivals and stay ahead of the competition",
@@ -41,7 +41,7 @@ const slides = [
 export default function HeroSlider() {
  
   return (
-  <div className="h-screen ">
+  <div className="lg:h-screen ">
       <Swiper   
       // install Swiper modules
       modules={[Navigation, Pagination, Scrollbar, Autoplay  ,Virtual]}

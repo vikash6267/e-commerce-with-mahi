@@ -8,7 +8,7 @@ function App() {
  
 
   return (
-    <div className="w-screen min-h-screen">
+    <div className="min-w-screen min-h-screen">
       <Header/>
 
       <Routes>
@@ -19,7 +19,7 @@ function App() {
       </Routes>
 
 
-      <div className="fixed bottom-0 md:right-10 right-4 w-screen">
+      <div className="fixed bottom-0  z-50">
     <MobileMenu />
       </div>
     </div>

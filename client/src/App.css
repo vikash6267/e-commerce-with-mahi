@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 html,
 body {
   overflow-x: hidden;
@@ -36,10 +35,16 @@ body {
   visibility: visible;
 }
 
+.products_wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.7rem;
+}
 
 .imagep{
 height: 100%;
  object-fit: fit;
+ 
 }
 @media only screen and (max-width:639px) {
   .mobile{

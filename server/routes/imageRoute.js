@@ -8,16 +8,10 @@ const{
 }= require("../middlewares/auth")
 
 const {
-    createProduct,
-    getAllProduct
-} = require("../controllers/productCtrl")
+    imageUpload
+}=require("../controllers/imageCtrl")
 
-
-router.post("/create",createProduct)
-router.get("/all-product",getAllProduct)
-
-
-
+router.post("/upload",imageUpload)
 // export all router
 module.exports = router
 
