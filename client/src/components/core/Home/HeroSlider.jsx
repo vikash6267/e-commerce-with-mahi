@@ -46,7 +46,7 @@ export default function HeroSlider() {
       // install Swiper modules
       modules={[Navigation, Pagination, Scrollbar, Autoplay  ,Virtual]}
       spaceBetween={50}
-      slidesPerView={1}
+     
       navigation
       
       pagination={{ clickable: true }}
@@ -56,6 +56,18 @@ export default function HeroSlider() {
       loop = {true}
       autoplay={{ delay: 2000  , pauseOnMouseEnter : false , disableOnInteraction : true}}
      className=' lg:h-[80%] '
+
+
+      breakpoints={{
+        // when window width is >= 768px (laptop, PC, tablet, iPad)
+        768: {
+            slidesPerView: 2,
+        },
+        // when window width is < 768px (mobile device)
+        0: {
+            slidesPerView: 1,
+        },
+    }}
     
     >
      

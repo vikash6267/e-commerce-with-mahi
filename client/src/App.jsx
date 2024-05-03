@@ -4,15 +4,18 @@ import { Route, Routes } from "react-router-dom";
 import MobileMenu from "./components/common/MobileMenu";
 import Home from "./pages/Home";
 import Header from "./components/common/Header"
+import Cart from "./pages/Cart";
 function App() {
  
 
   return (
-    <div className="min-w-screen min-h-screen">
+    <div className="min-w-screen min-h-screen flex flex-col">
       <Header/>
 
       <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/cart" element={<Cart />} />
+
 
 
 

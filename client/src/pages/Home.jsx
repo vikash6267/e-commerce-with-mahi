@@ -21,7 +21,7 @@ function Home() {
     fetchSubLinks();
   }, []);
   return (
-    <div>
+    <div className="">
       <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 text-white">
         {/* <MetaData title="Absence" /> */}
 
@@ -42,7 +42,7 @@ function Home() {
             {products && <FeaturedSlider products={products} />}
           </div>
 
-          <div className=" text-black z-0 mt-6 font-montserrat text-xl ">
+          <div className=" text-black z-0 mt-6 font-montserrat text-xl mb-24 ">
             <h2
               style={{
                 textAlign: "center",

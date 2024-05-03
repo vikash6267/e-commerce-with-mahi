@@ -20,7 +20,7 @@ function Header() {
       <div className="w-11/12 mx-auto flex h-[60px] items-center justify-between">
         <div className="flex gap-4 items-center">
           <RxHamburgerMenu className="text-2xl cursor-pointer" />
-          <div className="text-2xl font-bold tracking-wider">ABSENCE</div>
+          <Link to="/"><div className="text-2xl font-bold tracking-wider">ABSENCE</div></Link>
         </div>
 
         <div className="flex">

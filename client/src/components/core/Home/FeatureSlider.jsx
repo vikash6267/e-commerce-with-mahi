@@ -45,9 +45,9 @@ const FeaturedSlider = ({ products }) => {
       className="featured_swiper z-0"
     >
       {products.map((product) => {
-        const { _id, images, title, price } = product;
+        const { _id, images, title, price,highPrice } = product;
         let newPrice = displayMoney(price);
-        const oldPrice = displayMoney(price);
+        const oldPrice = displayMoney(highPrice);
 
         return (
           <SwiperSlide key={_id} className="featured_slides font-montserrat ">

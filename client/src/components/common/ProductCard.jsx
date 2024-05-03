@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { displayMoney } from "../../helper/utills";
 import "./ProductCard.css";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../slices/cartSlice";
+import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 
 function ProductCard({ products }) {
   const {
@@ -9,14 +12,21 @@ function ProductCard({ products }) {
     title,
     description,
     price,
+    highPrice,
     sizes,
     images,
     } = products;
     const truncatedDescription = description.length > 25 ? description.substring(0, 25) + "..." : description;
 
+    const {cart} = useSelector((state) => state.cart);
+
+    const dispatch = useDispatch();
+    const handleAddToCart = (products) => {
+      dispatch(addToCart({products}));
+    };
  
   const newPrice = displayMoney(price);
-  const oldPrice = displayMoney(price);
+  const oldPrice = displayMoney(highPrice);
   return (
     <div className="card products_card font-montserrat  ">
       <figure className="products_img ">
@@ -69,7 +79,7 @@ function ProductCard({ products }) {
       
 
 
-        <div class="my-4 border-t border-gray-600"></div>
+        <div className="my-4 border-t border-gray-600"></div>
 
         <h2 className="products_price font-bold">
           {newPrice} &nbsp;
@@ -77,6 +87,25 @@ function ProductCard({ products }) {
             <del className=" text-red-600">{oldPrice}</del>
           </small>
         </h2>
+
+
+        <div className="mt-4 flex justify-center w-full bg-gradient-to-r from-red-500 to-red-600 rounded-xl hover:from-red-600 hover:to-red-700 items-center font-montserrat">
+  {cart.some((item) => item.product._id === _id) ? (
+    <Link to="/cart" className="text-green-200 hover:text-green-300 transition duration-300">
+      Go to Cart
+    </Link>
+  ) : (
+    <button
+      onClick={() => handleAddToCart(products)}
+      className="text-white hover:text-gray-100 transition duration-300 flex items-center gap-2"
+    >
+      <span>Add To Cart</span>
+      <MdOutlineShoppingCartCheckout className="text-xl" />
+    </button>
+  )}
+  {/* Heart icon button for favorite */}
+</div>
+
       </div>
     </div>
   );
