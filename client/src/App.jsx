@@ -4,7 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import MobileMenu from "./components/common/MobileMenu";
 import Home from "./pages/Home";
 import Header from "./components/common/Header"
-import Cart from "./pages/Cart";
+import CartMain from "./pages/CartMain";
+import ProductDetails from "./pages/ProductDetails";
 function App() {
  
 
@@ -14,7 +15,8 @@ function App() {
 
       <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/cart" element={<Cart />} />
+      <Route path="/cart" element={<CartMain />} />
+      <Route path="product/:productID" element={<ProductDetails />} />
 
 
 
@@ -22,7 +24,7 @@ function App() {
       </Routes>
 
 
-      <div className="fixed bottom-0  z-50">
+      <div className="fixed bottom-0 z-40">
     <MobileMenu />
       </div>
     </div>

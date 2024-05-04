@@ -9,11 +9,13 @@ const{
 
 const {
     createProduct,
-    getAllProduct
+    getAllProduct,
+    getProductDetails
 } = require("../controllers/productCtrl")
 
 
 router.post("/create",createProduct)
+router.post("/getProductDetails" , getProductDetails)
 router.get("/all-product",getAllProduct)
 
 

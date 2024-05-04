@@ -1,18 +1,20 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { GrShop } from "react-icons/gr";
-
-
+import Cart from "../../pages/Cart";
+import {handleIsCartOpen} from "../../slices/cartSlice"
 
 import SearchBar from "../core/Search";
 
 function Header() {
   const { token } = useSelector((state) => state.auth);
-  const { totalItems } = useSelector((state) => state.cart);
+  const { totalItems ,isCartOpen} = useSelector((state) => state.cart);
+  const dispatch = useDispatch()
+
 
   return (
   <div className="  ">
@@ -43,22 +45,30 @@ function Header() {
               </Link>
             </div>
 
-            <div className="mobile">
-              <Link to="/cart" title="Cart">
+          
+
+
+
+  <Cart />  
+  
+     <div  title="Cart" className=" cursor-pointer" onClick={()=>dispatch(handleIsCartOpen())}>
            
              
-             <div className="text-lg ">
-             <GrShop className="text-lg relative" />
+           <div className="text-lg ">
+           <GrShop className="text-lg relative" />
 
-                  {totalItems > -1 && (
-                    <p className="absolute top-8 right-[3.3rem] z-20 rounded-full text-sm bg-yellow-300 ">
-                      {totalItems}
-                    </p>
-                  )}
-                </div>
-              </Link>
-          
+                {totalItems > -1 && (
+                  <p className="absolute top-8 right-[3.3rem] z-20 rounded-full text-sm bg-yellow-300 ">
+                    {totalItems}
+                  </p>
+                )}
+              </div>
             </div>
+
+
+          
+          
+        
 
 
 

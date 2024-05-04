@@ -6,7 +6,8 @@ import { apiConnector } from "../apiConnector"
 import { productEndpoints } from "../apis"
 
 const {
-    GET_ALL_PRODUCT_API
+    GET_ALL_PRODUCT_API,
+    GET_PRODUCT_DETAILS
 } =productEndpoints
 
 
@@ -27,3 +28,28 @@ export const getAllProduct = async () => {
     toast.dismiss(toastId)
     return result
   }
+
+  
+export const fetchProductDetails = async (productID) => {
+  const toastId = toast.loading("Loading...")
+
+  let result = null
+  try {
+    const response = await apiConnector("POST", GET_PRODUCT_DETAILS, {
+      productID,
+    })
+    console.log("GET_PRODUCT_DETAILS API RESPONSE............", response)
+
+    if (!response.data.success) {
+      throw new Error(response.data.message)
+    }
+    result = response.data
+  } catch (error) {
+    console.log("GET_PRODUCT_DETAILS API ERROR............", error)
+    result = error.response.data
+    toast.error(error.response.data.message);
+  }
+  toast.dismiss(toastId)
+  //   dispatch(setLoading(false));
+  return result
+}

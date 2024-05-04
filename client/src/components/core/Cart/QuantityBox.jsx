@@ -12,23 +12,23 @@ const dispatch = useDispatch()
 
     return (
         <>
-            <div className=" bg-green-100 lg:w-[20%] flex items-center justify-center">
-              <div className=' border-2 flex items-center'>
+            <div className="   flex ">
+              <div className=' b flex items-center'>
               <button
                     type="button"
                     onClick={() => dispatch(decreaseQuantity(itemId))}
-                    className='p-2 border-2 bg-blue-200 '
+                    className='p-[2px] border-1 bg-blue-200 '
                 >
                     <FaMinus />
                 </button>
-                <span className="p-2 font-bold">
+                <span className="p-2 font-">
                     {itemQuantity}
                 </span>
                 <button
                     type="button"
                     onClick={() => dispatch(increanQuantity(itemId))}
                     // disabled={itemQuantity >= 5}
-                    className='p-2 border-2 bg-blue-200'
+                    className='p-[2px] border-1 bg-blue-200'
                 >
                     <FaPlus />
                 </button>

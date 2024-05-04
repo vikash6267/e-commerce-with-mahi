@@ -1,6 +1,6 @@
 const Product = require("../models/Product");
 const slugify = require("slugify");
-
+const validateMongoDbId = require("../utills/validateMongoDbId")
 
 // Controller to create a new product
 exports.createProduct = async (req, res) => {
@@ -67,4 +67,37 @@ exports.getAllProduct = async (req, res)=>{
       }
 }
 
+
+exports.getProductDetails = async(req, res) =>{
+  try {
+    const { productID } = req.body
+    validateMongoDbId(productID)
+    const productDetails = await Product.findOne({
+      _id: productID,
+    })
+    // .populate("ratingAndReviews").exec()
+
+    if (!productDetails) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not find course with id: ${productID}`,
+      })
+    }
+
+
+    return res.status(200).json({
+      success: true,
+      data:{
+        productDetails
+      }
+    
+   
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+  }
+}
 

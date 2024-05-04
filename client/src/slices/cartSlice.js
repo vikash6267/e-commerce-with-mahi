@@ -14,6 +14,7 @@ const initialState = {
     totalCount: localStorage.getItem("totalCount")
     ? JSON.parse(localStorage.getItem("totalCount"))
     : 0,
+    isCartOpen : false
 }
 
 const cartSlice = createSlice({
@@ -21,6 +22,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
+      console.log(action.payload.quantity)
       const product = action.payload.products
       const index = state.cart.findIndex((item) => item.product._id === product._id)
 
@@ -28,7 +30,7 @@ const cartSlice = createSlice({
         toast.error("Product already in cart")
         return
       }
-      state.cart.push({product,quantity: 1,size:  "S"  })
+      state.cart.push({product,quantity: action.payload.quantity !== undefined ? action.payload.quantity : 1 ,size: action.payload.size !== undefined ? action.payload.size : "S"  })
 
       state.totalItems++
       state.total += Number(product.price)
@@ -110,10 +112,18 @@ const cartSlice = createSlice({
         productInCart.size = action.payload.size;
       }else return;
     },
+    handleIsCartOpen: (state, action) => {
+      return {
+        ...state,
+        isCartOpen: action.payload !== undefined ? action.payload : !state.isCartOpen
+      };
+    }
     
   },
+
+  
 })
 
-export const { addToCart, removeFromCart, resetCart,increanQuantity,decreaseQuantity } = cartSlice.actions
+export const { addToCart, removeFromCart, resetCart,increanQuantity,decreaseQuantity,handleIsCartOpen } = cartSlice.actions
 
 export default cartSlice.reducer

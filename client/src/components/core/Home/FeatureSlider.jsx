@@ -55,7 +55,7 @@ const FeaturedSlider = ({ products }) => {
               <div className=" p-4 rounded-md ">
                 <div className="featured_title text-lg font-semibold text-center">{title}</div>
                 <figure className="">
-                  <img src={images[0].url} alt={title} className="w-full h-auto" />
+                  <img src={images[0].url} alt={title} className=" " />
                 </figure>
                 <h2 className="products_price text-lg font-semibold">
                   <span className="final_price">{newPrice}</span> &nbsp;

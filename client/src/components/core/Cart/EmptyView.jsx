@@ -7,7 +7,7 @@ const EmptyView = (props) => {
 
     return (
         <>
-            <div className="flex justify-center items-center gap-8 flex-col h-[calc(100vh - 65px)] w-screen" style={{ height: `calc(100vh - 65px)` }}>
+            <div className="flex justify-center items-center gap-8 flex-col h-screen w-full">
                 <div className="text-5xl text-blue-500">
                     {icon}
                 </div>

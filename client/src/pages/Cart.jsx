@@ -1,18 +1,28 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { displayMoney,calculateTotal } from "../helper/utills";
 import { BsCartX } from 'react-icons/bs';
 import EmptyView from '../components/core/Cart/EmptyView';
 import CartItems from '../components/core/Cart/CartItems';
-
+import { HiOutlineArrowNarrowRight } from "react-icons/hi";
+import {handleIsCartOpen} from "../slices/cartSlice"
+import useOnClickOutside from '../hooks/useOnClickOutside';
 
 function Cart() {
 
-    const {cart,total} = useSelector((state) => state.cart);
+    const {cart,total,totalItems,isCartOpen} = useSelector((state) => state.cart);
     const cartQuantity = cart.length;
     const calculateCartTotal = total;
     const displayCartTotal = displayMoney(calculateCartTotal);
     const delveryCharge  = displayMoney(60)
+
+
+
+  const ref = useRef(null)
+  useOnClickOutside(ref, () => dispatch(handleIsCartOpen(false)))
+
+
+    const dispatch = useDispatch()
  // total discount
  const cartDiscount = cart.map(item => {
     return (item.product.price - item.product.highPrice) * item.quantity;
@@ -25,70 +35,84 @@ const displayCartDiscount = displayMoney(calculateCartDiscount);
 
 // final total amount
 
-const displayTotalAmount = displayMoney(total + 60);
+const displayTotalAmount = displayMoney(total);
 
 
   return (
 
-<>
+<div className={`fixed inset-0 z-[1000] !mt-0   bg-white bg-opacity-10 backdrop-blur-sm ${isCartOpen ? " block" : "hidden"}  transition-all duration-500 ease-in-out      `}>
 
-<section id="cart" className="section mt-[140px] w-11/12 mx-auto">
+
+<div id="cart"     ref={ref} className={`   h-screen  z-50 bg-white p-4 ${isCartOpen ? "lg:w-[450px] w-[320px] absolute right-0 top-0" : "w-0" }   transition-all duration-500 ease-in-out `}>
+                
+<div className=' ml-5 font-bold border-b-2 h-[50px] flex items-center justify-between  '>
+                  <p className='font-bold text-2xl'>  CART</p>
+               <div className=' mr-4'> 
+               <button onClick={()=>dispatch(handleIsCartOpen(false))}>
+                  <HiOutlineArrowNarrowRight className=' text-end' />
+                   <p className=' font-normal'>Back </p>
+                  </button>
+               </div>
+                </div>
                 <div className="container flex  ">
+
+
+              
                     {
                         cartQuantity === 0 ? (
                             <EmptyView
                                 icon={<BsCartX />}
                                 msg="Your Cart is Empty"
-                                link="/all-products"
+                            
                                 btnText="Start Shopping"
                             />
                         ) : (
-                            <div className="  flex w-full gap-3 justify-between flex-wrap">
-                                <div className=" lg:w-[70%] md:w-[70%] w-full  bg-bg-color-2 max-h-[400px]  py-4 overflow-x-hidden overflow-y-auto scrollbar-w-[0.35vw]  " >
+                            <div className="  flex w-full justify-between flex-col h-screen ">
+                                <div className="  w-full  bg-bg-color-2 max-h-[400px]  py-4 overflow-x-hidden overflow-y-auto scrollbar-w-[0.35vw]  " >
                                     {
-                                        cart.map(item => (
+                                        cart.map((item,ind) => (
                                             <CartItems
-                                                key={item._id}
+                                                key={ind}
                                                 {...item}
                                             />
                                         ))
                                     }
                                 </div>
 
-                                <div className=" lg:w-[24%] md:w-[24%] w-full ">
-                                    <div className=" flex flex-col gap-10">
-                                        <h3 className=' font-bold font-montserrat text-xl'>
-                                            Order Summary &nbsp;
+                                <div className="  w-full mb-[5.2rem] text-gray-500 font-montserrat ">
+                                    <div className=" flex flex-col">
+                                        <h3 className='  font-montserrat text-sm font-medium'>
+                                            Total  &nbsp;
                                             ( {cartQuantity} {cartQuantity > 1 ? 'items' : 'item'} )
                                         </h3>
-                                        <div className=" flex flex-col gap-3 font-montserrat text-lg" >
-                                            <div className="price flex justify-between">
+                                        <div className=" flex flex-col gap-3 font-montserrat text-sm" >
+                                            {/* <div className="price flex justify-between">
                                                 <span className=' font-bold'> Price</span>
                                                 <b>{displayCartTotal}</b>
-                                            </div>
-                                            <div className=" flex justify-between ">
+                                            </div> */}
+                                            {/* <div className=" flex justify-between ">
                                             <span className=' font-bold'>Discount</span>
                                                 <b className='text-green-700'> {displayCartDiscount}</b>
-                                            </div>
-                                            <div className=" flex justify-between">
+                                            </div> */}
+                                            {/* <div className=" flex justify-between">
                                             <span className=' font-bold'>Delivery</span>
                                                 <b>{delveryCharge}</b>
-                                            </div>
-                                            <div className="my-6 border-t border-gray-600"></div>
-                                            <div className="total_price flex justify-between">
+                                            </div> */}
+                                            <div className=" border-gray-600 "></div>
+                                            <div className=" flex justify-between font-medium">
                                                 <b><small>Total Price</small></b>
                                                 <b>{displayTotalAmount}</b>
                                             </div>
                                         </div>
-                                        <button type="button" className="btn checkout_btn">Checkout</button>
+                                        <button type="button" className=" w-11/12 bg-gray-900 hover:bg-gray-950 hover:scale-105 text-white p-2 mt-3 rounded-xl  mx-auto font-bold ">Checkout</button>
                                     </div>
                                 </div>
                             </div>
                         )
                     }
                 </div>
-            </section>
-</>
+            </div>
+</div>
 
 
  ) 
