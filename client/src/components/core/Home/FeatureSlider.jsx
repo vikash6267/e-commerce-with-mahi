@@ -12,37 +12,38 @@ import "swiper/scss/effect-coverflow";
 
 const FeaturedSlider = ({ products }) => {
   return (
-    <Swiper
-      modules={[EffectCoverflow, Pagination, A11y, Autoplay]}
+   <div className=" border-gray-400 border-2 mt-5 h-[500px]">
+     <Swiper
+      // modules={[EffectCoverflow, Pagination, A11y, Autoplay]}
       loop={true}
-      speed={400}
-      spaceBetween={8} // Adjust as needed
-      slidesPerView={"auto"}
-      pagination={{ clickable: true }}
-      effect={"coverflow"}
-      centeredSlides={true}
-      coverflowEffect={{
-                rotate: 0,
-                stretch: 0,
-                depth: 70,
-                modifier: 3,
-                slideShadows: false,
-            }}
-            autoplay={{
-                delay: 3500,
-                disableOnInteraction: false,
-            }}
+      // speed={400}
+      spaceBetween={20} // Adjust as needed
+      // slidesPerView={"auto"}
+      // pagination={{ clickable: true }}
+      // effect={"coverflow"}
+      // centeredSlides={false}
+      // coverflowEffect={{
+      //           rotate: 0,
+      //           stretch: 0,
+      //           depth: 70,
+      //           modifier: 3,
+      //           slideShadows: false,
+      //       }}
+            // autoplay={{
+            //     delay: 3500,
+            //     disableOnInteraction: false,
+            // }}
             breakpoints={{
                 768: {
-                    slidesPerView: 2,
-                    spaceBetween: 200
+                    slidesPerView: 3,
+                    // spaceBetween: 200
                 },
                 992: {
-                    slidesPerView: 3,
-                    spaceBetween: 250
+                    slidesPerView: 4,
+                    // spaceBetween: 250
                 },
             }}
-      className="featured_swiper z-0"
+      className=" flex items-center justify-center z-0 flex-nowrap"
     >
       {products.map((product) => {
         const { _id, images, title, price,highPrice } = product;
@@ -50,13 +51,15 @@ const FeaturedSlider = ({ products }) => {
         const oldPrice = displayMoney(highPrice);
 
         return (
-          <SwiperSlide key={_id} className="featured_slides font-montserrat ">
+          <SwiperSlide key={_id} className="featured_slides font-montserrat shadow-2xl ">
             <Link to={`/product/${_id}`} className="">
               <div className=" p-4 rounded-md ">
-                <div className="featured_title text-lg font-semibold text-center">{title}</div>
                 <figure className="">
                   <img src={images[0].url} alt={title} className=" " />
                 </figure>
+
+                <div className="featured_title text-lg font-semibold text-center">{title}</div>
+
                 <h2 className="products_price text-lg font-semibold">
                   <span className="final_price">{newPrice}</span> &nbsp;
                   <small className="text-gray-500"> 
@@ -72,6 +75,7 @@ const FeaturedSlider = ({ products }) => {
 
  
     </Swiper>
+   </div>
   );
 };
 

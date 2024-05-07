@@ -164,3 +164,57 @@ height: 100%;
     transform: scaleY(-1) rotate(-135deg);
   }
 }
+
+
+
+
+.box {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f0f0f0;
+  position: relative; /* Needed for absolute positioning of :after */
+}
+.box:after {
+  content: "After Content";
+
+ display: block;
+  bottom: 0px; /* Adjust position as needed */
+  right: 0px; /* Adjust position as needed */
+  font-size: 14px;
+  background: blue;
+  z-index: 49;
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes divv {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

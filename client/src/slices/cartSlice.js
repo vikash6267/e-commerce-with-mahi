@@ -30,10 +30,11 @@ const cartSlice = createSlice({
         toast.error("Product already in cart")
         return
       }
-      state.cart.push({product,quantity: action.payload.quantity !== undefined ? action.payload.quantity : 1 ,size: action.payload.size !== undefined ? action.payload.size : "S"  })
+      let quant =  action.payload.quantity !== undefined ? action.payload.quantity : 1 
+      state.cart.push({product,quantity: quant,size: action.payload.size !== undefined ? action.payload.size : "S"  })
 
       state.totalItems++
-      state.total += Number(product.price)
+      state.total += Number(product.price * quant)
       localStorage.setItem("cart", JSON.stringify(state.cart))
       localStorage.setItem("total", JSON.stringify(state.total))
       localStorage.setItem("totalItems", JSON.stringify(state.totalItems))

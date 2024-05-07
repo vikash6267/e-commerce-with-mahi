@@ -40,7 +40,7 @@ const displayTotalAmount = displayMoney(total);
 
   return (
 
-<div className={`fixed inset-0 z-[1000] !mt-0   bg-white bg-opacity-10 backdrop-blur-sm ${isCartOpen ? " block" : "hidden"}  transition-all duration-500 ease-in-out      `}>
+<div className={`   inset-0 z-[1000] !mt-0   bg-white bg-opacity-10 backdrop-blur-sm ${isCartOpen ? " fixed" : "hidden"}  transition-all duration-500 ease-in-out      `}>
 
 
 <div id="cart"     ref={ref} className={`   h-screen  z-50 bg-white p-4 ${isCartOpen ? "lg:w-[450px] w-[320px] absolute right-0 top-0" : "w-0" }   transition-all duration-500 ease-in-out `}>
