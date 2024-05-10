@@ -9,23 +9,26 @@ import ProductCard from "../components/common/ProductCard";
 import { FaGrinHearts } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import TestSlide from "../components/core/Home/TestSlide";
+import { useDispatch, useSelector } from "react-redux";
 
 function Home() {
   const [products, setProduct] = useState([]);
-
-  const fetchSubLinks = async () => {
-    (async () => {
-      const res = await getAllProduct();
-      if (res) {
-        setProduct(res);
-        console.log(products);
-      }
-    })();
-  };
+  const{allProduct} = useSelector(state=> state.product)
+  // const dispatch = useDispatch()
+  // const fetchSubLinks = async () => {
+  //   (async () => {
+  //     const res = await (getAllProduct());
+  //     if (res) {
+  //       setProduct(res);
+  //       console.log(products);
+  //     }
+  //   })();
+  // };
 
   useEffect(() => {
-    fetchSubLinks();
-  }, []);
+    // fetchSubLinks();
+setProduct(allProduct)
+  }, [allProduct]);
   return (
     <div className="">
       <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 text-white">

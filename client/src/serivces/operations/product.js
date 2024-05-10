@@ -4,30 +4,30 @@ import { toast } from "react-hot-toast"
 // import { setLoading } from "../../slices/profileSlice";
 import { apiConnector } from "../apiConnector"
 import { productEndpoints } from "../apis"
-
+import { saveProduct } from "../../slices/product"
 const {
     GET_ALL_PRODUCT_API,
     GET_PRODUCT_DETAILS
 } =productEndpoints
 
-
-export const getAllProduct = async () => {
-    const toastId = toast.loading("Loading...")
-    let result = []
-    try {
-      const response = await apiConnector("GET", GET_ALL_PRODUCT_API)
-      if (!response?.data?.success) {
-        throw new Error("Could Not Fetch Product")
-      }
-      result = response?.data?.data
-    //   console.log(result)
-    } catch (error) {
-      console.log("GET_ALL_PRODUCT_API API ERROR............", error)
-      toast.error(error.message)
+export const getAllProduct = () => async (dispatch) => {
+  const toastId = toast.loading("Loading...");
+  try {
+    const response = await apiConnector("GET", GET_ALL_PRODUCT_API);
+    if (!response?.data?.success) {
+      throw new Error("Could Not Fetch Product");
     }
-    toast.dismiss(toastId)
-    return result
+    const result = response?.data?.data;
+    dispatch(saveProduct(result)); // Dispatching action to save products
+    toast.dismiss(toastId);
+    return result;
+  } catch (error) {
+    console.log("GET_ALL_PRODUCT_API API ERROR:", error);
+    toast.error(error.message);
+    toast.dismiss(toastId);
+    return [];
   }
+};
 
   
 export const fetchProductDetails = async (productID) => {

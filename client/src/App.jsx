@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import "./App.css"
 import { Route, Routes } from "react-router-dom";
 import MobileMenu from "./components/common/MobileMenu";
@@ -6,16 +7,27 @@ import Home from "./pages/Home";
 import Header from "./components/common/Header"
 import CartMain from "./pages/CartMain";
 import ProductDetails from "./pages/ProductDetails";
+import { useDispatch } from "react-redux";
+
+import { getAllProduct } from "./serivces/operations/product";
+import AllProduct from "./pages/AllProduct";
+
 function App() {
+  const dispatch = useDispatch()
  
+  useEffect(()=>{
+      dispatch(getAllProduct())
+  },[])
 
   return (
+
     <div className="min-w-screen min-h-screen flex flex-col">
       <Header/>
 
       <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/cart" element={<CartMain />} />
+      <Route path="/allProduct" element={<AllProduct />} />
       <Route path="product/:productID" element={<ProductDetails />} />
 
 
