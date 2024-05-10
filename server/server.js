@@ -11,7 +11,7 @@ const { cloudinaryConnect } = require("./config/cloudinary");
 const {errorHandler} = require("./middlewares/errorHandler")
 const imageRoute = require("./routes/imageRoute");
 const productsRoutes = require("./routes/products")
-
+const userRoutes = require("./routes/userRoutes")
 // Loading environment variables from .env file
 dotenv.config();
 
@@ -47,7 +47,7 @@ cloudinaryConnect();
 
 // Setting up routes
 app.use("/api/v1/product", productsRoutes);
-
+app.use("/api/v1/user",userRoutes)
 
 app.use("/api/v1/image", imageRoute);
 

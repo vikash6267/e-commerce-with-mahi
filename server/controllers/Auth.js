@@ -9,95 +9,145 @@ require("dotenv").config()
 
 // Signup Controller for Registering USers
 
-exports.signup = async (req, res) => {
-  try {
-    // Destructure fields from the request body
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-      contactNumber,
-      otp,
-    } = req.body
-    // Check if All Details are there or not
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !password ||
-      !confirmPassword ||
-      !otp
-    ) {
-      return res.status(403).send({
-        success: false,
-        message: "All Fields are required",
-      })
-    }
-    // Check if password and confirm password match
-    if (password !== confirmPassword) {
-      return res.status(400).json({
-        success: false,
-        message:
-          "Password and Confirm Password do not match. Please try again.",
-      })
-    }
+// exports.signup = async (req, res) => {
+//   try {
+//     // Destructure fields from the request body
+//     const {
+//       name,
+//       email,
+//       password,
+//       confirmPassword,
+//       contactNumber,
+//     } = req.body
+//     // Check if All Details are there or not
+//     if (
+//       !name ||
+//       !email ||
+//       !password ||
+//       !confirmPassword 
+//     ) {
+//       return res.status(403).send({
+//         success: false,
+//         message: "All Fields are required",
+//       })
+//     }
+//     // Check if password and confirm password match
+//     if (password !== confirmPassword) {
+//       return res.status(400).json({
+//         success: false,
+//         message:
+//           "Password and Confirm Password do not match. Please try again.",
+//       })
+//     }
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email })
-    if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: "User already exists. Please sign in to continue.",
-      })
-    }
 
-    // Find the most recent OTP for the email
-    const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1)
-    console.log(response)
-    if (response.length === 0) {
-      // OTP not found for the email
-      return res.status(400).json({
-        success: false,
-        message: "The OTP is not valid",
-      })
-    } else if (otp !== response[0].otp) {
-      // Invalid OTP
-      return res.status(400).json({
-        success: false,
-        message: "The OTP is not valid",
-      })
-    }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10)
+
+
+//     // Hash the password
+//     const hashedPassword = await bcrypt.hash(password, 10)
 
   
 
     
+//     const user = await User.create({
+//       name,
+//       email,
+//       contactNumber,
+//       password: hashedPassword,
+//       image: `https://api.dicebear.com/5.x/initials/svg?seed=${name} `,
+//     })
+
+//     return res.status(200).json({
+//       success: true,
+//       user,
+//       message: "User registered successfully",
+//     })
+//   } catch (error) {
+//     console.error(error)
+//     return res.status(500).json({
+//       success: false,
+//       message: "User cannot be registered. Please try again.",
+//     })
+//   }
+// }
+
+
+
+exports.signup = async (req, res) => {
+  try {
+    // Destructure fields from the request body
+    const {
+      name,
+      email,
+      password,
+      confirmPassword,
+      contactNumber,
+    } = req.body;
+
+    // Check if All Details are there or not
+    if (!name || !email || !password || !confirmPassword) {
+      return res.status(403).send({
+        success: false,
+        message: "All Fields are required",
+      });
+    }
+
+    // Check if password and confirm password match
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Password and Confirm Password do not match. Please try again.",
+      });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create user in the database
     const user = await User.create({
-      firstName,
-      lastName,
+      name,
       email,
       contactNumber,
       password: hashedPassword,
-      image: "",
-    })
+      image: `https://api.dicebear.com/5.x/initials/svg?seed=${name} `,
+    });
 
+    // console.log(user)
+    // Log in the user after signup
+    const token = jwt.sign(
+      { email: user.email, id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    );
+
+    // Set cookie for token
+    const options = {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    };
+    res.cookie("token", token, options);
+
+    // Return success response
     return res.status(200).json({
       success: true,
+      token,
       user,
-      message: "User registered successfully",
-    })
+      message: "User registered and logged in successfully",
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: "User cannot be registered. Please try again.",
-    })
+    });
   }
-}
+};
+
+
+
 
 // Login controller for authenticating users
 exports.login = async (req, res) => {
@@ -174,17 +224,20 @@ exports.sendotp = async (req, res,next) => {
   
       // Check if user is already present
       // Find user with provided email
-      const checkUserPresent = await User.findOne({ email })
-      // to be used in case of signup
+      // const checkUserPresent = await User.findOne({ email })
+      // // to be used in case of signup
   
-      // If user found with provided email
-      if (checkUserPresent) {
-        // Return 401 Unauthorized status code with error message
-        const error = new Error("Error occurred");
-        error.status = 401;
-        error.status = false;
-        next(error)
-      }
+      // // If user found with provided email
+      // if (checkUserPresent) {
+      //   // Return 401 Unauthorized status code with error message
+      //   // const error = new Error("Error occurred");
+      //   // error.status = 401;
+      //   // error.status = false;
+      //   // next(error)
+
+      // return res.status(401).json({ success: false, message: "user Already please login" })
+
+      // }
   
       var otp = otpGenerator.generate(6, {
         upperCaseAlphabets: false,
@@ -213,8 +266,117 @@ exports.sendotp = async (req, res,next) => {
       return res.status(500).json({ success: false, error: error.message })
     }
   }
-  
 
+
+exports.compareOtp = async(req, res)=>{
+  try {
+    console.log("hello")
+    const {otp,email} = req.body
+
+    const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1)
+
+    if (response.length === 0) {
+      // OTP not found for the email
+      return res.status(400).json({
+        success: false,
+        message: "The OTP is not valid",
+      })
+    } else if (otp !== response[0].otp) {
+      // Invalid OTP
+      return res.status(400).json({
+        success: false,
+        message: "The OTP is not valid",
+      })
+    }
+
+
+
+     // Check if user already exists
+     const existingUser = await User.findOne({ email })
+     if (!existingUser) {
+       return res.status(200).json({
+         success: true,
+         userFind:false,
+       })
+     }
+
+
+     const token = jwt.sign(
+      { email: existingUser.email, id: existingUser._id, role: existingUser.accountType },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    )
+
+    // Save token to user document in database
+    existingUser.token = token
+    existingUser.password = undefined
+    // Set cookie for token and return success response
+    const options = {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    }
+    res.cookie("token", token, options).status(200).json({
+      success: true,
+      userFind:true,
+      token,
+      existingUser,
+      message: `User Login Success`,
+    })
+
+
+
+
+
+
+    
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+       success: false, 
+       error: error.message })
+  }
+}
+
+
+
+  
+  exports.fetchMyProfile = async (req, res) => {
+    try {
+      // Get email and password from request body
+      const id = req.user.id
+  
+      const userDetails = await User.findById(id);
+
+  
+  
+      // Find user with provided email
+      const user = await User.findById(id)
+  
+      // If user not found with provided email
+      if (!user) {
+        // Return 401 Unauthorized status code with error message
+        return res.status(401).json({
+          success: false,
+          message: `User is not Registered with Us Please SignUp to Continue`,
+        })
+      }
+  
+             return res.status(200).json({
+                user,
+          success: true,
+          message: `Fetch Data Successfully`,
+        })
+      
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({
+        success: false,
+        message: `Error During fetch data`,
+      })
+    }
+  }
 
   // Login controller for authenticating users
 exports.adminLogin = async (req, res) => {

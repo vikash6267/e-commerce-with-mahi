@@ -8,9 +8,17 @@ import Header from "./components/common/Header"
 import CartMain from "./pages/CartMain";
 import ProductDetails from "./pages/ProductDetails";
 import { useDispatch } from "react-redux";
+// Routes 
+import OpenRoute from "./routes/OpenRoute"; 
+import PrivateRoute from "./routes/PrivateRoute"; 
+
 
 import { getAllProduct } from "./serivces/operations/product";
 import AllProduct from "./pages/AllProduct";
+import Login from "./pages/Login";
+import Signup from "./components/core/Login/Signup";
+
+
 
 function App() {
   const dispatch = useDispatch()
@@ -29,7 +37,15 @@ function App() {
       <Route path="/cart" element={<CartMain />} />
       <Route path="/allProduct" element={<AllProduct />} />
       <Route path="product/:productID" element={<ProductDetails />} />
-
+      <Route path="test" element={<Signup email={"hdsffjhgfdsj"} />} />
+      <Route
+          path="login"
+          element={
+            <OpenRoute>
+              <Login />
+            </OpenRoute>
+          }
+        />
 
 
 

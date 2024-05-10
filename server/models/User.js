@@ -4,17 +4,12 @@ const mongoose = require("mongoose")
 // Define the user schema using the Mongoose Schema constructor
 const userSchema = new mongoose.Schema(
   {
-    firstName: {
+    name: {
       type: String,
       required: true,
       trim: true,
     },
-    lastName: {
-      type: String,
-      // required: true,
-      trim: true,
-    },
-    email: {
+     email: {
       type: String,
       required: true,
       unique: true,
@@ -24,7 +19,7 @@ const userSchema = new mongoose.Schema(
     contactNumber: {
       type: String,
       // required: true,
-      unique: true,
+      // unique: true,
       trim:true
     },
     password: {
