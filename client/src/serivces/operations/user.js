@@ -58,7 +58,7 @@ export function compareOtp(otp,email, navigate) {
         const response = await apiConnector("POST", VERIFY_OTP_API, {
             otp,email
         })
-        console.log("SENDOTP API RESPONSE............", response)
+        console.log("Compare API RESPONSE............", response)
   
      
         if (!response.data.success) {
@@ -67,16 +67,17 @@ export function compareOtp(otp,email, navigate) {
 
         if(response.data.userFind){
           dispatch(setToken(response.data.token))
-          const userImage = response.data?.user?.image
-          dispatch(setUser({ ...response.data.user, image: userImage }))
-          localStorage.setItem("token", JSON.stringify(response.data.token))
+        dispatch(setUser(response.data.existingUser))
+        localStorage.setItem("user", JSON.stringify(response.data.existingUser))
+
+        localStorage.setItem("token", JSON.stringify(response.data.token))
           navigate("/profile")
       
           
         }
         result = response?.data?.userFind
   
-        toast.success("OTP Sent Successfully")
+        toast.success("Login Succesfully")
         // navigate("/verify-email")
       } catch (error) {
         console.log("SENDOTP API ERROR............", error)
@@ -102,11 +103,11 @@ export function compareOtp(otp,email, navigate) {
         if (!response.data.success) {
           throw new Error(response.data.message)
         }
-
-        
+      console.log(response.data.user)
         dispatch(setToken(response.data.token))
-        const userImage = response.data?.user?.image
-        dispatch(setUser({ ...response.data.user, image: userImage }))
+        dispatch(setUser(response.data.user))
+        localStorage.setItem("user", JSON.stringify(response.data.user))
+
         localStorage.setItem("token", JSON.stringify(response.data.token))
         navigate("/profile")
 

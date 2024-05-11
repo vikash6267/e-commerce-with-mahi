@@ -12,6 +12,7 @@ function Signup({ email }) {
     email: email,
     password: '',
     confirmPassword: '',
+    contactNumber:''
   });
 
   const handleChange = (e) => {
@@ -51,6 +52,19 @@ function Signup({ email }) {
               required
             />
           </div>
+
+          <div>
+            <label className="block text-gray-700">Number</label>
+            <input
+              type="text"
+              name="contactNumber"
+              value={formData.contactNumber}
+              onChange={handleChange}
+              className="w-full border-gray-300 rounded-md py-2 px-3 bg-gray-100 cursor-not-allowed"
+              required
+            />
+          </div>
+
           <div>
             <label className="block text-gray-700">Password</label>
             <input
