@@ -1,7 +1,8 @@
 import { IoHomeOutline } from "react-icons/io5";
 import { IoShirt } from "react-icons/io5";
-import { FaRegHeart } from "react-icons/fa";
-import { FaBagShopping } from "react-icons/fa6";
+import { FaRegHeart,FaUser  } from "react-icons/fa";
+
+
 export const MobileLinks = [
     {   
         id :1,
@@ -13,7 +14,7 @@ export const MobileLinks = [
         id :2,
         title : "Shop",
         icon : <IoShirt className=" text-lg"  />,
-        path : "/all-product"
+        path : "/allProduct"
     },
     {   
         id :3,
@@ -22,9 +23,9 @@ export const MobileLinks = [
         path : "/wishlist"
     },    {   
         id :4,
-        title : "Bag",
-        icon : <FaBagShopping className=" text-lg"  />,
-        path : "/all-product"
+        title : "Profile",
+        icon : <FaUser  className=" text-lg"  />,
+        path : "/profile"
     },
  
 ];

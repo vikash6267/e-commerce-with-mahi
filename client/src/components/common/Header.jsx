@@ -20,9 +20,9 @@ function Header() {
   <div className="  ">
       <div className="border-b-2 fixed w-full z-50 bg-white">
       <div className="w-11/12 mx-auto flex h-[60px] items-center justify-between">
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center ">
           <RxHamburgerMenu className="text-2xl cursor-pointer" />
-          <Link to="/"><div className="text-2xl font-bold tracking-wider">ABSENCE</div></Link>
+          <Link to="/"><div className="text-2xl font-bold tracking-wider ">ABSENCE</div></Link>
         </div>
 
         <div className="flex">
@@ -30,11 +30,11 @@ function Header() {
           <div className="min-h-[80%] bg-slate-800 min-w-[1px] mx-3"></div>
           <div className="flex items-center gap-3">
             {token ? (
-              <Link to="/profile">
+              <Link to="/profile" className="mobile">
                 <FaUserAlt />
               </Link>
             ) : (
-              <Link to="/login">
+              <Link to="/login" className="mobile">
                 <p className="text-lg">Login</p>
               </Link>
             )}
