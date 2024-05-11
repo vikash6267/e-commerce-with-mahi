@@ -26,11 +26,15 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    sizes:[{
-      type : String,
+    sizes: [{
+      type: String,
       required: true
-  }],
- 
+    }],
+    gender: [{
+      type: String,
+      required: true
+    }],
+
     quantity: {
       type: Number,
       required: true,
@@ -45,7 +49,8 @@ const productSchema = new mongoose.Schema(
         url: String,
       },
     ],
-   
+
+
 
     ratingAndReviews: [
       {
