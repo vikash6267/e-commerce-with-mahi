@@ -17,9 +17,9 @@ const {
 
 
 router.post("/add", auth,isCustomre,addAddress)
-router.post("/get", auth,isCustomre,getUserAddresses)
-router.post("/delete", auth,isCustomre,deleteAddress)
-router.post("/update", auth,isCustomre,updateAddress)
+router.get("/get", auth,isCustomre,getUserAddresses)
+router.delete("/delete", auth,isCustomre,deleteAddress)
+router.put("/update", auth,isCustomre,updateAddress)
 
 
 

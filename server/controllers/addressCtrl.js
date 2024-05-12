@@ -1,16 +1,24 @@
-const Address = require("../models/Addresses");
+const User = require("../models/User");
 
 // Add Address
 exports.addAddress = async (req, res) => {
     try {
+        const userId = req.user._id; // Get the user ID from the request
         const { address, email, phone, city, state, country, zipCode, isDefault } = req.body;
 
         if (!address || !email || !phone || !city || !state || !country || !zipCode) {
             return res.status(400).json({ success: false, message: "All fields are required" });
         }
 
-        const newAddress = new Address({
-            user: req.user.id,
+        // Find the user by ID
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Add the new address to the user's addresses array
+        user.addresses.push({
             address,
             email,
             phone,
@@ -21,9 +29,9 @@ exports.addAddress = async (req, res) => {
             isDefault
         });
 
-        await newAddress.save();
+        await user.save();
 
-        res.status(201).json({ success: true, message: "Address added successfully", address: newAddress });
+        res.status(201).json({ success: true, message: "Address added successfully", address: user.addresses[user.addresses.length - 1] });
     } catch (error) {
         console.error("Error adding address:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
@@ -33,24 +41,26 @@ exports.addAddress = async (req, res) => {
 // Update Address
 exports.updateAddress = async (req, res) => {
     try {
-        const { id } = req.params;
+        const userId = req.user._id; // Get the user ID from the request
+        const addressId = req.params.id;
 
-        let address = await Address.findById(id);
+        // Find the user by ID
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Find the address by ID
+        const address = user.addresses.id(addressId);
 
         if (!address) {
             return res.status(404).json({ success: false, message: "Address not found" });
         }
 
-        address.address = req.body.address || address.address;
-        address.email = req.body.email || address.email;
-        address.phone = req.body.phone || address.phone;
-        address.city = req.body.city || address.city;
-        address.state = req.body.state || address.state;
-        address.country = req.body.country || address.country;
-        address.zipCode = req.body.zipCode || address.zipCode;
-        address.isDefault = req.body.isDefault || address.isDefault;
-
-        await address.save();
+        // Update address fields
+        address.set(req.body);
+        await user.save();
 
         res.status(200).json({ success: true, message: "Address updated successfully", address });
     } catch (error) {
@@ -62,9 +72,19 @@ exports.updateAddress = async (req, res) => {
 // Delete Address
 exports.deleteAddress = async (req, res) => {
     try {
-        const { id } = req.params;
+        const userId = req.user._id; // Get the user ID from the request
+        const addressId = req.params.id;
 
-        await Address.findByIdAndDelete(id);
+        // Find the user by ID
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Remove the address from the user's addresses array
+        user.addresses.pull(addressId);
+        await user.save();
 
         res.status(200).json({ success: true, message: "Address deleted successfully" });
     } catch (error) {
@@ -76,11 +96,16 @@ exports.deleteAddress = async (req, res) => {
 // Get Addresses of Logged-in User
 exports.getUserAddresses = async (req, res) => {
     try {
-        const { id: userId } = req.user;
+        const userId = req.user._id; // Get the user ID from the request
 
-        const addresses = await Address.find({ user: userId });
+        // Find the user by ID
+        const user = await User.findById(userId);
 
-        res.status(200).json({ success: true, addresses });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        res.status(200).json({ success: true, addresses: user.addresses });
     } catch (error) {
         console.error("Error retrieving user addresses:", error);
         res.status(500).json({ success: false, error: 'Internal server error' });

@@ -1,5 +1,39 @@
 // Import the Mongoose library
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+
+// Define the address schema
+const addressSchema = new mongoose.Schema({
+  address: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  zipCode: {
+    type: String,
+  },
+  isDefault: {
+    type: Boolean,
+    default: false,
+  },
+  updated: Date,
+  created: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 // Define the user schema using the Mongoose Schema constructor
 const userSchema = new mongoose.Schema(
@@ -9,18 +43,15 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-     email: {
+    email: {
       type: String,
       required: true,
       unique: true,
-      trim:true
-
+      trim: true,
     },
     contactNumber: {
       type: String,
-      // required: true,
-      // unique: true,
-      trim:true
+      trim: true,
     },
     password: {
       type: String,
@@ -28,15 +59,14 @@ const userSchema = new mongoose.Schema(
     },
     accountType: {
       type: String,
-      enum: ["Custmore", "Admin"],
-      default: "Custmore",
+      enum: ["Customer", "Admin"],
+      default: "Customer",
       required: true,
     },
     active: {
       type: Boolean,
       default: true,
     },
-   
     token: {
       type: String,
     },
@@ -46,18 +76,13 @@ const userSchema = new mongoose.Schema(
     image: {
       type: String,
     },
-    address: {
-      type: String,
+    OTPLogin: {
+      type: Number,
     },
-    OTPLogin:{
-      type:Number,
-    }
-   
-    
-
+    addresses: [addressSchema], // Array of addresses
   },
   { timestamps: true }
-)
+);
 
 // Export the Mongoose model for the user schema, using the name "user"
-module.exports = mongoose.model("user", userSchema)
+module.exports = mongoose.model("User", userSchema);
