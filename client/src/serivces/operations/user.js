@@ -10,7 +10,8 @@ const{
     SEND_OTP_API,
     VERIFY_OTP_API,
     SIGNUP_API,
-    LOGIN_API
+    LOGIN_API,
+    GET_ADDRESS
 } = userEndpoints
 
 
@@ -110,6 +111,44 @@ export function compareOtp(otp,email, navigate) {
 
         localStorage.setItem("token", JSON.stringify(response.data.token))
         navigate("/profile")
+
+
+        toast.success("Login Successful")
+      
+      } catch (error) {
+        console.log("SIGNUP API ERROR............", error)
+        toast.error("Login Failed")
+        navigate("/login")
+      }
+      dispatch(setLoading(false))
+      toast.dismiss(toastId)
+    }
+  }
+
+
+
+
+  // Address
+
+  export function addAddress(
+    formData,
+    token
+     ) {
+    return async (dispatch) => {
+      const toastId = toast.loading("Loading...")
+      dispatch(setLoading(true))
+      try {
+        const response = await apiConnector("GET", GET_ADDRESS, formData,{
+          Authorization: `Bearer ${token}`,
+        })
+  
+        // console.log("SIGNUP API RESPONSE............", response)
+  
+        if (!response.data.success) {
+          throw new Error(response.data.message)
+        }
+      console.log(response.data.addresses)
+       
 
 
         toast.success("Login Successful")
