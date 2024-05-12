@@ -242,25 +242,25 @@ const Sidebar = () => {
             to="/"
           >
             <img src={Home} alt="Home" />
-            <Text clicked={click}>Home</Text>
+            <Text clicked={click}>Dashboard</Text>
           </Item>
           <Item
             onClick={() => setClick(false)}
             activeClassName="active"
-            to="/team"
+            to="/admin/add-product"
           >
             <img src={Team} alt="Team" />
-            <Text clicked={click}>Team</Text>
+            <Text clicked={click}>Add Product</Text>
           </Item>
           <Item
             onClick={() => setClick(false)}
             activeClassName="active"
-            to="/calender"
+            to="/admin/get-products"
           >
             <img src={Calender} alt="Calender" />
-            <Text clicked={click}>Calender</Text>
+            <Text clicked={click}>Get Products</Text>
           </Item>
-          <Item
+          {/* <Item
             onClick={() => setClick(false)}
             activeClassName="active"
             to="/documents"
@@ -275,7 +275,7 @@ const Sidebar = () => {
           >
             <img src={Projects} alt="Projects" />
             <Text clicked={click}>Projects</Text>
-          </Item>
+          </Item> */}
         </SlickBar>
 
         <Profile clicked={profileClick}>

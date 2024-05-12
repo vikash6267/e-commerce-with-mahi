@@ -6,7 +6,12 @@ import {
   MdOutlineAdminPanelSettings,
   MdOutlinePassword,
   MdOutlineTrackChanges,
+  MdLocationOn,
+  MdCreditCard,
+  MdShare,
+  MdPassword
 } from "react-icons/md";
+
 import { TbAddressBook } from "react-icons/tb";
 import { RxPerson } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
@@ -24,7 +29,7 @@ const ProfileSidebar = ({ setActive, active }) => {
 
   return (
     <div className="sm:w-[40px] md:w-[120px]  ">
-      <div className=" bg-white flex flex-col rounded pt-5 pl-2">
+      <div className="bg-gray-300 flex flex-col rounded pt-5 pl-2">
         <MenuItem
           icon={<RxPerson size={20} />}
           name="Profile"
@@ -40,15 +45,15 @@ const ProfileSidebar = ({ setActive, active }) => {
           active={active}
         />
         <MenuItem
-          icon={<HiOutlineReceiptRefund size={20} />}
-          name="Refunds"
+          icon={<MdLocationOn size={20} />}
+          name="Address"
           number={3}
           setActive={setActive}
           active={active}
         />
         <MenuItem
-          icon={<AiOutlineMessage size={20} />}
-          name="Inbox"
+          icon={<MdCreditCard size={20} />}
+          name="My Credit"
           number={4}
           setActive={setActive}
           active={active}
@@ -61,15 +66,15 @@ const ProfileSidebar = ({ setActive, active }) => {
           active={active}
         />
         <MenuItem
-          icon={<RiLockPasswordLine size={20} />}
-          name="Change Password"
+          icon={<MdShare size={20} />}
+          name="Refer & Earn"
           number={6}
           setActive={setActive}
           active={active}
         />
         <MenuItem
-          icon={<TbAddressBook size={20} />}
-          name="Address"
+          icon={<MdPassword size={20} />}
+          name="Change Password"
           number={7}
           setActive={setActive}
           active={active}
