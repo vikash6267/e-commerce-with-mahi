@@ -3,7 +3,7 @@ const User = require("../models/User")
 const otpGenerator = require("otp-generator")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
-
+const {generateUniqueReferralCode} = require("../helper/referservice")
 require("dotenv").config()
 
 
@@ -83,6 +83,7 @@ exports.signup = async (req, res) => {
       password,
       confirmPassword,
       contactNumber,
+      referralCode: referralCodeFromRequest = false,
     } = req.body;
 
     // Check if All Details are there or not
@@ -104,6 +105,25 @@ exports.signup = async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+
+    let referredBy = null;
+  
+    let referringUser
+    // If referral code is provided in the request body
+    if (referralCodeFromRequest) {
+      // Find the user who referred by the provided referral code
+     referringUser = await User.findOne({ referralCode: referralCodeFromRequest });
+      if (referringUser) {
+        referredBy = referringUser._id; // Set referredBy to the ID of the referring user
+       
+       
+      }
+    }
+
+
+    // Generate unique referral code
+    const referralCode = await generateUniqueReferralCode(name);
+
     // Create user in the database
     const user = await User.create({
       name,
@@ -111,7 +131,19 @@ exports.signup = async (req, res) => {
       contactNumber,
       password: hashedPassword,
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${name} `,
+      referralCode: referralCode,
+      referralBy: referredBy,
     });
+
+
+if(referringUser){
+   // Update the referring user's network to include the referred user's details
+   referringUser.network.push({
+    id:user._id,
+    referralCode:referralCodeFromRequest
+   });
+ await referringUser.save();
+}
 
     // console.log(user)
     // Log in the user after signup

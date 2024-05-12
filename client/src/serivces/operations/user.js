@@ -156,7 +156,7 @@ export function compareOtp(otp,email, navigate) {
       } catch (error) {
         console.log("SIGNUP API ERROR............", error)
         toast.error("Login Failed")
-        navigate("/login")
+        // navigate("/login")
       }
       dispatch(setLoading(false))
       toast.dismiss(toastId)

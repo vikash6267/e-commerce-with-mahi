@@ -53,6 +53,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    referralCode:{
+      type: String,
+
+    },
+    referralBy:{
+      type: String,
+
+    },
+    network:[{
+     id:String,
+     referralCode:String
+    }],
     password: {
       type: String,
       required: true,

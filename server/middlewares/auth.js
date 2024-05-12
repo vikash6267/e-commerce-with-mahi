@@ -48,7 +48,7 @@ exports.isCustomre = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
 
-		if (userDetails.accountType !== "Custmore") {
+		if (userDetails.accountType !== "Customer") {
 			return res.status(401).json({
 				success: false,
 				message: "This is a Protected Route for Custmore",

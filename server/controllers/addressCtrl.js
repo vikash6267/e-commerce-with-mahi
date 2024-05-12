@@ -3,7 +3,7 @@ const User = require("../models/User");
 // Add Address
 exports.addAddress = async (req, res) => {
     try {
-        const userId = req.user._id; // Get the user ID from the request
+        const userId = req.user.id; // Get the user ID from the request
         const { address, email, phone, city, state, country, zipCode, isDefault } = req.body;
 
         if (!address || !email || !phone || !city || !state || !country || !zipCode) {
@@ -15,6 +15,13 @@ exports.addAddress = async (req, res) => {
 
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Set all existing addresses' isDefault field to false if new address is set as default
+        if (isDefault) {
+            user.addresses.forEach(addr => {
+                addr.isDefault = false;
+            });
         }
 
         // Add the new address to the user's addresses array
@@ -37,6 +44,7 @@ exports.addAddress = async (req, res) => {
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
+
 
 // Update Address
 exports.updateAddress = async (req, res) => {

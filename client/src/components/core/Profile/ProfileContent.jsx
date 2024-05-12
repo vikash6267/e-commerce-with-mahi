@@ -187,7 +187,7 @@ const Address = () => {
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
   const [addressType, setAddressType] = useState("");
-  // const { user } = useSelector((state) => state.profile);
+  const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
   const addressTypeData = [
