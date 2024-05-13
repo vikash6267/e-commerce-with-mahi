@@ -15,6 +15,7 @@ exports.auth = async (req, res, next) => {
 			req.body.token ||
 			req.header("Authorization").replace("Bearer ", "");
 
+			console.log(token)
 		
 		// If JWT is missing, return 401 Unauthorized response
 		if (!token) {
@@ -28,6 +29,7 @@ exports.auth = async (req, res, next) => {
 			// Storing the decoded JWT payload in the request object for further use
 			req.user = decode;
 		} catch (error) {
+			console.log(error)
 			// If JWT verification fails, return 401 Unauthorized response
 			return res
 				.status(401)

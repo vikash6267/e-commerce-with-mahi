@@ -4,9 +4,11 @@ const User = require("../models/User");
 exports.addAddress = async (req, res) => {
     try {
         const userId = req.user.id; // Get the user ID from the request
-        const { address, email, phone, city, state, country, zipCode, isDefault } = req.body;
+        const { address, city, state, country="India", zipCode, phone, isDefault } = req.body;
 
-        if (!address || !email || !phone || !city || !state || !country || !zipCode) {
+
+
+        if (!address || !city || !state || !country || !zipCode) {
             return res.status(400).json({ success: false, message: "All fields are required" });
         }
 
@@ -27,8 +29,8 @@ exports.addAddress = async (req, res) => {
         // Add the new address to the user's addresses array
         user.addresses.push({
             address,
-            email,
-            phone,
+            email:user.email,
+            phone:phone || user.contactNumber,
             city,
             state,
             country,

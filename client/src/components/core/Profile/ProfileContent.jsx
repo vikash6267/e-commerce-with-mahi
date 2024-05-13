@@ -5,8 +5,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles";
 // import { DataGrid } from "@material-ui/data-grid";
-
-import { RxCross1 } from "react-icons/rx";
+import Address from "./Address";
 
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
@@ -179,127 +178,6 @@ const ProfileContent = ({ active }) => {
 
 
 
-const Address = () => {
-  const [open, setOpen] = useState(false);
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
-  const [zipCode, setZipCode] = useState();
-  const [address1, setAddress1] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [addressType, setAddressType] = useState("");
-  const { user } = useSelector((state) => state.profile);
-  const dispatch = useDispatch();
 
-  const addressTypeData = [
-    {
-      name: "Default",
-    },
-    {
-      name: "Home",
-    },
-    {
-      name: "Office",
-    },
-  ];
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (addressType === "" || country === "" || city === "") {
-      toast.error("Please fill all the fields!");
-    } else {
-      //   dispatch(
-      //     updatUserAddress(
-      //       country,
-      //       city,
-      //       address1,
-      //       address2,
-      //       zipCode,
-      //       addressType
-      //     )
-      //   );
-      setOpen(false);
-      setCountry("");
-      setCity("");
-      setAddress1("");
-      setAddress2("");
-      setZipCode(null);
-      setAddressType("");
-    }
-  };
-
-  const handleDelete = (item) => {
-    const id = item._id;
-    // dispatch(deleteUserAddress(id));
-  };
-  return (
-    <div className="w-full px-5">
-      {open && (
-        <div className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center">
-          <div className="w-[35%] h-[80vh] bg-white rounded shadow relative overflow-y-scroll">
-            <div className="w-full flex justify-end p-3">
-              <RxCross1
-                size={30}
-                className="cursor-pointer"
-                onClick={() => setOpen(false)}
-              />
-            </div>
-            <h1 className="text-center text-[25px] font-Poppins">
-              Add New Address
-            </h1>
-            <div className="w-full">
-              <form aria-required onSubmit={handleSubmit} className="w-full">
-                <div className="w-full block p-4">
-                  <div className="w-full pb-2">
-                    <label className="block pb-2">Country</label>
-                    <select
-                      name=""
-                      id=""
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      className="w-[95%] border h-[40px] rounded-[5px]"
-                    >
-                      <option value="" className="block border pb-2">
-                        choose your country
-                      </option>
-                 
-                    </select>
-                  </div>
-                  {/* Rest of the form fields */}
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
-      <div className="flex w-full items-center justify-between">
-        <h1 className="text-[25px] font-[600] text-[#000000ba] pb-2">
-          My Addresses
-        </h1>
-        <div
-          className={`${styles.button} !rounded-md`}
-          onClick={() => setOpen(true)}
-        >
-          <span className="text-[#fff]">Add New</span>
-        </div>
-      </div>
-      <br />
-      {user &&
-        user.addresses.map((item, index) => (
-          <div
-            className="w-full bg-white h-min 800px:h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5"
-            key={index}
-          >
-            {/* Address item content */}
-          </div>
-        ))}
-      {user && user.addresses.length === 0 && (
-        <h5 className="text-center pt-8 text-[18px]">
-          You not have any saved address!
-        </h5>
-      )}
-    </div>
-  );
-};
 
 export default ProfileContent;

@@ -11,8 +11,8 @@ const{
     VERIFY_OTP_API,
     SIGNUP_API,
     LOGIN_API,
-    GET_ADDRESS
-} = userEndpoints
+    ADD_ADDRESS
+  } = userEndpoints
 
 
 
@@ -67,6 +67,7 @@ export function compareOtp(otp,email, navigate) {
         }
 
         if(response.data.userFind){
+          console.log(response.data.token)
           dispatch(setToken(response.data.token))
         dispatch(setUser(response.data.existingUser))
         localStorage.setItem("user", JSON.stringify(response.data.existingUser))
@@ -134,15 +135,16 @@ export function compareOtp(otp,email, navigate) {
     formData,
     token
      ) {
+      console.log(token)
     return async (dispatch) => {
       const toastId = toast.loading("Loading...")
       dispatch(setLoading(true))
       try {
-        const response = await apiConnector("GET", GET_ADDRESS, formData,{
+        const response = await apiConnector("POST", ADD_ADDRESS, formData,{
           Authorization: `Bearer ${token}`,
         })
   
-        // console.log("SIGNUP API RESPONSE............", response)
+        console.log("SIGNUP API RESPONSE............", response)
   
         if (!response.data.success) {
           throw new Error(response.data.message)
@@ -151,11 +153,11 @@ export function compareOtp(otp,email, navigate) {
        
 
 
-        toast.success("Login Successful")
+        toast.success("Address Successful")
       
       } catch (error) {
-        console.log("SIGNUP API ERROR............", error)
-        toast.error("Login Failed")
+        console.log("Address API ERROR............", error)
+        toast.error("Address Add Failed")
         // navigate("/login")
       }
       dispatch(setLoading(false))
