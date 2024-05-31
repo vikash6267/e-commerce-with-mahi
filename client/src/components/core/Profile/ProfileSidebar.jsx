@@ -28,8 +28,8 @@ const ProfileSidebar = ({ setActive, active }) => {
   const logoutHandler = () => {};
 
   return (
-    <div className="sm:w-[40px] md:w-[120px]  ">
-      <div className="bg-gray-300 flex flex-col rounded pt-5 pl-2">
+    <div className="sm:w-[40px] md:w-[120px]   ">
+      <div className="bg-gray-300 flex flex-col rounded pt-6 pl-2 ">
         <MenuItem
           icon={<RxPerson size={20} />}
           name="Profile"

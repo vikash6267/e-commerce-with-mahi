@@ -6,17 +6,19 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles";
 // import { DataGrid } from "@material-ui/data-grid";
 import Address from "./Address";
-
+import ShareComponent from "./Refer";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
+import Credit from "./Credit";
 // import Address from "./Address";
 const ProfileContent = ({ active }) => {
   const { user, error, successMessage } = useSelector((state) => state.profile);
   const [name, setName] = useState(user && user.name);
   const [email, setEmail] = useState(user && user.email);
-  const [phoneNumber, setPhoneNumber] = useState(user && user.phoneNumber);
+  const [phoneNumber, setPhoneNumber] = useState(user && user.contactNumber);
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState(null);
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -149,6 +151,15 @@ const ProfileContent = ({ active }) => {
         </div>
       )}
 
+
+      {active === 4 && (
+        <div className=" mt-[64px]  ">
+          <Credit />
+          
+
+        </div>
+      )}
+
       {/* Track order */}
       {active === 5 && (
         <div>
@@ -160,7 +171,7 @@ const ProfileContent = ({ active }) => {
       {/* Change Password */}
       {active === 6 && (
         <div>
-         changepassword
+       <ShareComponent />
         </div>
       )}
 

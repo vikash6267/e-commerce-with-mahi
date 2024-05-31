@@ -7,7 +7,10 @@ import { productEndpoints } from "../apis"
 import { saveProduct } from "../../slices/product"
 const {
     GET_ALL_PRODUCT_API,
-    GET_PRODUCT_DETAILS
+    GET_PRODUCT_DETAILS,
+    ADD_TO_WISHLIST,
+    REMOVE_TO_WISHLIST,
+    GET_WISHLIST
 } =productEndpoints
 
 export const getAllProduct = () => async (dispatch) => {
@@ -53,3 +56,55 @@ export const fetchProductDetails = async (productID) => {
   //   dispatch(setLoading(false));
   return result
 }
+
+
+
+
+// WISHLIST 
+
+export const addToWish = async (productId,token) =>{
+  const toastId = toast.loading("Loading...")
+
+  try {
+    const response = await apiConnector("POST", ADD_TO_WISHLIST, {
+      productId
+    },
+    {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("WISHLIST_DETAILS API RESPONSE............", response)
+
+   
+  } catch (error) {
+    console.log("WISHLIST API ERROR............", error)
+    toast.error(error.response.data.message);
+  }
+  toast.dismiss(toastId)
+}
+
+
+  
+export const fetchWishlist = async (token) => {
+  const toastId = toast.loading("Loading...")
+
+  let result = null
+  try {
+    const response = await apiConnector("GET", GET_WISHLIST, null,  {
+      Authorization: `Bearer ${token}`,
+    } )
+    console.log("GET_WISHLIST_DETAILS API RESPONSE............", response)
+
+    if (!response.data.success) {
+      throw new Error(response.data.message)
+    }
+    result = response.data
+  } catch (error) {
+    console.log("GET_WISHLIST_DETAILS API ERROR............", error)
+    result = error.response.data
+    toast.error(error.response.data.message);
+  }
+  toast.dismiss(toastId)
+  //   dispatch(setLoading(false));
+  return result
+}
+

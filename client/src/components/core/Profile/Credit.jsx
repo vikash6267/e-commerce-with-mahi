@@ -1,0 +1,55 @@
+import React from "react";
+import { useSelector } from "react-redux";
+import { FaAward } from "react-icons/fa6";
+
+function Credit() {
+  const { user } = useSelector((state) => state.profile);
+  return (
+    <div className=" flex p-5 flex-col w-[80vw]">
+      <div>
+        <div className="flex justify-between border w-full p-10">
+           <div className="text-xl"> <p>Your Currenlty Ammount</p>
+           <p>Rs. {user.totalCredit}</p>
+           </div>
+
+
+           <div>
+           <FaAward className="text-6xl h-20 text-red-700" />
+
+           </div>
+        </div>
+      </div>
+
+      <div className=" mt-10">
+
+        <div className=" text-center text-2xl font-bold">Your Transication</div>
+
+        
+
+        <div className="absence-coins-table w-full">
+    <table className="w-full bg-white shadow-md rounded my-6">
+        <thead>
+            <tr className="bg-gray-200">
+                <th>Date</th>
+                <th className="px-4 py-2">Absence Coins Reason</th>
+                <th className="px-4 py-2">Coins</th>
+            </tr>
+        </thead>
+        <tbody>
+            {user.virtualMoney.map((vir, index) => (
+                <tr key={index} className="border-b border-gray-200">
+                    <td>{vir.date}</td>
+                    <td className="px-4 py-2">{vir.message}</td>
+                    <td className={`px-4 py-2 ${vir.money >= 0 ? 'text-green-500' : 'text-red-500'}`}>{vir.money}</td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+</div>
+
+      </div>
+    </div>
+  );
+}
+
+export default Credit;

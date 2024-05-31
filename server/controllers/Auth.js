@@ -83,8 +83,10 @@ exports.signup = async (req, res) => {
       password,
       confirmPassword,
       contactNumber,
-      referralCode: referralCodeFromRequest = false,
+      refer: referralCodeFromRequest = false,
     } = req.body;
+
+    console.log(referralCodeFromRequest)
 
     // Check if All Details are there or not
     if (!name || !email || !password || !confirmPassword ||!contactNumber) {
@@ -112,6 +114,7 @@ exports.signup = async (req, res) => {
     // If referral code is provided in the request body
     if (referralCodeFromRequest) {
       // Find the user who referred by the provided referral code
+      console.log(referralCodeFromRequest)
      referringUser = await User.findOne({ referralCode: referralCodeFromRequest });
       if (referringUser) {
         referredBy = referringUser._id; // Set referredBy to the ID of the referring user

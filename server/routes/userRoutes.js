@@ -11,6 +11,9 @@ const{
 } = require("../controllers/Auth")
 
 const{
+    referCode
+} = require("../controllers/referCodeKnow")
+const{
     auth,
     isCustomre
 } = require("../middlewares/auth")
@@ -20,6 +23,7 @@ router.post("/login", login)
 router.post("/sentotp", sendotp)
 router.post("/verifyotp", compareOtp)
 router.post("/signup", signup)
+router.post("/refer", referCode)
 
 
 

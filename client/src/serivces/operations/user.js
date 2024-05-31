@@ -11,7 +11,8 @@ const{
     VERIFY_OTP_API,
     SIGNUP_API,
     LOGIN_API,
-    ADD_ADDRESS
+    ADD_ADDRESS,
+    REFER_CODE
   } = userEndpoints
 
 
@@ -163,4 +164,28 @@ export function compareOtp(otp,email, navigate) {
       dispatch(setLoading(false))
       toast.dismiss(toastId)
     }
+  }
+
+  export async function referCodeKnow(refer) {
+    const toastId = toast.loading("Loading...");
+    let result = [];
+  
+    try {
+const response = await apiConnector("POST", REFER_CODE,  {refer} );
+  
+  
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+  
+      // console.log(response.user);
+  
+      result = response.data.user;
+      // navigate("/verify-email") // Assuming you want to navigate somewhere after success
+    } catch (error) {
+      console.log("REFER API ERROR:", error);
+    }
+  
+    toast.dismiss(toastId);
+    return result; // Returning the result of the asynchronous operation
   }

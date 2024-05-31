@@ -43,6 +43,14 @@ function App() {
             </OpenRoute>
           }
         />
+        <Route
+          path="login/:refer"
+          element={
+            <OpenRoute>
+              <Login />
+            </OpenRoute>
+          }
+        />
 
         <Route
           path="profile"

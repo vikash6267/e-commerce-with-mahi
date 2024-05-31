@@ -43,6 +43,16 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    virtualMoney: [{
+      date:Date,
+      money: String,
+      message:String,
+      
+    }],
+    totalCredit:{
+      type:Number,
+      default:0
+    },
     email: {
       type: String,
       required: true,
@@ -91,6 +101,15 @@ const userSchema = new mongoose.Schema(
     OTPLogin: {
       type: Number,
     },
+
+    wishlist:[
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      }
+    ]
+      ,
+    
     addresses: [addressSchema], // Array of addresses
   },
   { timestamps: true }

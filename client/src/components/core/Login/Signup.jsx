@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../../../serivces/operations/user';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Signup.css'; // Import the CSS file for styling
-
+import { useSelector } from 'react-redux';
 function Signup({ email }) {
+
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const refer = queryParams.get('refer');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const{userReferalBy} = useSelector(state=> state.auth)
+
   const [formData, setFormData] = useState({
     name: '',
     email: email,
@@ -22,7 +30,16 @@ function Signup({ email }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signUp(formData, navigate));
+    
+    const finalFormData = { ...formData };
+    
+    if (refer) {
+      console.log(refer)
+      finalFormData.refer = refer;
+    }
+
+    dispatch(signUp(finalFormData, navigate));
+
   };
 
   return (

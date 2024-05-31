@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaUserAlt } from "react-icons/fa";
@@ -7,21 +7,28 @@ import { FaRegHeart } from "react-icons/fa";
 import { GrShop } from "react-icons/gr";
 import Cart from "../../pages/Cart";
 import {handleIsCartOpen} from "../../slices/cartSlice"
-
+import Navbar from "./Navbar/Navbar";
 import SearchBar from "../core/Search";
 
 function Header() {
   const { token } = useSelector((state) => state.auth);
   const { totalItems ,isCartOpen} = useSelector((state) => state.cart);
   const dispatch = useDispatch()
+  const [isOpen, setIsOpen] = useState(false)
 
+  useEffect(()=>{
+    console.log(isOpen)
+      },[isOpen])
 
+    
   return (
   <div className="  ">
       <div className="border-b-2 fixed w-full z-50 bg-white">
       <div className="w-11/12 mx-auto flex h-[60px] items-center justify-between">
         <div className="flex gap-4 items-center ">
-          <RxHamburgerMenu className="text-2xl cursor-pointer" />
+          <RxHamburgerMenu className="text-2xl cursor-pointer" onClick={()=> setIsOpen(true)} />
+          <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+
           <Link to="/"><div className="text-2xl font-bold tracking-wider ">ABSENCE</div></Link>
         </div>
 
@@ -50,6 +57,7 @@ function Header() {
 
 
   <Cart />  
+
   
      <div  title="Cart" className=" cursor-pointer" onClick={()=>dispatch(handleIsCartOpen())}>
            

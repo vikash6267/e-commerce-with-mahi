@@ -1,12 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineMail } from 'react-icons/ai';
 import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendOtp } from '../serivces/operations/user';
 import VerifyOtp from '../components/core/Login/VerifyOtp';
+import { useLocation } from 'react-router-dom';
+import { referCodeKnow } from '../serivces/operations/user';
+import { setReferN } from '../slices/authSlice';
 function Login() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const refer = queryParams.get('refer');
+  const [referName, setRefer] = useState("")
+  useEffect(() => {
+    const fetchData = async () => {
+      if (refer) {
+        const result = await referCodeKnow(refer);
+   
+       dispatch(setReferN(result?.name))
+          setRefer(result?.name); // Assuming the user object has a 'name' field
+        
+      }
+    };
+
+    fetchData(); // Call the async function immediately
+  }, [refer]);
+
+
+  
+ 
     const dispatch =useDispatch()
-    const{loading} = useSelector(state=> state.auth)
 
     const[email,setEmail] = useState("")
     const[emailSent,setEmailSent] = useState(false)
@@ -20,15 +43,27 @@ const sendOTP = async  (e)=>{
     setEmailSent(res)
 }
 
+useEffect(() => {
+  if (referName) {
+    const timer = setTimeout(() => {
+      setRefer("");
+    }, 3000); // Hide the message after 3 seconds
+
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount or if referName changes
+  }
+}, [referName]);
+
+
 
 
 
   return (
     <div className=''>
 
+
 {
     emailSent ? <VerifyOtp sendOtp={sendOTP} email={email}/> :
-<div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+<div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-md w-full space-y-8">
         <div>
           <AiOutlineMail className="mx-auto h-12 w-auto text-indigo-600" />
@@ -53,8 +88,19 @@ const sendOTP = async  (e)=>{
         </form>
         {/* <p className="text-center text-red-500">{message}</p> */}
       </div>
+
+      
+{
+  referName !== "" && <div className=' mt-[70px] w-full justify-center p-4 bg-green-500 top-0 absolute'><p>
+    {referName} is invite to you
+  </p></div> 
+}
     </div>
 }
+
+
+
+
     </div>
   )
 }

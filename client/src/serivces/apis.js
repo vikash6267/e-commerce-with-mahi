@@ -13,6 +13,7 @@ export const userEndpoints = {
     ADD_ADDRESS : BASE_URL +"/address/add",
     DELETE_ADDRESS : BASE_URL +"/address/delete",
     UPDATE_ADDRESS : BASE_URL +"/address/update",
+    REFER_CODE : BASE_URL +"/user/refer",
 
     
 
@@ -25,6 +26,14 @@ export const userEndpoints = {
 // PRODUCT APIS
 export const productEndpoints = {
     GET_ALL_PRODUCT_API: BASE_URL + "/product/all-product",
-     GET_PRODUCT_DETAILS : BASE_URL + "/product/getProductDetails"
+     GET_PRODUCT_DETAILS : BASE_URL + "/product/getProductDetails",
+
+
+
+     //WishList 
+     ADD_TO_WISHLIST : BASE_URL + "/wishlist/addtowish",
+     REMOVE_TO_WISHLIST : BASE_URL + "/wishlist/removetowish",
+     GET_WISHLIST : BASE_URL + "/wishlist/getWishlist",
+     
   }
   

@@ -16,9 +16,9 @@ const ProfilePage = () => {
       ) : (
         <>
           <div
-            className={`w 11/12 mx-auto flex sm:gap-3 lg:gap-[100px]  bg-[#f5f5f5] py-10`}
+            className={` mx-auto flex sm:gap-3 lg:gap-[100px]  bg-[#f5f5f5] py-10`}
           >
-            <div className="w-[50px] 800px:w-[335px] sticky 800px:mt-0 mt-[110px]">
+            <div className="w-[50px] 800px:w-[335px] sticky  mt-[40px]">
               <ProfileSidebar active={active} setActive={setActive} />
             </div>
             <ProfileContent active={active} />
