@@ -34,6 +34,14 @@ export const productEndpoints = {
      ADD_TO_WISHLIST : BASE_URL + "/wishlist/addtowish",
      REMOVE_TO_WISHLIST : BASE_URL + "/wishlist/removetowish",
      GET_WISHLIST : BASE_URL + "/wishlist/getWishlist",
+
+
+
+
+
+
+     //COUPON APIS 
+     GET_COUPON : BASE_URL + "/coupon/get"
      
   }
   

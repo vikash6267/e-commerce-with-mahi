@@ -132,6 +132,11 @@ const filterProducts = () => {
            
 
             {/* Product listing */}
+          {
+            filteredProducts.length === 0 ? <>
+              Not product are found 
+            </>: 
+
             <div className={`grid lg:grid-cols-${numOfColumns} lg:px-6 gap-2 sm:grid-cols-2 md:grid-cols-3 grid-cols-2`}>
               {filteredProducts.map((product) => (
                 <Link
@@ -158,6 +163,7 @@ const filterProducts = () => {
                 </Link>
               ))}
             </div>
+          }
           </div>
         </div>
       </div>

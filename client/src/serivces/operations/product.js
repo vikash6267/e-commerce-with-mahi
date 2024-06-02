@@ -10,7 +10,9 @@ const {
     GET_PRODUCT_DETAILS,
     ADD_TO_WISHLIST,
     REMOVE_TO_WISHLIST,
-    GET_WISHLIST
+    GET_WISHLIST,
+
+    GET_COUPON
 } =productEndpoints
 
 export const getAllProduct = () => async (dispatch) => {
@@ -100,6 +102,34 @@ export const fetchWishlist = async (token) => {
     result = response.data
   } catch (error) {
     console.log("GET_WISHLIST_DETAILS API ERROR............", error)
+    result = error.response.data
+    toast.error(error.response.data.message);
+  }
+  toast.dismiss(toastId)
+  //   dispatch(setLoading(false));
+  return result
+}
+
+
+
+
+//COUPON 
+  
+export const fetchCoupon = async (name,token) => {
+  const toastId = toast.loading("Loading...")
+  console.log(name)
+
+  let result = null
+  try {
+    const response = await apiConnector("POST", GET_COUPON, {name} )
+    // console.log("GET_COUPON API RESPONSE............", response)
+
+    if (!response.data.success) {
+      throw new Error(response.data.message)
+    }
+    result = response.data
+  } catch (error) {
+    console.log("GET_COUPON API ERROR............", error)
     result = error.response.data
     toast.error(error.response.data.message);
   }

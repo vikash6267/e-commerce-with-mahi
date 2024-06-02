@@ -27,9 +27,11 @@ function TestSlide({ products }) {
             <div>
               <p className='font-montserrat text-lg text-gray-600'>{product.title}</p>
               <p className='font-montserrat text-sm text-gray-600'> {displayMoney(product.price)}</p>
-              <div className='flex gap-2 text-sm text-red-500'>
+              <div className='flex gap-2 text-sm text-black '>
+              Sizes: -
                 {product.sizes?.map((size, index) => (
-                  <div key={index} className='relative '>
+                  <div key={index} className='relative font-bold '>
+                 
                     {size}
                     {/* <div className='absolute bottom-0 left-0 w-0 border-b-2 border-black hover:w-10 transition-all duration-300'></div> */}
                   </div>

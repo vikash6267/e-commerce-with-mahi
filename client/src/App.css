@@ -218,3 +218,97 @@ height: 100%;
     transform: scale(1);
   }
 }
+
+
+
+
+
+
+
+
+/* styles.css */
+@keyframes dash {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+  width: 60%;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  outline: none;
+  position: relative;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+}
+
+.input-container:before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, #1abc9c, #3498db, #9b59b6); /* Updated gradient colors */
+  z-index: 0;
+  background-size: 300%;
+  animation: gradient 5s ease infinite;
+}
+
+.input-container:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px dashed transparent;
+  border-image: linear-gradient(90deg, #1abc9c, #3498db, #9b59b6) 1; /* Updated border image colors */
+  border-radius: 0.5rem;
+  z-index: 1;
+  animation: dash 5s linear infinite;
+  pointer-events: none;
+}
+
+.button {
+  background: linear-gradient(90deg, #fd5d93, #c331d4); /* Updated gradient colors */
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+  background: linear-gradient(90deg, #c331d4, #fd5d93); /* Updated gradient colors */
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}

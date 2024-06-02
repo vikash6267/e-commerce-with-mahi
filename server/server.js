@@ -14,6 +14,7 @@ const productsRoutes = require("./routes/products")
 const userRoutes = require("./routes/userRoutes")
 const addressRoute = require("./routes/addressRoutes")
 const wishlistRoute = require("./routes/wishlistRoute")
+const couponRoute = require("./routes/couponRoutes")
 // Loading environment variables from .env file
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.use("/api/v1/user",userRoutes)
 app.use("/api/v1/image", imageRoute);
 app.use("/api/v1/address", addressRoute);
 app.use("/api/v1/wishlist", wishlistRoute);
+app.use("/api/v1/coupon", couponRoute);
 
 
 

@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Header from "./components/common/Header";
 import CartMain from "./pages/CartMain";
 import ProductDetails from "./pages/ProductDetails";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // Routes
 import OpenRoute from "./routes/OpenRoute";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -17,9 +17,15 @@ import AllProduct from "./pages/AllProduct";
 import Login from "./pages/Login";
 import Signup from "./components/core/Login/Signup";
 import Profile from "./pages/Profile";
+import CheckoutForm from "./components/core/Cart/CheckoutForm";
+import { setCheckout } from "./slices/paymentSlice";
+import Modal from "./components/core/Cart/Modal";
+
+import SummaryDetails from "./pages/Test";
 
 function App() {
   const dispatch = useDispatch();
+  const { checkout} = useSelector((state) => state.payment);
 
   useEffect(() => {
     dispatch(getAllProduct());
@@ -31,6 +37,9 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+
+        <Route path="/test" element={<SummaryDetails />} />
+
         <Route path="/cart" element={<CartMain />} />
         <Route path="/allProduct" element={<AllProduct />} />
         <Route path="product/:productID" element={<ProductDetails />} />
@@ -61,6 +70,16 @@ function App() {
           }
         />
       </Routes>
+
+
+
+
+      {checkout && (
+          <Modal show={checkout} handleClose={()=> dispatch(setCheckout(false))}>
+            <CheckoutForm />
+          </Modal>
+        )}
+
 
       <div className="fixed bottom-0 z-40">
         <MobileMenu />
