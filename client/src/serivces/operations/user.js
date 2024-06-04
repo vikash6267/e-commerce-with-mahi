@@ -12,6 +12,7 @@ const{
     SIGNUP_API,
     LOGIN_API,
     ADD_ADDRESS,
+    FETCH_PROFILE,
     REFER_CODE
   } = userEndpoints
 
@@ -129,6 +130,35 @@ export function compareOtp(otp,email, navigate) {
 
 
 
+  export function fetchMyProfile(token){
+ 
+    return async (dispatch) => {
+      dispatch(setLoading(true))
+      try {
+        const response = await apiConnector("GET", FETCH_PROFILE, null ,{
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        })
+  
+        console.log("APP JS RESPONSE............", response)
+  
+        if (!response.data.success) {
+          throw new Error(response.data.message)
+        }
+        // console.log(response.data)
+     
+        dispatch(setUser(response.data.user))
+
+  
+  
+        localStorage.setItem("user", JSON.stringify(response.data.user))
+  
+      } catch (error) {
+        // console.log("LOGIN API ERROR............", error)
+      }
+      dispatch(setLoading(false))
+    } 
+  }
 
   // Address
 
@@ -141,19 +171,45 @@ export function compareOtp(otp,email, navigate) {
       const toastId = toast.loading("Loading...")
       dispatch(setLoading(true))
       try {
-        const response = await apiConnector("POST", ADD_ADDRESS, formData,{
+        const response = await apiConnector("POST", ADD_ADDRESS, formData, {
           Authorization: `Bearer ${token}`,
         })
   
-        console.log("SIGNUP API RESPONSE............", response)
+        console.log("ADD ADRESS API RESPONSE............", response      )
   
         if (!response.data.success) {
           throw new Error(response.data.message)
         }
-      console.log(response.data.addresses)
-       
-
-
+        console.log(response.data)
+        
+        const existingUser = JSON.parse(localStorage.getItem("user")) || {};
+  
+        const newAddress = response.data.address;
+        let updatedAddresses;
+        
+        if (newAddress.isDefault) {
+          // Set all existing addresses to isDefault: false
+          updatedAddresses = existingUser.addresses.map(address => ({ ...address, isDefault: false }));
+        } else {
+          // Keep existing addresses as they are
+          updatedAddresses = [...existingUser.addresses];
+        }
+        
+        // Add the new address
+        updatedAddresses.push(newAddress);
+        
+        const updatedUser = {
+          ...existingUser,
+          addresses: updatedAddresses
+        };
+        
+        
+        console.log(updatedUser)
+      
+        dispatch(setUser(updatedUser))  
+  
+        localStorage.setItem("user", JSON.stringify(updatedUser))
+  
         toast.success("Address Successful")
       
       } catch (error) {
@@ -188,4 +244,18 @@ const response = await apiConnector("POST", REFER_CODE,  {refer} );
   
     toast.dismiss(toastId);
     return result; // Returning the result of the asynchronous operation
+  }
+
+
+
+  export function logout(navigate) {
+    return (dispatch) => {
+      dispatch(setToken(null))
+      dispatch(setUser(null))
+      dispatch(resetCart())
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+      toast.success("Logged Out")
+      navigate("/")
+    }
   }

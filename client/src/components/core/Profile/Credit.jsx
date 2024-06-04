@@ -27,24 +27,25 @@ function Credit() {
         
 
         <div className="absence-coins-table w-full">
-    <table className="w-full bg-white shadow-md rounded my-6">
-        <thead>
-            <tr className="bg-gray-200">
-                <th>Date</th>
-                <th className="px-4 py-2">Absence Coins Reason</th>
-                <th className="px-4 py-2">Coins</th>
+        <table className="w-full bg-white shadow-md rounded my-6">
+    <thead>
+        <tr className="bg-gray-200">
+            <th className="px-4 py-2">Date</th>
+            <th className="px-4 py-2">Absence Coins Reason</th>
+            <th className="px-4 py-2">Coins</th>
+        </tr>
+    </thead>
+    <tbody>
+        {user.virtualMoney.map((vir, index) => (
+            <tr key={index} className="border-b border-gray-200">
+                <td className="px-4 py-2 text-center">{new Date(vir.date).toLocaleDateString()}</td>
+                <td className="px-4 py-2 text-center">{vir.message}</td>
+                <td className={`px-4 py-2 text-center ${vir.money >= 0 ? 'text-green-500' : 'text-red-500'}`}>{vir.money}</td>
             </tr>
-        </thead>
-        <tbody>
-            {user.virtualMoney.map((vir, index) => (
-                <tr key={index} className="border-b border-gray-200">
-                    <td>{vir.date}</td>
-                    <td className="px-4 py-2">{vir.message}</td>
-                    <td className={`px-4 py-2 ${vir.money >= 0 ? 'text-green-500' : 'text-red-500'}`}>{vir.money}</td>
-                </tr>
-            ))}
-        </tbody>
-    </table>
+        ))}
+    </tbody>
+</table>
+
 </div>
 
       </div>

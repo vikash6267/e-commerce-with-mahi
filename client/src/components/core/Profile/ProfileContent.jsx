@@ -10,6 +10,7 @@ import ShareComponent from "./Refer";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import Credit from "./Credit";
+import Order from "./Order";
 // import Address from "./Address";
 const ProfileContent = ({ active }) => {
   const { user, error, successMessage } = useSelector((state) => state.profile);
@@ -137,9 +138,10 @@ const ProfileContent = ({ active }) => {
 
       {/* order */}
       {active === 2 && (
-        <div>
+        <div className="mt-[64px]">
           {/* <AllOrders /> */}
-          all order
+          <Order />
+
         </div>
       )}
 

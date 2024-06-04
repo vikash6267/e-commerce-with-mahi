@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
   step: 1,
   checkout : false,
-
+  addressData:null
 
 }
 
@@ -20,12 +20,16 @@ const paymentSlice = createSlice({
       setCheckout: (state, action) => {
         state.checkout = action.payload
       },
+      setAddressData(state, value) {
+        state.addressData = value.payload;
+      },
     },
   })
   
   export const {
     setStep,
-    setCheckout
+    setCheckout,
+    setAddressData
    
   } = paymentSlice.actions
   

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { addAddress } from "../../../serivces/operations/user.js";
@@ -25,6 +25,10 @@ const Address = () => {
   const handleDefaultAddressChange = () => {
     setIsDefaultAddress(!isDefaultAddress); // Toggle the state of default address
   };
+
+  useEffect(()=>{
+console.log(user)
+  },[])
 
   const dispatch = useDispatch();
 
@@ -154,7 +158,7 @@ const Address = () => {
 
               <div className='flex gap-1 items-center'>
           <input
-            type="radio"
+            type="checkbox"
             id='isDefault'
             checked={isDefaultAddress} // Bind checked state to the state variable
             onChange={()=> setIsDefaultAddress(!isDefaultAddress)} // Handle click event
@@ -185,39 +189,43 @@ const Address = () => {
         </div>
       </div>
       <br />
-
       {user && (
-        <div className="a-list">
-          {user.addresses.map((address, index) => (
-            <Link
-              to={`/dashboard/address/edit/${address._id}`}
-              key={index}
-              className="block"
-            >
-              <div className="flex items-center mb-3 address-box">
-                <div className="mx-3">
-                  <AddressIcon />
+  <div className="a-list">
+    {user.addresses
+      .slice() // Create a shallow copy of the addresses array
+      .sort((a, b) => b.isDefault - a.isDefault) // Sort addresses to place default first
+      .map((address, index) => (
+        <Link
+          to={`/dashboard/address/edit/${address._id}`}
+          key={index}
+          className="block"
+        >
+          <div className="flex items-center mb-3 address-box">
+            <div className="mx-3">
+              <AddressIcon />
+            </div>
+            <div className="flex-1 p-3 lg:p-4">
+              {address.isDefault ? (
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="mb-0 mr-2 truncate">
+                    Default Delivery Address
+                  </h4>
+                  <CheckIcon className="text-green" />
                 </div>
-                <div className="flex-1 p-3 lg:p-4">
-                  {address.isDefault ? (
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="mb-0 mr-2 truncate">
-                        Default Delivery Address
-                      </h4>
-                      <CheckIcon className="text-green" />
-                    </div>
-                  ) : (
-                    <h4 className="mb-0">Delivery Address</h4>
-                  )}
-                  <p className="mb-2 address-desc">
-                    {`${address?.address} ${address?.city}, ${address?.country}, ${address?.zipCode}`}
-                  </p>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+              ) : (
+                <h4 className="mb-0">Delivery Address</h4>
+              )}
+              <p className="mb-2 address-desc">
+                {`${address?.address} ${address?.city}, ${address?.country}, ${address?.zipCode}`}
+              </p>
+            </div>
+          </div>
+        </Link>
+      ))}
+  </div>
+)}
+
+
 
       {user && user.addresses.length === 0 && (
         <p className="text-gray-700">You have not saved any addresses.</p>

@@ -26,17 +26,18 @@ const {user}=useSelector(state=> state.profile)
   };
 
   return (
-    <div className="flex justify-center items-center space-x-4 mt-[70px]">
-      <button onClick={shareOnFacebook} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded flex items-center">
-        <FaFacebook className="mr-2" /> Share on Facebook
-      </button>
-      <button onClick={shareOnWhatsApp} className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded flex items-center">
-        <FaWhatsapp className="mr-2" /> Share on WhatsApp
-      </button>
-      <button onClick={copyToClipboard} className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center">
-        <FaCopy className="mr-2" /> Copy Link
-      </button>
-    </div>
+<div className="flex flex-col justify-center items-center space-y-4 md:space-y-0 md:flex-row md:justify-center md:items-center mt-[70px] gap-11">
+  <button onClick={shareOnFacebook} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded flex items-center">
+    <FaFacebook className="mr-2" /> Share on Facebook
+  </button>
+  <button onClick={shareOnWhatsApp} className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded flex items-center">
+    <FaWhatsapp className="mr-2" /> Share on WhatsApp
+  </button>
+  <button onClick={copyToClipboard} className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center">
+    <FaCopy className="mr-2" /> Copy Link
+  </button>
+</div>
+
   );
 }
 

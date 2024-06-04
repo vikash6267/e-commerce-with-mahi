@@ -3,17 +3,23 @@ const mongoose = require("mongoose"); // Erase if already required
 // Declare the Schema of the Mongo model
 const orderSchema = new mongoose.Schema(
   {
+
+    order_id: {
+      type: String,
+      required: true,
+    },
+  shipment_id:{
+    type: Number,
+    // required: true,
+
+  },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
     shippingInfo: {
-      firstname: {
-        type: String,
-        required: true,
-      },
-      lastname: {
+      name: {
         type: String,
         required: true,
       },
@@ -54,24 +60,17 @@ const orderSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
-        color: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Color",
-          required: true,
-        },
+     
 
         size: {
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: "Size" },
+          type: String,
+          required: true, },
 
         quantity: {
           type: Number,
           required: true,
         },
-        price: {
-          type: Number,
-          required: true,
-        },
+    
       },
     ],
     paidAt: {
@@ -83,13 +82,10 @@ const orderSchema = new mongoose.Schema(
       default: new Date().getMonth(),
     },
     totalPrice: {
-      type: Number,
+      type: String,
       required: true,
     },
-    totalPriceAfterDiscount: {
-      type: Number,
-      required: true,
-    },
+  
     orderStatus: {
       type: String,
       default: "Ordered",

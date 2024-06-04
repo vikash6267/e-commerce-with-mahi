@@ -37,7 +37,9 @@
     "nodemailer": "^6.9.12",
     "otp-generator": "^4.0.1",
     "path": "^0.12.7",
+    "razorpay": "^2.9.4",
     "sharp": "^0.33.3",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "uuid": "^9.0.1"
   }
 }

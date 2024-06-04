@@ -6,6 +6,8 @@ import { displayMoney , calculateTotal} from '../../../helper/utills';
 import { FiShoppingCart } from "react-icons/fi";
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { fetchCoupon } from '../../../serivces/operations/product';
+import Address from './Address';
+import Payment from './Payment';
 
 const CheckoutForm = () => {
   const { cart, total, totalItems, isCartOpen } = useSelector((state) => state.cart);
@@ -17,6 +19,8 @@ const CheckoutForm = () => {
   const [coupon,setCoupon] = useState(false)
   const [couponValue,setCouponValue] = useState(0)
   const [couponValid,setCouponValid] = useState(true)
+
+
 
   const displayTotalAmount = displayMoney(total);
 
@@ -62,12 +66,12 @@ const handleCoupon = async() =>{
 
 }
   return (
-   <div className=' w-full flex flex-wrap-reverse min-h-[calc(100vh-200px)] font-montserrat '>
+   <div className=' w-full flex flex-wrap-reverse lg:min-h-[calc(100vh-150px)] min-h-[calc(100vh-200px)]  lg:max-h-[calc(100vh-150px)] max-h-[calc(100vh-200px)] checkout font-montserrat '>
 {/* left */}
 
 
-<div className=' lg:w-[65%] md:w-[65%] w-full border-r-2'>
-    <div className="relative mb-2 flex w-full justify-center">
+<div className=' lg:w-[65%]  w-full border-r-2 '>
+    {/* <div className="relative mb-2 flex w-full justify-center">
       {steps.map((item) => (
         <>
           <div
@@ -100,8 +104,8 @@ const handleCoupon = async() =>{
           )}
         </>
       ))}
-    </div>
-
+    </div> */}
+{/* 
     <div className="relative mb-16 flex w-full  justify-center">
       {steps.map((item) => (
         <>
@@ -121,11 +125,12 @@ const handleCoupon = async() =>{
           
         </>
       ))}
-    </div>
+    </div> */}
     {/* Render specific component based on current step */}
-    {step === 1 && <div> STEP 1</div>}
-    {step === 2 && <div> STEP 2</div>}
-    {step === 3 && <div> STEP 3</div>}
+    {step === 1 && <Address />}
+    {step === 2 && <Payment payable={payable} coupon={couponName} />}
+    {/* {step === 2 && <div> STEP 2</div>} */}
+    {/* {step === 3 && <div> STEP 3</div>} */}
   </div>
 
 
@@ -133,7 +138,7 @@ const handleCoupon = async() =>{
 
 
 {/* right */}
-    <div className='   lg:w-[35%] md:w-[35%] w-full'>
+    <div className='   lg:w-[35%]  w-full '>
 
 
 

@@ -8,6 +8,9 @@ import Header from "./components/common/Header";
 import CartMain from "./pages/CartMain";
 import ProductDetails from "./pages/ProductDetails";
 import { useDispatch, useSelector } from "react-redux";
+
+//network 
+import { fetchMyProfile } from "./serivces/operations/user";
 // Routes
 import OpenRoute from "./routes/OpenRoute";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -26,9 +29,12 @@ import SummaryDetails from "./pages/Test";
 function App() {
   const dispatch = useDispatch();
   const { checkout} = useSelector((state) => state.payment);
+  const {  token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getAllProduct());
+    dispatch(fetchMyProfile(token));
+
   }, []);
 
   return (

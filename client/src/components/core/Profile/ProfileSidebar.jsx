@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { AiOutlineLogin, AiOutlineMessage } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { HiOutlineReceiptRefund, HiOutlineShoppingBag } from "react-icons/hi";
+import { logout } from "../../../serivces/operations/user";
+
 import {
   MdOutlineAdminPanelSettings,
   MdOutlinePassword,
@@ -15,17 +17,20 @@ import {
 import { TbAddressBook } from "react-icons/tb";
 import { RxPerson } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProfileSidebar = ({ setActive, active }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const { user } = useSelector((state) => state.profile);
 
   useEffect(() => {
     console.log(user);
   }, []);
 
-  const logoutHandler = () => {};
+  const logoutHandler = () => {
+    dispatch(logout(navigate))
+  };
 
   return (
     <div className="sm:w-[40px] md:w-[120px]   ">
@@ -79,24 +84,20 @@ const ProfileSidebar = ({ setActive, active }) => {
           setActive={setActive}
           active={active}
         />
-        {user && user?.role === "Admin" && (
-          <Link to="/admin/dashboard" onClick={() => setActive(8)}>
-            <MenuItem
-              icon={<MdOutlineAdminPanelSettings size={20} />}
-              name="Admin Dashboard"
-              number={8}
-              setActive={setActive}
-              active={active}
-            />
-          </Link>
-        )}
-        <MenuItem
-          icon={<AiOutlineLogin size={20} />}
-          name="Log out"
-          number={9}
-          setActive={setActive}
-          active={active}
-        />
+   
+   <div
+        className=" flex items-center cursor-pointer w-full mb-8"
+        onClick={logoutHandler}
+      >
+        <AiOutlineLogin size={20} color={active === 8 ? "red" : ""} />
+        <span
+          className={`pl-3 hidden sm:flex ${
+            active === 8 ? "text-[red]" : ""
+          } `}
+        >
+          Log out
+        </span>
+      </div>
       </div>
     </div>
   );
