@@ -95,9 +95,11 @@ function App() {
 
 
       {checkout && (
+        <PrivateRoute>
           <Modal show={checkout} handleClose={()=> dispatch(setCheckout(false))}>
             <CheckoutForm />
           </Modal>
+</PrivateRoute>
         )}
 
 

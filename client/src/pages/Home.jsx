@@ -65,13 +65,13 @@ function Home() {
             </h2>
             {products && <TestSlide products={products} />}
 
-            <div className="border-[1px] p-2 hover:bg-gray-100  flex gap-2 items-center w-full justify-center">
-              <Link to="/allProduct" className=" ">
+            <Link to="/allProduct" className="border-[1px] p-2 hover:bg-gray-100  flex gap-2 items-center w-full justify-center">
+              <div to="/allProduct" className=" ">
                 Show All
-              </Link>
+              </div>
 
               <IoShirtSharp className=" text-blue-600" />
-            </div>
+            </Link>
           </div>
 
           <div className=" text-black z-0 mt-6 font-montserrat text-xl mb-24 ">
@@ -84,7 +84,7 @@ function Home() {
               Trending Products
             </h2>
 
-            <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-1">
+            <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2">
               {products &&
                 products.map((product) => (
                   <ProductCard key={product._id} products={product}  />

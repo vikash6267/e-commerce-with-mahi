@@ -33,6 +33,7 @@ function Wishlist() {
             <div className='mt-4'>
               <h2 className='text-lg font-semibold'>{product.title}</h2>
               <p className='text-sm text-gray-600 mt-2'>{product.description}</p>
+              <p className='text-lg font-semibold mt-2'>Price: Rs. {product.price}</p>
             </div>
             <div className='flex justify-between items-center mt-4'>
               <Link

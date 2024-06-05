@@ -49,7 +49,7 @@ function Cart() {
           <motion.div
             id="cart"
             ref={ref}
-            className="fixed top-0 right-0 bottom-0 lg:w-[450px] w-[320px] bg-white p-4 z-50"
+            className="fixed top-0 right-0 bottom-0 lg:w-[450px] w-[320px] bg-white p-4 z-50 max-h-screen "
             initial={{ x: "100%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0 }}
@@ -79,7 +79,7 @@ function Cart() {
                     ))}
                   </div>
 
-                  <div className="w-full mb-[5.2rem] text-gray-500 font-montserrat">
+                  <div className="w-full  mb-[130px] lg:mb-[5rem] sm:mb-[5rem] md:mb-[5rem] text-gray-500 font-montserrat">
                     <div className="flex flex-col">
                       <h3 className="font-montserrat text-sm font-medium">
                         Total &nbsp; ({cartQuantity}{" "}

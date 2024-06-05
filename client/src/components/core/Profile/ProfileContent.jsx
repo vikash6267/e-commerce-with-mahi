@@ -138,7 +138,7 @@ const ProfileContent = ({ active }) => {
 
       {/* order */}
       {active === 2 && (
-        <div className="mt-[64px]">
+        <div className="mt-[4px]">
           {/* <AllOrders /> */}
           <Order />
 
@@ -147,7 +147,7 @@ const ProfileContent = ({ active }) => {
 
       {/* Refund */}
       {active === 3 && (
-        <div className=" mt-[64px]  ">
+        <div className=" mt-[4px]  ">
           <Address />
 
         </div>
@@ -155,7 +155,7 @@ const ProfileContent = ({ active }) => {
 
 
       {active === 4 && (
-        <div className=" mt-[64px]  ">
+        <div className=" mt-[4px]  ">
           <Credit />
           
 

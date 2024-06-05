@@ -18,7 +18,7 @@ const {
 } =productEndpoints
 
 export const getAllProduct = () => async (dispatch) => {
-  const toastId = toast.loading("Loading...");
+   ;
   try {
     const response = await apiConnector("GET", GET_ALL_PRODUCT_API);
     if (!response?.data?.success) {
@@ -26,19 +26,19 @@ export const getAllProduct = () => async (dispatch) => {
     }
     const result = response?.data?.data;
     dispatch(saveProduct(result)); // Dispatching action to save products
-    toast.dismiss(toastId);
+     ;
     return result;
   } catch (error) {
     console.log("GET_ALL_PRODUCT_API API ERROR:", error);
     toast.error(error.message);
-    toast.dismiss(toastId);
+     ;
     return [];
   }
 };
 
   
 export const fetchProductDetails = async (productID) => {
-  const toastId = toast.loading("Loading...")
+  //  
 
   let result = null
   try {
@@ -56,7 +56,7 @@ export const fetchProductDetails = async (productID) => {
     result = error.response.data
     toast.error(error.response.data.message);
   }
-  toast.dismiss(toastId)
+  //  
   //   dispatch(setLoading(false));
   return result
 }
@@ -67,7 +67,7 @@ export const fetchProductDetails = async (productID) => {
 // WISHLIST 
 
 export const addToWish = async (productId,token,dispatch) =>{
-  const toastId = toast.loading("Loading...")
+   
 let result = null
   try {
     const response = await apiConnector("POST", ADD_TO_WISHLIST, {
@@ -86,13 +86,13 @@ let result = null
     console.log("WISHLIST API ERROR............", error)
     toast.error(error.response.data.message);
   }
-  toast.dismiss(toastId)
+   
   return result
 }
 
 
 export const removeFromWish = async (productId,token,dispatch) =>{
-  const toastId = toast.loading("Loading...")
+   
 
   try {
     const response = await apiConnector("DELETE", REMOVE_TO_WISHLIST, {
@@ -109,7 +109,7 @@ export const removeFromWish = async (productId,token,dispatch) =>{
     console.log("WISHLIST API ERROR............", error)
     toast.error(error.response?.data?.message);
   }
-  toast.dismiss(toastId)
+   
 
 }
 
@@ -117,7 +117,7 @@ export const removeFromWish = async (productId,token,dispatch) =>{
 
   
 export const fetchWishlist = async (token,dispatch) => {
-  const toastId = toast.loading("Loading...")
+   
 
   let result = null
   try {
@@ -138,7 +138,7 @@ export const fetchWishlist = async (token,dispatch) => {
     result = error.response.data
     toast.error(error.response.data.message);
   }
-  toast.dismiss(toastId)
+   
   //   dispatch(setLoading(false));
   return result
 }
@@ -149,7 +149,7 @@ export const fetchWishlist = async (token,dispatch) => {
 //COUPON 
   
 export const fetchCoupon = async (name,token) => {
-  const toastId = toast.loading("Loading...")
+   
   console.log(name)
 
   let result = null
@@ -166,7 +166,7 @@ export const fetchCoupon = async (name,token) => {
     result = error.response.data
     toast.error(error.response.data.message);
   }
-  toast.dismiss(toastId)
+   
   //   dispatch(setLoading(false));
   return result
 }

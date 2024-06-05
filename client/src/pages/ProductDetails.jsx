@@ -179,7 +179,7 @@ removeFromWish(productId,token,dispatch);
 
 
   return (
-    <div className="prodcutDetialsContainer min-w-screen">
+    <div className="prodcutDetialsContainer min-w-screen mb-[200px]">
       <section className="section" id="product_details">
         <div className="product_container">
           <div className="wrapper prod_details_wrapper">

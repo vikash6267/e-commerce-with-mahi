@@ -64,7 +64,7 @@ const filterProducts = () => {
   };
 
   return (
-    <div className="min-h-screen  mt-[64px] min-w-[100vw] mx-auto ">
+    <div className="min-h-screen  mt-[64px] min-w-[100vw] mx-auto mb-[100px] ">
       <div className='min-h-full '>
         <div className="flex ">
         <div className='w-1/5 mt-10 pl-5 mobile'>

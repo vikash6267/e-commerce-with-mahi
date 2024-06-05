@@ -81,23 +81,25 @@ function ProductCard({ products }) {
 
         <div className="my-4 border-t border-gray-600"></div>
 
-        <h2 className="products_price font-bold">
+        <h2 className=" font-bold flex text-base lg:text-xl  sm:text-xl md:text-xl xs:text-sm justify-between">
           {newPrice} &nbsp;
           <small>
             <del className=" text-red-600">{oldPrice}</del>
           </small>
         </h2>
 
-
-        <div className="mt-4 flex justify-center w-full bg-gradient-to-r from-red-500 to-red-600 rounded-xl hover:from-red-600 hover:to-red-700 items-center font-montserrat">
+        <div className="mt-4 flex justify-center w-full text-base lg:text-xl  sm:text-xl md:text-xl xs:text-sm">
   {cart.some((item) => item.product._id === _id) ? (
-    <Link to="/cart" className="text-green-200 hover:text-green-300 transition duration-300">
+    <Link
+      to="/cart"
+      className="bg-gray-200 text-gray-700  px-4 rounded-xl hover:bg-gray-300 hover:text-gray-800 transition duration-300 text-sm lg:text-xl  sm:text-xl md:text-xl xs:text-sm"
+    >
       Go to Cart
     </Link>
   ) : (
     <button
       onClick={() => handleAddToCart(products)}
-      className="text-white hover:text-gray-100 transition duration-300 flex items-center gap-2"
+      className="bg-gradient-to-r from-green-400 to-green-500 text-white py-2 px-4 rounded-xl hover:from-green-500 hover:to-green-600 flex items-center gap-2 transition duration-300 text-sm lg:text-xl  sm:text-xl md:text-xl xs:text-sm"
     >
       <span>Add To Cart</span>
       <MdOutlineShoppingCartCheckout className="text-xl" />
@@ -105,6 +107,8 @@ function ProductCard({ products }) {
   )}
   {/* Heart icon button for favorite */}
 </div>
+
+
 
       </div>
     </div>

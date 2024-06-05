@@ -12,8 +12,9 @@ function TestSlide({ products }) {
 
       <div className='flex flex-nowrap justify-start px-6 '>
         {displayedProducts.map((product) => (
-          <div key={product._id} className='w-64 mx-2 flex flex-col gap-3'>
-            <div className='h-full w-60 overflow-hidden relative'>
+          
+          <Link  to={`/product/${product._id}`} key={product._id} className='w-64 mx-2 flex flex-col gap-3'>
+            <div className='h-full w-48 overflow-hidden relative lg:w-60 md:w-60'>
             <div>
             <img src={product.images[0].url} alt='' className='object-cover h-full w-full transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110' />
               <img src={product.images[1].url} alt='' className='object-cover h-full w-full absolute top-0 left-0 opacity-0 transition duration-500 ease-in-out transform hover:opacity-100 hover:scale-105' />
@@ -38,7 +39,7 @@ function TestSlide({ products }) {
                 ))}
               </div>
             </div>
-          </div>
+          </Link>
         ))}
 
     

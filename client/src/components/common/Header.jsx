@@ -9,16 +9,16 @@ import Cart from "../../pages/Cart";
 import {handleIsCartOpen} from "../../slices/cartSlice"
 import Navbar from "./Navbar/Navbar";
 import SearchBar from "../core/Search";
+import { handleIsMenuOpen } from "../../slices/product";
 
 function Header() {
   const { token } = useSelector((state) => state.auth);
   const { totalItems ,isCartOpen} = useSelector((state) => state.cart);
+  const { isMenuOpen} = useSelector((state) => state.product);
   const dispatch = useDispatch()
-  const [isOpen, setIsOpen] = useState(false)
 
-  useEffect(()=>{
-    console.log(isOpen)
-      },[isOpen])
+
+
 
     
   return (
@@ -26,8 +26,8 @@ function Header() {
       <div className="border-b-2 fixed w-full z-50 bg-white">
       <div className="w-11/12 mx-auto flex h-[60px] items-center justify-between">
         <div className="flex gap-4 items-center ">
-          <RxHamburgerMenu className="text-2xl cursor-pointer" onClick={()=> setIsOpen(true)} />
-          <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+          <RxHamburgerMenu className="text-2xl cursor-pointer" onClick={()=> dispatch(handleIsMenuOpen())} />
+          <Navbar isOpen={isMenuOpen} setIsOpen={handleIsMenuOpen} />
 
           <Link to="/"><div className="text-2xl font-bold tracking-wider ">ABSENCE</div></Link>
         </div>
