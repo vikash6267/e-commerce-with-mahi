@@ -25,6 +25,7 @@ import { setCheckout } from "./slices/paymentSlice";
 import Modal from "./components/core/Cart/Modal";
 import { fetchWishlist } from "./serivces/operations/product";
 import SummaryDetails from "./pages/Test";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +78,14 @@ function App() {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="wishlist"
+          element={
+            <PrivateRoute>
+              <Wishlist />
             </PrivateRoute>
           }
         />

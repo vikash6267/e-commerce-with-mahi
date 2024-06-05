@@ -19,6 +19,7 @@ import { addToWish , removeFromWish,fetchWishlist} from "../serivces/operations/
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Error from "./Error";
+import SizeSelectionModal from "../components/core/AllProduct.jsx/SizeSelect";
 
 function ProductDetails() {
   const [product, setProduct] = useState(null);
@@ -34,11 +35,19 @@ const {wishlistProduct} = useSelector((state)=>state.wishlist)
   
 const {  token } = useSelector((state) => state.auth);
 
+
+
+const [showModal, setShowModal] = useState(false);
+
+// Function to handle showing/hiding the modal
+const toggleModal = () => {
+  setShowModal(!showModal);
+};
 //
 
-useEffect(()=>{
-console.log("Redux Wishlist",wishlistProduct)
-},[])
+// useEffect(()=>{
+// console.log("Redux Wishlist",wishlistProduct)
+// },[])
 
 useEffect(() => {
   const fetchWishlistData = async () => {
@@ -79,6 +88,7 @@ removeFromWish(productId,token,dispatch);
   
   const handleSizeClick = (size) => {
     setSelectedSize(size === selectedSize ? null : size);
+    toggleModal();
   };
   const handlePreviewImg = (images, i) => {
     setPreviewImg(images[i].url);
@@ -97,7 +107,8 @@ removeFromWish(productId,token,dispatch);
    const handleAddItem = () => {
 
         if(selectedSize === null){
-            toast.error("please Select The Size")
+            // toast.error("please Select The Size")
+            toggleModal();
             return;
         }
     dispatch(addToCart({products:product, quantity,size:selectedSize}));
@@ -344,6 +355,15 @@ removeFromWish(productId,token,dispatch);
           </div>
        
       </section>
+
+
+      {showModal && (
+        <SizeSelectionModal
+          sizes={product.sizes}
+          onSelectSize={handleSizeClick}
+          onClose={toggleModal}
+        />
+      )}
     </div>
   );
 }
