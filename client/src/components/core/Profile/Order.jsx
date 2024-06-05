@@ -32,6 +32,8 @@ function Order() {
                 <h2>Your Orders</h2>
             </div>
 
+         {
+            orders.length === 0 ? <div className=' text-center text-2xl mt-10'>No Order Found</div> : 
             <div className="container mx-auto">
                 {orders.map(order => (
                     <div key={order._id} className="my-4 p-4 border border-gray-300 rounded shadow-md">
@@ -67,6 +69,7 @@ function Order() {
                     </div>
                 ))}
             </div>
+         }
         </div>
     );
 }

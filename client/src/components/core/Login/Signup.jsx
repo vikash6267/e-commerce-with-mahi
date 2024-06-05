@@ -73,11 +73,12 @@ function Signup({ email }) {
           <div>
             <label className="block text-gray-700">Number</label>
             <input
-              type="text"
+              type="number"
               name="contactNumber"
               value={formData.contactNumber}
+              pattern="\d*"
               onChange={handleChange}
-              className="w-full border-gray-300 rounded-md py-2 px-3 bg-gray-100 cursor-not-allowed"
+              className="min-w-full border-gray-300 rounded-md py-2 px-3 bg-gray-100 "
               required
             />
           </div>
