@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { displayMoney } from "../helper/utills";
 import { Link } from 'react-router-dom';
 import { IoGridSharp, IoListSharp } from "react-icons/io5";
 import { IoShirtSharp } from "react-icons/io5";
 import { IoMaleSharp, IoFemaleSharp, IoTransgenderSharp } from "react-icons/io5";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
+import Filtered from '../components/core/AllProduct.jsx/Filtered';
+
+import { handleIsFilterOpen } from '../slices/product';
 // Exporting available sizes and genders
 export const sizes = ["S", "M", "L", "XL", "XXL"];
 export const genders = ["Male", "Female", "Unisex"];
@@ -16,6 +19,15 @@ function AllProduct({ products }) {
   const [selectedSizes, setSelectedSizes] = useState([]); // Initialize selected sizes as empty array
   const [selectedGender, setSelectedGender] = useState(''); // Initialize selected gender as empty string
   const [filteredProducts, setFilteredProducts] = useState(products || allProduct); // Initialize filtered products with all products
+  const dispatch = useDispatch()
+//mobile 
+const[isFilter,setIsFilter] = useState(false)
+
+const handleFilter =()=>{
+  console.log(isFilter)
+
+  setIsFilter(!isFilter)
+}
 
   // Function to handle size selection
   const handleSizeSelect = (size) => {
@@ -117,7 +129,34 @@ const filterProducts = () => {
           <div className="lg:w-[78%] w-full bg-white p-4 min-h-screen">
             {/* Product view options */}
             <div className="flex justify-end mb-4">
-              <IoGridSharp
+
+            <div className="flex justify-center relative  lg:hidden sm:hidden md:hidden ">
+  <button
+    onClick={()=>dispatch(handleIsFilterOpen())}
+    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105"
+  >
+    Filter
+  </button>
+
+
+  <Filtered
+  setIsFilter={setIsFilter}
+  isFilter={isFilter}
+  sizes={sizes}
+  genders={genders}
+  selectedSizes={selectedSizes}
+  selectedGender={selectedGender}
+  handleSizeSelect={handleSizeSelect}
+  handleGenderSelect={handleGenderSelect}
+  handleSubmit={handleSubmit}
+/>
+
+
+
+</div>
+
+
+           <div className='flex mobile'>   <IoGridSharp
                 className={`cursor-pointer ${numOfColumns === 4 ? 'text-blue-500' : 'text-gray-400'}`}
                 size={24}
                 onClick={() => setNumOfColumns(4)}
@@ -126,7 +165,7 @@ const filterProducts = () => {
                 className={`cursor-pointer ${numOfColumns === 1 ? 'text-blue-500' : 'text-gray-400'}`}
                 size={24}
                 onClick={() => setNumOfColumns(1)}
-              />
+              /></div>
             </div>
 
            

@@ -14,7 +14,10 @@ import { IoIosAdd,IoIosRemove  } from "react-icons/io";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import {addToCart} from "../slices/cartSlice"
 import { toast } from "react-hot-toast"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWish , removeFromWish,fetchWishlist} from "../serivces/operations/product";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import Swal from "sweetalert2";
 import Error from "./Error";
 
 function ProductDetails() {
@@ -26,9 +29,53 @@ function ProductDetails() {
   const { handleActive, activeClass } = useActive(0);
     const dispatch = useDispatch()
   const [quantity, setQuantity] = useState(1);
-
-
+  const [wishlistLoading, setWishlistLoading] = useState(false);
+const {wishlistProduct} = useSelector((state)=>state.wishlist)
   
+const {  token } = useSelector((state) => state.auth);
+
+//
+
+useEffect(()=>{
+console.log("Redux Wishlist",wishlistProduct)
+},[])
+
+useEffect(() => {
+  const fetchWishlistData = async () => {
+    try {
+      const res = await fetchWishlist(token,dispatch);
+  console.log("hello")
+
+      // console.log(res.wishlist)
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+    }
+  };
+
+ if(token){
+  fetchWishlistData();
+ }
+}, [token,removeFromWish, addToWish]);
+
+const handleAddToWishlist = async (productId,token) => {
+  if (!token) {
+    Swal.fire({
+      title: "Please login to add to wishlist",
+      icon: "warning",
+      confirmButtonText: "OK",
+    });
+    return;
+  }
+  addToWish(productId,token,dispatch);
+  setWishlistLoading(true);
+};
+
+const handleRemoveFromWishlist = async (productId,token) => {
+removeFromWish(productId,token,dispatch);
+  setWishlistLoading(true);
+};
+
+
   
   const handleSizeClick = (size) => {
     setSelectedSize(size === selectedSize ? null : size);
@@ -117,7 +164,7 @@ function ProductDetails() {
   const savedPrice = displayMoney(discountedPrice);
   const savedDiscount = calculateDiscount(discountedPrice, product?.price);
 
-
+  const isProductInWishlist = wishlistProduct.some((item) => item._id === product._id);
 
 
   return (
@@ -145,16 +192,55 @@ function ProductDetails() {
 </div>
               {/*=== Product Details Right-content ===*/}
               <div className="prod_details_right_col_001">
-                <h1 className="prod_details_title">{product.title}</h1>
+
+              <div className="flex justify-between">
+            <div>
+            <h1 className="prod_details_title">{product.title}</h1>
                 <h4 className="prod_details_info">
                   {product.description && product.description}
                 </h4>
+            </div>
 
-                <div className="text-sm flex flex-wrap items-center gap-2 prod_details_ratings">
+
+            <div>
+  {isProductInWishlist ? (
+    <div className="flex items-center">
+      <FaHeart
+        onClick={() => handleRemoveFromWishlist(product._id, token)}
+        className="text-red-500 bg-white rounded-full p-1 cursor-pointer mr-1 hover:text-red-600 hover:bg-red-100 transition-colors duration-300"
+      />
+      <span 
+        className="text-red-500 bg-white rounded-full p-1 cursor-pointer hover:text-red-600 hover:bg-red-100 transition-colors duration-300" 
+        onClick={() => handleRemoveFromWishlist(product._id, token)}
+      >
+        Remove From Wishlist
+      </span>
+    </div>
+  ) : (
+    <div className="flex items-center">
+      <FaRegHeart
+        onClick={() => handleAddToWishlist(product._id, token)}
+        className="bg-red-500 text-white rounded-full p-1 cursor-pointer mr-1 hover:bg-red-600 transition-colors duration-300"
+      />
+      <span 
+        className="bg-red-500 text-white rounded-full p-1 cursor-pointer hover:bg-red-600 transition-colors duration-300" 
+        onClick={() => handleAddToWishlist(product._id, token)}
+      >
+        Add To Wishlist
+      </span>
+    </div>
+  )}
+</div>
+
+
+
+              </div>
+
+                {/* <div className="text-sm flex flex-wrap items-center gap-2 prod_details_ratings">
                   <span className="text-yellow-25">{avgReviewCount}</span>
                   <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                  {/* <span>{`(${ratingAndReviews.length} reviews)`}</span> */}
-                </div>
+                  <span>{`(${ratingAndReviews.length} reviews)`}</span>
+                </div> */}
 
                 <div className="prod_details_price">
                   <div className="price_box">
@@ -186,10 +272,10 @@ function ProductDetails() {
                 <div className="seprator2"></div>
 
                 <div className="productDescription">
-                  <div className="productDiscriptiopn_text">
+                  {/* <div className="productDiscriptiopn_text">
                     <h4>Descripition :</h4>
                     <p>{product.description}</p>
-                  </div>
+                  </div> */}
                   <div>
                     <div>
                       <h2>Select Size:</h2>
@@ -218,7 +304,7 @@ function ProductDetails() {
                 <div className="seprator2"></div>
 
 
-                <div className="prod_details_additem">
+                <div className="prod_details_additem mt-2">
                       <h5>QTY :</h5>
                       <div className="additem">
                         <button
@@ -249,6 +335,8 @@ function ProductDetails() {
                       >
                         Add to cart 
                       </Button>
+
+                      
                     </div>
 
               </div>

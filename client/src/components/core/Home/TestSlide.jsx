@@ -1,7 +1,6 @@
 import React from 'react';
 import { displayMoney } from "../../../helper/utills";
 import { Link } from 'react-router-dom';
-import { IoShirtSharp } from "react-icons/io5";
 import { addToWish } from '../../../serivces/operations/product';
 function TestSlide({ products }) {
 
@@ -9,7 +8,8 @@ function TestSlide({ products }) {
   const displayedProducts = [...products].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
-    <div className='w-full overflow-x-auto py-6 mt-6'>
+    <div className='w-full overflow-x-auto py-6 mt-6' style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+
       <div className='flex flex-nowrap justify-start px-6 '>
         {displayedProducts.map((product) => (
           <div key={product._id} className='w-64 mx-2 flex flex-col gap-3'>
@@ -45,13 +45,11 @@ function TestSlide({ products }) {
       </div>
 
       <div className='w-screen flex justify-center mt-6 items-center'>
-   <div className='border-[1px] p-2 hover:bg-gray-100  flex gap-2 items-center'>
-   <Link to="/allProduct" className=' '>Show All</Link>
-
-<IoShirtSharp className=' text-blue-600'/>
-   </div>
+  
 
         </div>
+
+      
     </div>
   );
 }

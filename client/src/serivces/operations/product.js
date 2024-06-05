@@ -5,6 +5,8 @@ import { toast } from "react-hot-toast"
 import { apiConnector } from "../apiConnector"
 import { productEndpoints } from "../apis"
 import { saveProduct } from "../../slices/product"
+import { allWishlist } from "../../slices/wishListSlice"
+
 const {
     GET_ALL_PRODUCT_API,
     GET_PRODUCT_DETAILS,
@@ -64,9 +66,9 @@ export const fetchProductDetails = async (productID) => {
 
 // WISHLIST 
 
-export const addToWish = async (productId,token) =>{
+export const addToWish = async (productId,token,dispatch) =>{
   const toastId = toast.loading("Loading...")
-
+let result = null
   try {
     const response = await apiConnector("POST", ADD_TO_WISHLIST, {
       productId
@@ -76,17 +78,45 @@ export const addToWish = async (productId,token) =>{
     })
     console.log("WISHLIST_DETAILS API RESPONSE............", response)
 
-   
+     result = response?.data?.wishlist
+  toast.success("Product Added In WishLIst")
+  fetchWishlist(token,dispatch)
+
   } catch (error) {
     console.log("WISHLIST API ERROR............", error)
     toast.error(error.response.data.message);
   }
   toast.dismiss(toastId)
+  return result
 }
 
 
+export const removeFromWish = async (productId,token,dispatch) =>{
+  const toastId = toast.loading("Loading...")
+
+  try {
+    const response = await apiConnector("DELETE", REMOVE_TO_WISHLIST, {
+      productId
+    },
+    {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("WISHLIST_DETAILS REMOVE API RESPONSE............", response)
+
+  toast.success("Product Remove In WishLIst")
+  fetchWishlist(token,dispatch)
+  } catch (error) {
+    console.log("WISHLIST API ERROR............", error)
+    toast.error(error.response?.data?.message);
+  }
+  toast.dismiss(toastId)
+
+}
+
+
+
   
-export const fetchWishlist = async (token) => {
+export const fetchWishlist = async (token,dispatch) => {
   const toastId = toast.loading("Loading...")
 
   let result = null
@@ -94,12 +124,15 @@ export const fetchWishlist = async (token) => {
     const response = await apiConnector("GET", GET_WISHLIST, null,  {
       Authorization: `Bearer ${token}`,
     } )
-    console.log("GET_WISHLIST_DETAILS API RESPONSE............", response)
+    // console.log("GET_WISHLIST_DETAILS API RESPONSE............", response)
 
     if (!response.data.success) {
       throw new Error(response.data.message)
     }
-    result = response.data
+    result = response?.data
+
+   console.log(response?.data?.wishlist)
+    dispatch(allWishlist(response?.data?.wishlist))
   } catch (error) {
     console.log("GET_WISHLIST_DETAILS API ERROR............", error)
     result = error.response.data

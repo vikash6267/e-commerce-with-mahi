@@ -1,5 +1,6 @@
 const User = require("../models/User");
 
+
 // Add product to user's wishlist
 exports.addToWishlist = async (req, res) => {
   try {
@@ -22,7 +23,10 @@ exports.addToWishlist = async (req, res) => {
     user.wishlist.push(productId);
     await user.save();
 
-    res.status(200).json({ success: true, message: "Product added to wishlist successfully" });
+    // Populate the wishlist with product details
+    // await user.populate("wishlist").execPopulate();
+
+    res.status(200).json({ success: true, message: "Product added to wishlist successfully"  });
   } catch (error) {
     console.error("Error adding product to wishlist:", error);
     res.status(500).json({ success: false, message: "Server error" });
@@ -52,12 +56,16 @@ exports.removeFromWishlist = async (req, res) => {
     user.wishlist.splice(index, 1);
     await user.save();
 
+    // Populate the wishlist with product details
+    // await user.populate("wishlist").execPopulate();
+
     res.status(200).json({ success: true, message: "Product removed from wishlist successfully" });
   } catch (error) {
     console.error("Error removing product from wishlist:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 
 // Get user's wishlist
 exports.getUserWishlist = async (req, res) => {

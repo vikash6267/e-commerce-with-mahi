@@ -51,11 +51,11 @@ const ProfileContent = ({ active }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       {/* profile */}
       {active === 1 && (
-        <>
-          <div className="flex justify-center w-full mt-[55px]">
+        <div className=" h-full ">
+          <div className="flex justify-center w-full mt-[55px] ">
             <div className="relative">
               <img
                 src={`${user?.image}`}
@@ -126,14 +126,14 @@ const ProfileContent = ({ active }) => {
                 </div>
               </div>
               <input
-                className={`w-[250px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer`}
+                className={`w-[250px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer mb-20`}
                 required
                 value="Update"
                 type="submit"
               />
             </form>
           </div>
-        </>
+        </div>
       )}
 
       {/* order */}

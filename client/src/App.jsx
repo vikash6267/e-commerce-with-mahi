@@ -23,7 +23,7 @@ import Profile from "./pages/Profile";
 import CheckoutForm from "./components/core/Cart/CheckoutForm";
 import { setCheckout } from "./slices/paymentSlice";
 import Modal from "./components/core/Cart/Modal";
-
+import { fetchWishlist } from "./serivces/operations/product";
 import SummaryDetails from "./pages/Test";
 
 function App() {
@@ -33,9 +33,14 @@ function App() {
 
   useEffect(() => {
     dispatch(getAllProduct());
+
+    if(token){
+      fetchWishlist(token,dispatch);
     dispatch(fetchMyProfile(token));
 
-  }, []);
+    }
+
+  }, [token]);
 
   return (
     <div className="min-w-screen min-h-screen flex flex-col">

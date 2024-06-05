@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 // import MetaData from "../components/core/MetaData"
-import { getAllProduct } from "../serivces/operations/product";
 import HeroSlider from "../components/core/Home/HeroSlider";
-import FeaturedSlider from "../components/core/Home/FeatureSlider";
 import ProductCard from "../components/common/ProductCard";
-
+import { IoShirtSharp } from "react-icons/io5";
 
 import { FaGrinHearts } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import TestSlide from "../components/core/Home/TestSlide";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { addToWish , removeFromWish,fetchWishlist} from "../serivces/operations/product";
 
 function Home() {
   const [products, setProduct] = useState([]);
-  const{allProduct} = useSelector(state=> state.product)
-  // const dispatch = useDispatch()
+  const { allProduct } = useSelector((state) => state.product);
+
+   // const dispatch = useDispatch()
   // const fetchSubLinks = async () => {
   //   (async () => {
   //     const res = await (getAllProduct());
@@ -27,7 +28,7 @@ function Home() {
 
   useEffect(() => {
     // fetchSubLinks();
-setProduct(allProduct)
+    setProduct(allProduct);
   }, [allProduct]);
   return (
     <div className="">
@@ -40,11 +41,17 @@ setProduct(allProduct)
           </div>
 
           <div className="   lg:-mt-20 mb-10 flex text-center w-[80%] mx-auto flex-col gap-3 font-montserrat font-bold text-2xl text-black">
-
-    <div className=" w-full bg-blue-400 text-center p-4 rounded-3xl flex gap-2 justify-center   "> <FaGrinHearts className=" text-yellow-300 animate-spin" /> We Are Coming Soon <FaGrinHearts className=" text-yellow-300 animate-spin" /></div>
-    <div className=" w-full bg-blue-600 text-center p-4 rounded-3xl  flex gap-4 justify-center animate-divv   "> <FaHeart className=" text-red-600 animate-pulse" /> Dil Tham Ke Bethiye <FaHeart className=" text-red-600 animate-pulse" /></div>
-
-
+            <div className=" w-full bg-blue-400 text-center p-4 rounded-3xl flex gap-2 justify-center   ">
+              {" "}
+              <FaGrinHearts className=" text-yellow-300 animate-spin" /> We Are
+              Coming Soon{" "}
+              <FaGrinHearts className=" text-yellow-300 animate-spin" />
+            </div>
+            <div className=" w-full bg-blue-600 text-center p-4 rounded-3xl  flex gap-4 justify-center animate-divv   ">
+              {" "}
+              <FaHeart className=" text-red-600 animate-pulse" /> Dil Tham Ke
+              Bethiye <FaHeart className=" text-red-600 animate-pulse" />
+            </div>
           </div>
 
           <div className=" text-black z-0  font-montserrat text-xl mt-24 ">
@@ -57,6 +64,14 @@ setProduct(allProduct)
               Featured Products
             </h2>
             {products && <TestSlide products={products} />}
+
+            <div className="border-[1px] p-2 hover:bg-gray-100  flex gap-2 items-center w-full justify-center">
+              <Link to="/allProduct" className=" ">
+                Show All
+              </Link>
+
+              <IoShirtSharp className=" text-blue-600" />
+            </div>
           </div>
 
           <div className=" text-black z-0 mt-6 font-montserrat text-xl mb-24 ">
@@ -72,7 +87,7 @@ setProduct(allProduct)
             <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-1">
               {products &&
                 products.map((product) => (
-                  <ProductCard key={product._id} products={product} />
+                  <ProductCard key={product._id} products={product}  />
                 ))}
             </div>
           </div>

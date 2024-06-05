@@ -5,7 +5,7 @@ import { resetCart } from "../../slices/cartSlice"
 import { setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { userEndpoints } from "../apis"
-
+import { resetWishlist } from "../../slices/wishListSlice"
 const{
     SEND_OTP_API,
     VERIFY_OTP_API,
@@ -253,6 +253,7 @@ const response = await apiConnector("POST", REFER_CODE,  {refer} );
       dispatch(setToken(null))
       dispatch(setUser(null))
       dispatch(resetCart())
+      dispatch(resetWishlist())
       localStorage.removeItem("token")
       localStorage.removeItem("user")
       toast.success("Logged Out")
