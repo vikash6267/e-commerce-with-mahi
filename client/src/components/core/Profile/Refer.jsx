@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 function ShareComponent() {
 const {user}=useSelector(state=> state.profile)
-    const link = `http://localhost:3000/login?refer=${user.referralCode}`
+    const link = `https://absence-psrxgry9r-vikash-maheshwaris-projects.vercel.app/login?refer=${user.referralCode}`
   const copyToClipboard = () => {
     navigator.clipboard.writeText(link)
       .then(() => {
