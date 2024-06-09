@@ -9,7 +9,7 @@ import CartMain from "./pages/CartMain";
 import ProductDetails from "./pages/ProductDetails";
 import { useDispatch, useSelector } from "react-redux";
 
-//network
+//network 
 import { fetchMyProfile } from "./serivces/operations/user";
 // Routes
 import OpenRoute from "./routes/OpenRoute";
@@ -32,6 +32,7 @@ import TrackOrder from "./pages/TrackOrder";
 import Credit from "./pages/Credit";
 import Refer from "./pages/Refer";
 import Order from "./pages/Order";
+import Footer from "./components/common/Footer/Footer"
 function App() {
   const dispatch = useDispatch();
   const { checkout } = useSelector((state) => state.payment);
@@ -142,6 +143,7 @@ function App() {
       {/* <div className="fixed bottom-0 z-40">
         <MobileMenu />
       </div> */}
+      <Footer />
     </div>
   );
 }

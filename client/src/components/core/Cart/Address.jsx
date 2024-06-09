@@ -69,11 +69,11 @@ function Address() {
   
 
   return (
-    <div className="flex  bg-gray-100 flex-col items-start  ">
-      <div className="bg-white shadow-md rounded-lg w-11/12 ">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">Billing Address</h2>
-        <div className="w-11/12 mx-auto lg:max-h-[calc(100vh-300px)] max-h-[30vh] overflow-y-auto overflow-x-hidden pl-3 ">
-          <div className="mb-4">
+    <div className="flex   flex-col items- w-full lg:mt-0 mt-[23px]   ">
+      <div className="bg-white  rounded-lg ">
+        <h2 className="text-xl font-semibold mb-6 text-center text-gray-800">Billing Address</h2>
+        <div className="lg:w-11/12 mx-auto lg:max-h-[calc(100vh-300px)]  overflow-y-auto overflow-x-hidden pl-2 p-2 billing">
+          <div className="mb-3">
             <label className="block mb-1 text-gray-600">Pincode</label>
             <input
               type="text"
@@ -88,7 +88,7 @@ function Address() {
 
           {true && (
             <>
-              <div className="mb-4 ">
+              <div className="mb-3 ">
                 <label className="block mb-1 text-gray-600">Address</label>
                 <input
                   type="text"
@@ -101,7 +101,7 @@ function Address() {
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3">
                 <label className="block mb-1 text-gray-600">City</label>
                 <input
                   type="text"
@@ -115,7 +115,7 @@ function Address() {
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3">
                 <label className="block mb-1 text-gray-600">State</label>
                 <input
                   type="text"
@@ -129,7 +129,7 @@ function Address() {
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3">
                 <label className="block mb-1 text-gray-600">Country</label>
                 <input
                   type="text"
@@ -143,7 +143,7 @@ function Address() {
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3">
                 <label className="block mb-1 text-gray-600 pr-10">Phone</label>
                 <input
                   type="number"
@@ -151,7 +151,7 @@ function Address() {
                   value={formData.billingPhone}
                   onChange={handleChange}
                   placeholder="Contact Number"
-                  className="min-w-[80%]  border rounded px-3 py-2 outline-1 ring-1 font-semibold placeholder:font-normal focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                  className="min-w-[80%]  border rounded px-1 text-[12px] py-2  outline-1 ring-1 font-semibold placeholder:font-normal focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                   required
                 />
               </div>
@@ -162,9 +162,9 @@ function Address() {
      
         </div>
       </div>
-      <div className="flex justify-end mt-6">
+      <div className="flex justify-start mt-">
   <button
-    className="px-6 py-3 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 text-white rounded-lg shadow-md hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    className="px-3 py-2 text-[15px] bg-gradient-to-r bg-gray-800 text-white rounded-2xl"
     onClick={handleSubmit}
     // disabled={!areAllFieldsFilled()}
   >

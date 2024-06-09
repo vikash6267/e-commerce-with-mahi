@@ -66,11 +66,11 @@ const handleCoupon = async() =>{
 
 }
   return (
-   <div className=' w-full flex flex-wrap-reverse lg:min-h-[calc(100vh-150px)] min-h-[calc(100vh-200px)]  lg:max-h-[calc(100vh-150px)] max-h-[calc(100vh-200px)] checkout font-montserrat '>
+   <div className=' w-full flex flex-wrap-reverse lg:min-h-[calc(100vh-150px)] min-h-[calc(100vh-200px)]  lg:max-h-[calc(100vh-150px)] max-h-[calc(100vh-130px)] checkout font-montserrat  '>
 {/* left */}
 
 
-<div className=' lg:w-[65%]  w-full border-r-2 '>
+<div className=' lg:w-[65%]  w-screen border-r-2 '>
     {/* <div className="relative mb-2 flex w-full justify-center">
       {steps.map((item) => (
         <>
@@ -144,11 +144,11 @@ const handleCoupon = async() =>{
 
     <div>
 
-    <div className="w-full p-4  rounded-xl text-black ">
+    <div className="w-full lg:p-4  rounded-xl text-black ">
       <button
         type="button"
         onClick={toggleSummary}
-        className="w-full  p-2 rounded-xl font-bold text-left flex justify-between items-center"
+        className="w-full  p-2 rounded-xl font-bold text-left flex justify-between items-center "
       >
         <div className='flex items-center gap-5'>  <FiShoppingCart /> Order Summary Details</div>
         <span>{isOpen ? <FaChevronUp /> : <FaChevronDown />}</span>
@@ -171,11 +171,11 @@ const handleCoupon = async() =>{
 
 
                 <div>
-                <p className=' text-lg font-bold'>{item.product.title}</p>
-<p className=' text-base   '>{"Price-"}{"  "}{displayMoney(item.product.price)}</p>
+                <p className=' text-[15px] font-semibold'>{item.product.title}</p>
+<p className=' text-[12px] lg:text-[14px]  '>{"Price-"}{"  "}{displayMoney(item.product.price)}</p>
 
-<p className=' text-sm '>{"Size-"}{item.size}</p>
-<p className=' text-sm '>{"Quantity-"}{item.quantity}</p>
+<p className=' text-[12px] lg:text-[14px] '>{"Size-"}{item.size}</p>
+<p className=' text-[12px] lg:text-[14px]'>{"Quantity-"}{item.quantity}</p>
 
 
                 </div>
@@ -195,14 +195,14 @@ const handleCoupon = async() =>{
 
     <div className='mt-[20px] font-montserrat' >
 
-<div className=' flex w-full justify-between px-6 text-sm'>Subtotal <span> {displayTotalAmount}</span></div>
+<div className=' flex w-full justify-between px-6 text-[13px]'>Subtotal <span> {displayTotalAmount}</span></div>
 {
   coupon && (
-<div className=' flex w-full justify-between px-6 text-sm'>Discount <span className=' text-green-600'> - {displayMoney(couponValue)}</span></div>
+<div className=' flex w-full justify-between px-6 text-[13px]'>Discount <span className=' text-green-600'> - {displayMoney(couponValue)}</span></div>
 
   )
 }
-<div className=' flex w-full justify-between px-6 text-sm'>Shipping <span> {"To be calculated"}</span></div>
+<div className=' flex w-full justify-between px-6 text-[13px]'>Shipping <span> {"To be calculated"}</span></div>
 
 </div>
 
@@ -210,11 +210,11 @@ const handleCoupon = async() =>{
 
 <div className='min-h-[1px] max-w-[90%] bg-black mt-[20px] mx-auto'></div>
 
-<div className=' flex w-full justify-between px-6 font-bold text-l mt-3'>Payable  <span> {displayMoney(payable)}</span></div>
+<div className=' flex w-full justify-between px-6 font-bold text-[12px] mt-3'>Payable  <span> {displayMoney(payable)}</span></div>
 
 
 <div className='mt-3 px-6 flex flex-col gap-2'>
-  <label htmlFor="coupon">Apply Coupon</label>
+  {/* <label htmlFor="coupon">Apply Coupon</label> */}
   <div className='flex gap-5 relative '>
     <div className="input-container ">
     <input 
@@ -228,7 +228,7 @@ const handleCoupon = async() =>{
 
     </div>
     {!couponValid && ( // Conditionally render error message if coupon is not valid
-          <div className='text-red-500 absolute top-12 left-0 text-xs'>
+          <div className='text-red-500 absolute -top-2 left-0 text-[10px]'>
             {couponName} is not valid Coupon.
           </div>
         )}
