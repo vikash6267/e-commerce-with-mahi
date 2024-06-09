@@ -9,17 +9,22 @@ import GetAvgRating from "../helper/avgRating";
 import { MdOutlineDone } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import Button from "@mui/material/Button";
-import { IoIosAdd,IoIosRemove  } from "react-icons/io";
+import { IoIosAdd, IoIosRemove } from "react-icons/io";
 
 import { MdOutlineLocalShipping } from "react-icons/md";
-import {addToCart} from "../slices/cartSlice"
-import { toast } from "react-hot-toast"
+import { addToCart } from "../slices/cartSlice";
+import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWish , removeFromWish,fetchWishlist} from "../serivces/operations/product";
+import {
+  addToWish,
+  removeFromWish,
+  fetchWishlist,
+} from "../serivces/operations/product";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Error from "./Error";
 import SizeSelectionModal from "../components/core/AllProduct.jsx/SizeSelect";
+import ImageSlider from "../components/core/Product Details/ImageSlider";
 
 function ProductDetails() {
   const [product, setProduct] = useState(null);
@@ -28,65 +33,61 @@ function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [previewImg, setPreviewImg] = useState("");
   const { handleActive, activeClass } = useActive(0);
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [wishlistLoading, setWishlistLoading] = useState(false);
-const {wishlistProduct} = useSelector((state)=>state.wishlist)
-  
-const {  token } = useSelector((state) => state.auth);
-const { allProduct } = useSelector((state) => state.product);
+  const { wishlistProduct } = useSelector((state) => state.wishlist);
 
+  const { token } = useSelector((state) => state.auth);
+  const { allProduct } = useSelector((state) => state.product);
 
+  const [showModal, setShowModal] = useState(false);
 
-const [showModal, setShowModal] = useState(false);
+  // Function to handle showing/hiding the modal
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+  //
 
-// Function to handle showing/hiding the modal
-const toggleModal = () => {
-  setShowModal(!showModal);
-};
-//
+  // useEffect(()=>{
+  // console.log("Redux Wishlist",wishlistProduct)
+  // },[])
 
-// useEffect(()=>{
-// console.log("Redux Wishlist",wishlistProduct)
-// },[])
+  useEffect(() => {
+    const fetchWishlistData = async () => {
+      try {
+        const res = await fetchWishlist(token, dispatch);
+        console.log("hello");
 
-useEffect(() => {
-  const fetchWishlistData = async () => {
-    try {
-      const res = await fetchWishlist(token,dispatch);
-  console.log("hello")
+        // console.log(res.wishlist)
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
 
-      // console.log(res.wishlist)
-    } catch (error) {
-      console.error("Error fetching wishlist:", error);
+    if (token) {
+      fetchWishlistData();
     }
+  }, [token, removeFromWish, addToWish]);
+
+  const handleAddToWishlist = async (productId, token) => {
+    if (!token) {
+      Swal.fire({
+        title: "Please login to add to wishlist",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+    addToWish(productId, token, dispatch);
+    setWishlistLoading(true);
   };
 
- if(token){
-  fetchWishlistData();
- }
-}, [token,removeFromWish, addToWish]);
+  const handleRemoveFromWishlist = async (productId, token) => {
+    removeFromWish(productId, token, dispatch);
+    setWishlistLoading(true);
+  };
 
-const handleAddToWishlist = async (productId,token) => {
-  if (!token) {
-    Swal.fire({
-      title: "Please login to add to wishlist",
-      icon: "warning",
-      confirmButtonText: "OK",
-    });
-    return;
-  }
-  addToWish(productId,token,dispatch);
-  setWishlistLoading(true);
-};
-
-const handleRemoveFromWishlist = async (productId,token) => {
-removeFromWish(productId,token,dispatch);
-  setWishlistLoading(true);
-};
-
-
-  
   const handleSizeClick = (size) => {
     setSelectedSize(size === selectedSize ? null : size);
     setShowModal(false);
@@ -96,7 +97,6 @@ removeFromWish(productId,token,dispatch);
     handleActive(i);
   };
 
-
   // Calculating Avg Review count
   const [avgReviewCount, setAvgReviewCount] = useState(12);
   useEffect(() => {
@@ -104,16 +104,14 @@ removeFromWish(productId,token,dispatch);
     setAvgReviewCount(count);
   }, [product]);
 
-   // handling Add-to-cart
-   const handleAddItem = () => {
-
-        if(selectedSize === null){
-            // toast.error("please Select The Size")
-            toggleModal();
-            return;
-        }
-    dispatch(addToCart({products:product, quantity,size:selectedSize}));
-  
+  // handling Add-to-cart
+  const handleAddItem = () => {
+    if (selectedSize === null) {
+      // toast.error("please Select The Size")
+      toggleModal();
+      return;
+    }
+    dispatch(addToCart({ products: product, quantity, size: selectedSize }));
   };
 
   function increaseQuantityHandler() {
@@ -135,51 +133,40 @@ removeFromWish(productId,token,dispatch);
     // Calling fetchProductDetails fucntion to fetch the details
     const isProductAvailble = allProduct.find((item) => item._id === productID);
 
+    if (isProductAvailble) {
+      setProduct(isProductAvailble);
+      setPreviewImg(isProductAvailble?.images[0].url);
+      // console.log(isProductAvailble)
+    } else {
+      (async () => {
+        try {
+          setLoading(true);
+          const res = await fetchProductDetails(productID);
+          // console.log("Product details res: ", res);
 
-  if(isProductAvailble){
-
-    setProduct(isProductAvailble)
-    setPreviewImg(isProductAvailble?.images[0].url)
-  // console.log(isProductAvailble)
-  }
-  else{
-    (async () => {
-      try {
-        setLoading(true);
-        const res = await fetchProductDetails(productID);
-        // console.log("Product details res: ", res);
-     
-        if(res.data !== undefined){
-        setProduct(res?.data?.productDetails);
-        console.log(res?.data?.productDetails?.images[0].url);
-        setPreviewImg(res?.data?.productDetails?.images[0].url);
-       } 
-       setLoading(false);
-     
-      } catch (error) {
-       
-        console.log("Could not fetch Course Details");
-        setLoading(false);
-      }
-    })();
-  }
+          if (res.data !== undefined) {
+            setProduct(res?.data?.productDetails);
+            console.log(res?.data?.productDetails?.images[0].url);
+            setPreviewImg(res?.data?.productDetails?.images[0].url);
+          }
+          setLoading(false);
+        } catch (error) {
+          console.log("Could not fetch Course Details");
+          setLoading(false);
+        }
+      })();
+    }
   }, [productID]);
-
-
-
 
   if (loading || !product) {
     return (
       <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
         <div className="spinner"></div>
-
-
       </div>
-      
     );
   }
 
-      // calculating Prices
+  // calculating Prices
 
   const discountedPrice = product?.highPrice - product?.price;
   const newPrice = product ? displayMoney(product.price) : 0;
@@ -187,46 +174,40 @@ removeFromWish(productId,token,dispatch);
   const savedPrice = displayMoney(discountedPrice);
   const savedDiscount = calculateDiscount(discountedPrice, product?.price);
 
-  const isProductInWishlist = wishlistProduct.some((item) => item._id === product._id);
+  const isProductInWishlist = wishlistProduct.some(
+    (item) => item._id === product._id
+  );
 
-  
+  const WishlistButton = () => {
+    if (isProductInWishlist) {
+      handleRemoveFromWishlist(product._id, token);
+    } else {
+      handleAddToWishlist(product._id, token);
+    }
+  };
 
   return (
-    <div className="prodcutDetialsContainer min-w-screen mb-[200px]">
-      <section className="section" id="product_details">
-        <div className="product_container">
-          <div className="wrapper prod_details_wrapper">
+    <div className="prodcutDetialsContainer min-w-screen mb-[200px] ">
+      <section className="w-screen " id="product_details">
+        <div className="">
+          <div className="wrapper prod_details_wrapper lg:w-11/12 mx-auto">
             {/*=== Product Details Left-content ===*/}
-            <div className="prod_details_left_col">
-              <div className="prod_details_tabs">
-                {product.images &&
-                  product.images.map((img, i) => (
-                    <div
-                      key={i}
-                      className={`tabs_item ${activeClass(i)}`}
-                      onClick={() => handlePreviewImg(product.images, i)}
-                    >
-                      <img src={img.url} alt="product-img" />
-                    </div>
-                  ))}
-              </div>
-              <figure className="prod_details_img">
-                <img src={previewImg} alt="product-img" />
-              </figure>
-</div>
-              {/*=== Product Details Right-content ===*/}
-              <div className="prod_details_right_col_001">
-
-              <div className="flex justify-between">
-            <div>
-            <h1 className="prod_details_title">{product.title}</h1>
-                <h4 className="prod_details_info">
-                  {product.description && product.description}
-                </h4>
+            <div className="lg:w-[50%] md:w-[50%] w-screen">
+              <ImageSlider slides={product?.images} />
             </div>
+            {/*=== Product Details Right-content ===*/}
+            <div className="prod_details_right_col_001">
+              <div className="flex justify-between">
+                <div className=" space-y-3">
+                  <h1 className=" uppercase text-xl min-w-full">
+                    {product.title}
+                  </h1>
+                  <h4 className="prod_details_info">
+                    {product.description && product.description}
+                  </h4>
+                </div>
 
-
-            <div>
+                {/* <div>
   {isProductInWishlist ? (
     <div className="flex items-center">
       <FaHeart
@@ -254,121 +235,110 @@ removeFromWish(productId,token,dispatch);
       </span>
     </div>
   )}
-</div>
-
-
-
+</div> */}
               </div>
 
-                {/* <div className="text-sm flex flex-wrap items-center gap-2 prod_details_ratings">
+              {/* <div className="text-sm flex flex-wrap items-center gap-2 prod_details_ratings">
                   <span className="text-yellow-25">{avgReviewCount}</span>
                   <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
                   <span>{`(${ratingAndReviews.length} reviews)`}</span>
                 </div> */}
 
-                <div className="prod_details_price">
-                  <div className="price_box">
-                    <h2 className="price">
-                      {newPrice} &nbsp;
-                      <small className="del_price">
-                        <del>{oldPrice}</del>
-                      </small>
-                    </h2>
-                    <p className="saved_price">
-                      You save: {savedPrice} ({savedDiscount}%)
-                    </p>
-                    <span className="tax_txt">(Inclusive of all taxes)</span>
-                  </div>
-
-                  <div className=" ">
-                    {product.quantity >= 1 ? (
-                      <span className="instock">
-                        <MdOutlineDone /> In Stock
-                      </span>
-                    ) : (
-                      <span className="outofstock">
-                        <IoClose />
-                        Out of stock
-                      </span>
-                    )}
-                  </div>
+              <div className="prod_details_price">
+                <div className="price_box">
+                  <h2 className="price">
+                    {newPrice} &nbsp;
+                    <small className="del_price">
+                      <del>{oldPrice}</del>
+                    </small>
+                  </h2>
+                  <p className="saved_price">
+                    You save: {savedPrice} ({savedDiscount}%)
+                  </p>
+                  <span className="tax_txt">(Inclusive of all taxes)</span>
                 </div>
-                <div className="seprator2"></div>
 
-                <div className="productDescription">
-                  {/* <div className="productDiscriptiopn_text">
+                <div className="flex  ">
+                  {product.quantity >= 1 ? (
+                    <span className="instock flex items-center">
+                      <MdOutlineDone /> In Stock
+                    </span>
+                  ) : (
+                    <span className="outofstock">
+                      <IoClose />
+                      Out of stock
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="seprator2"></div>
+
+              <div className="productDescription">
+                {/* <div className="productDiscriptiopn_text">
                     <h4>Descripition :</h4>
                     <p>{product.description}</p>
                   </div> */}
+                <div>
                   <div>
+                    <h2>Select Size:</h2>
                     <div>
-                      <h2>Select Size:</h2>
-                      <div>
-                        {product.sizes?.map((size) => (
-                          <Button
-                            key={size}
-                            variant={
-                              size === selectedSize ? "contained" : "outlined"
-                            }
-                            color="primary"
-                            onClick={() => handleSizeClick(size)}
-                            style={{ margin: "5px" }}
-                          >
-                            {size}
-                          </Button>
-                        ))}
-                      </div>
+                      {product.sizes?.map((size) => (
+                        <Button
+                          key={size}
+                          variant={
+                            size === selectedSize ? "contained" : "outlined"
+                          }
+                          color="primary"
+                          onClick={() => handleSizeClick(size)}
+                          style={{ margin: "5px" }}
+                        >
+                          {size}
+                        </Button>
+                      ))}
                     </div>
-                  </div>
-                  <div className="deliveryText">
-                    <MdOutlineLocalShipping />
-                    We deliver! Just say when and how.
                   </div>
                 </div>
-                <div className="seprator2"></div>
+                <div className="deliveryText">
+                  <MdOutlineLocalShipping />
+                  We deliver! Just say when and how.
+                </div>
+              </div>
+              <div className="seprator2"></div>
 
+              <div className="prod_details_additem mt-2">
+                <h5>QTY :</h5>
+                <div className="additem">
+                  <button
+                    onClick={deceraseQuantityHandler}
+                    className="additem_decrease"
+                  >
+                    <IoIosRemove />
+                  </button>
+                  <input
+                    readOnly
+                    type="number"
+                    value={quantity}
+                    className="input"
+                  />
+                  <button
+                    onClick={increaseQuantityHandler}
+                    className="additem_increase"
+                  >
+                    <IoIosAdd />
+                  </button>
+                </div>
 
-                <div className="prod_details_additem mt-2">
-                      <h5>QTY :</h5>
-                      <div className="additem">
-                        <button
-                          onClick={deceraseQuantityHandler}
-                          className="additem_decrease"
-                        >
-                          <IoIosRemove  />
-                        </button>
-                        <input
-                          readOnly
-                          type="number"
-                          value={quantity}
-                          className="input"
-                        />
-                        <button
-                          onClick={increaseQuantityHandler}
-                          className="additem_increase"
-                        >
-                          <IoIosAdd  />
-                        </button>
-                      </div>
-
-                      <Button
-                        variant="contained"
-                        className="prod_details_addtocart_btn"
-                        onClick={handleAddItem}
-                        disabled={product.stock <= 0 }
-                      >
-                        Add to cart 
-                      </Button>
-
-                      
-                    </div>
-
+                <Button
+                  variant="contained"
+                  className="prod_details_addtocart_btn"
+                >
+                  Add to cart
+                </Button>
               </div>
             </div>
           </div>
-       
+        </div>
       </section>
-
 
       {showModal && (
         <SizeSelectionModal
@@ -377,6 +347,40 @@ removeFromWish(productId,token,dispatch);
           onClose={toggleModal}
         />
       )}
+
+      {/* for Mobile  */}
+      <div className="fixed bottom-0 z-40 h-[50px] invisible">
+        <div style={{ zIndex: 100 }} className="bg-white w-full">
+          {/*  */}
+
+          <div className="w-[100vw] border-2 p-2  z-50  lg:hidden sm:hidden md:hidden flex justify-between  items-center">
+            {/* isProductInWishlist */}
+            <div className=" w-11/12 mx-auto flex justify-between items-center">
+              {/* //Wishlist/ */}
+              <div>
+                <FaHeart
+                  className={` text-[27px] ${
+                    isProductInWishlist ? "text-red-600" : "text-gray-900"
+                  }  `}
+                  onClick={WishlistButton}
+                />
+              </div>
+
+              {/* Add To Cart */}
+
+              <div>
+                <button
+                  className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
+                  onClick={handleAddItem}
+                  disabled={product.stock <= 0}
+                >
+                  Add To Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
