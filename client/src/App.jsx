@@ -8,7 +8,7 @@ import Header from "./components/common/Header";
 import CartMain from "./pages/CartMain";
 import ProductDetails from "./pages/ProductDetails";
 import { useDispatch, useSelector } from "react-redux";
-import Footer from "./components/common/Footer/Footer";
+
 //network 
 import { fetchMyProfile } from "./serivces/operations/user";
 // Routes
@@ -28,20 +28,22 @@ import { fetchWishlist } from "./serivces/operations/product";
 import Wishlist from "./pages/Wishlist";
 import ShirtViewer from "./pages/Test";
 import ComputersCanvas from "./components/Test/Computers";
+import TrackOrder from "./pages/TrackOrder";
+import Credit from "./pages/Credit";
+import Refer from "./pages/Refer";
+import Order from "./pages/Order";
 function App() {
   const dispatch = useDispatch();
-  const { checkout} = useSelector((state) => state.payment);
-  const {  token } = useSelector((state) => state.auth);
+  const { checkout } = useSelector((state) => state.payment);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getAllProduct());
 
-    if(token){
-      fetchWishlist(token,dispatch);
-    dispatch(fetchMyProfile(token));
-
+    if (token) {
+      fetchWishlist(token, dispatch);
+      dispatch(fetchMyProfile(token));
     }
-
   }, [token]);
 
   return (
@@ -58,7 +60,7 @@ function App() {
         <Route path="/allProduct" element={<AllProduct />} />
         <Route path="/allProduct/:query" element={<AllProduct />} />
         <Route path="product/:productID" element={<ProductDetails />} />
-      
+
         <Route
           path="login"
           element={
@@ -85,6 +87,30 @@ function App() {
           }
         />
         <Route
+          path="trackorder"
+          element={
+            <PrivateRoute>
+              <TrackOrder />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="wallet"
+          element={
+            <PrivateRoute>
+              <Credit />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="refer"
+          element={
+            <PrivateRoute>
+              <Refer />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="wishlist"
           element={
             <PrivateRoute>
@@ -92,19 +118,26 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="order"
+          element={
+            <PrivateRoute>
+              <Order />
+            </PrivateRoute>
+          }
+        />
       </Routes>
-
-
-
 
       {checkout && (
         <PrivateRoute>
-          <Modal show={checkout} handleClose={()=> dispatch(setCheckout(false))}>
+          <Modal
+            show={checkout}
+            handleClose={() => dispatch(setCheckout(false))}
+          >
             <CheckoutForm />
           </Modal>
-</PrivateRoute>
-        )}
-
+        </PrivateRoute>
+      )}
 
       {/* <div className="fixed bottom-0 z-40">
         <MobileMenu />

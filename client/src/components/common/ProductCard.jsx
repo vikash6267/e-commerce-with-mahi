@@ -6,31 +6,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import AOS from "aos";
-import 'aos/dist/aos.css'
+import "aos/dist/aos.css";
 
 function ProductCard({ products }) {
+  useEffect(() => {
+    AOS.init({ duraction: 2000, once: true });
+  }, []);
+  const { _id, title, description, price, highPrice, sizes, images } = products;
+  const truncatedDescription =
+    description.length > 25
+      ? description.substring(0, 25) + "..."
+      : description;
 
-  useEffect(()=>{
-    AOS.init({duraction:2000,once: true})
-  },[])
-  const {
-    _id,
-    title,
-    description,
-    price,
-    highPrice,
-    sizes,
-    images,
-    } = products;
-    const truncatedDescription = description.length > 25 ? description.substring(0, 25) + "..." : description;
+  const { cart } = useSelector((state) => state.cart);
 
-    const {cart} = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const handleAddToCart = (products) => {
+    dispatch(addToCart({ products }));
+  };
 
-    const dispatch = useDispatch();
-    const handleAddToCart = (products) => {
-      dispatch(addToCart({products}));
-    };
- 
   const newPrice = displayMoney(price);
   const oldPrice = displayMoney(highPrice);
   return (
@@ -57,7 +51,6 @@ function ProductCard({ products }) {
         </Link>
       </figure>
 
-      
       <div className=" -mt-3">
         {/* <span className="rating_star">
           {[...Array(totalrating)].map((_, i) => (
@@ -66,13 +59,15 @@ function ProductCard({ products }) {
         
         </span> */}
         <h3 className="products_title">
-          <Link to={`/product/${_id}`} className=" text-gray-700 lg:text-xl text-[12px] ">{title}</Link>
+          <Link
+            to={`/product/${_id}`}
+            className=" text-gray-700 lg:text-[13px] text-[12px] "
+          >
+            {title}
+          </Link>
         </h3>
         {/* <h5 className="products_info text-base w-full">{truncatedDescription}</h5> */}
 
-
-
-       
         {/* <div className=" ">
         
           <ul className="flex  gap-3 mt-3 font-bold text-sm">
@@ -82,12 +77,10 @@ function ProductCard({ products }) {
           </ul>
         </div> */}
         {/* <div className="w-0 bg-white  transition-all origin-left"></div> */}
-      
-
 
         {/* <div className="my-4 border-t border-gray-600"></div> */}
 
-        <h2 className="  flex text-[12px] lg:text-xl -mt-5 lg:mt-0  sm:text-xl md:text-xl xs:text-sm justify-between">
+        <h2 className="  flex text-[12px] lg:text-[13px] -mt-5 lg:-mt-2  sm:text-xl md:text-xl xs:text-sm justify-between">
           {newPrice} &nbsp;
           <small>
             <del className=" text-red-600">{oldPrice}</del>
@@ -112,9 +105,6 @@ function ProductCard({ products }) {
     </button>
   )}
 </div> */}
-
-
-
       </div>
     </div>
   );
