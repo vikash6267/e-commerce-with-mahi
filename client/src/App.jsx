@@ -8,7 +8,7 @@ import Header from "./components/common/Header";
 import CartMain from "./pages/CartMain";
 import ProductDetails from "./pages/ProductDetails";
 import { useDispatch, useSelector } from "react-redux";
-
+import Footer from "./components/common/Footer/Footer";
 //network 
 import { fetchMyProfile } from "./serivces/operations/user";
 // Routes
@@ -109,6 +109,7 @@ function App() {
       {/* <div className="fixed bottom-0 z-40">
         <MobileMenu />
       </div> */}
+      <Footer />
     </div>
   );
 }

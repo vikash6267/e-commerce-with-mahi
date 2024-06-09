@@ -11,22 +11,22 @@ body {
 /* ===== Scrollbar CSS ===== */
 /* Firefox */
 * {
-  scrollbar-width: auto;
-  scrollbar-color: #afb2bf;
+  scrollbar-width: 5px;
+  scrollbar-color: #2b06ff;
   
 }
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 3px;
+  width: 5px;
 }
 
 *::-webkit-scrollbar-track {
-  background: #000814;
+  background: #131313;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #afb2bf;
+  background-color: #ff0000;
   border-radius: 10px;
   visibility: hidden;
 }
@@ -280,46 +280,19 @@ height: 100%;
   position: relative;
   background-color: white;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-size: 1rem;
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.1);
+  font-size: 10px;
 }
 
-.input-container:before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border-radius: 0.5rem;
-  background: linear-gradient(90deg, #1abc9c, #3498db, #9b59b6); /* Updated gradient colors */
-  z-index: 0;
-  background-size: 300%;
-  animation: gradient 5s ease infinite;
-}
 
-.input-container:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 1px dashed transparent;
-  border-image: linear-gradient(90deg, #1abc9c, #3498db, #9b59b6) 1; /* Updated border image colors */
-  border-radius: 0.5rem;
-  z-index: 1;
-  animation: dash 5s linear infinite;
-  pointer-events: none;
-}
 
 .button {
   background: linear-gradient(90deg, #fd5d93, #c331d4); /* Updated gradient colors */
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 1px 8px 1px 8px;
   border: none;
   border-radius: 0.5rem;
-  font-weight: bold;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -390,4 +363,9 @@ top: 0;
   100% {
     transform: translateX(20px);
   }
+}
+
+
+.billing{
+  font-size: 13px !important;
 }
