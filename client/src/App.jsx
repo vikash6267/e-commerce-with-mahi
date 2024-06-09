@@ -32,6 +32,7 @@ import TrackOrder from "./pages/TrackOrder";
 import Credit from "./pages/Credit";
 import Refer from "./pages/Refer";
 import Order from "./pages/Order";
+import Footer from "./components/common/Footer/Footer"
 function App() {
   const dispatch = useDispatch();
   const { checkout } = useSelector((state) => state.payment);
