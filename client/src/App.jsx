@@ -24,9 +24,10 @@ import CheckoutForm from "./components/core/Cart/CheckoutForm";
 import { setCheckout } from "./slices/paymentSlice";
 import Modal from "./components/core/Cart/Modal";
 import { fetchWishlist } from "./serivces/operations/product";
-import SummaryDetails from "./pages/Test";
-import Wishlist from "./pages/Wishlist";
 
+import Wishlist from "./pages/Wishlist";
+import ShirtViewer from "./pages/Test";
+import ComputersCanvas from "./components/Test/Computers";
 function App() {
   const dispatch = useDispatch();
   const { checkout} = useSelector((state) => state.payment);
@@ -44,18 +45,20 @@ function App() {
   }, [token]);
 
   return (
-    <div className="min-w-screen min-h-screen flex flex-col">
+    <div className="min-w-screen min-h-screen flex flex-col font-montserrat">
       <Header />
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/hello" element={<ComputersCanvas />} />
 
-        <Route path="/test" element={<SummaryDetails />} />
+        <Route path="/test" element={<ShirtViewer />} />
 
         <Route path="/cart" element={<CartMain />} />
         <Route path="/allProduct" element={<AllProduct />} />
+        <Route path="/allProduct/:query" element={<AllProduct />} />
         <Route path="product/:productID" element={<ProductDetails />} />
-        <Route path="test" element={<Signup email={"hdsffjhgfdsj"} />} />
+      
         <Route
           path="login"
           element={
@@ -103,9 +106,9 @@ function App() {
         )}
 
 
-      <div className="fixed bottom-0 z-40">
+      {/* <div className="fixed bottom-0 z-40">
         <MobileMenu />
-      </div>
+      </div> */}
     </div>
   );
 }

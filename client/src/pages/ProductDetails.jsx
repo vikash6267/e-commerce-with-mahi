@@ -34,6 +34,7 @@ function ProductDetails() {
 const {wishlistProduct} = useSelector((state)=>state.wishlist)
   
 const {  token } = useSelector((state) => state.auth);
+const { allProduct } = useSelector((state) => state.product);
 
 
 
@@ -88,7 +89,7 @@ removeFromWish(productId,token,dispatch);
   
   const handleSizeClick = (size) => {
     setSelectedSize(size === selectedSize ? null : size);
-    toggleModal();
+    setShowModal(false);
   };
   const handlePreviewImg = (images, i) => {
     setPreviewImg(images[i].url);
@@ -132,6 +133,16 @@ removeFromWish(productId,token,dispatch);
 
   useEffect(() => {
     // Calling fetchProductDetails fucntion to fetch the details
+    const isProductAvailble = allProduct.find((item) => item._id === productID);
+
+
+  if(isProductAvailble){
+
+    setProduct(isProductAvailble)
+    setPreviewImg(isProductAvailble?.images[0].url)
+  // console.log(isProductAvailble)
+  }
+  else{
     (async () => {
       try {
         setLoading(true);
@@ -151,6 +162,7 @@ removeFromWish(productId,token,dispatch);
         setLoading(false);
       }
     })();
+  }
   }, [productID]);
 
 
@@ -177,6 +189,7 @@ removeFromWish(productId,token,dispatch);
 
   const isProductInWishlist = wishlistProduct.some((item) => item._id === product._id);
 
+  
 
   return (
     <div className="prodcutDetialsContainer min-w-screen mb-[200px]">

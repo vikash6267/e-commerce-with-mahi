@@ -24,17 +24,19 @@ function Header() {
   return (
   <div className="  ">
       <div className="border-b-2 fixed w-full z-50 bg-white">
-      <div className="w-11/12 mx-auto flex h-[60px] items-center justify-between">
-        <div className="flex gap-4 items-center ">
+      <div className="w-11/12 mx-auto flex h-[60px] items-center justify-between relative">
+        <div className="flex  items-center ">
           <RxHamburgerMenu className="text-2xl cursor-pointer" onClick={()=> dispatch(handleIsMenuOpen())} />
           <Navbar isOpen={isMenuOpen} setIsOpen={handleIsMenuOpen} />
 
-          <Link to="/"><div className="text-2xl font-bold tracking-wider ">ABSENCE</div></Link>
         </div>
+<div className=" ">
+<Link to="/"><div className="text-xl font-bold tracking-wider text-center ">ABSENCE</div></Link>
 
+</div>
         <div className="flex">
-          <SearchBar />
-          <div className="min-h-[80%] bg-slate-800 min-w-[1px] mx-3"></div>
+          {/* <SearchBar /> */}
+          {/* <div className="min-h-[80%] bg-slate-800 min-w-[1px] mx-3"></div> */}
           <div className="flex items-center gap-3">
             {token ? (
               <Link to="/profile" className="mobile">
@@ -63,13 +65,15 @@ function Header() {
            
              
            <div className="text-lg ">
-           <GrShop className="text-lg relative" />
+           {/* <GrShop className="text-lg " /> */}
+           <img src="https://cdn.shopify.com/s/files/1/0566/7192/8425/files/BO_GIF.gif?v=1704694751" alt="" className="" width={60} />
 
-                {totalItems > -1 && (
-                  <p className="absolute top-8 right-[3.3rem] z-20 rounded-full text-sm bg-yellow-300 ">
+
+                {/* {totalItems > -1 && (
+                  <p className="absolute top-1  z-20 rounded-full text-sm  ">
                     {totalItems}
                   </p>
-                )}
+                )} */}
               </div>
             </div>
 

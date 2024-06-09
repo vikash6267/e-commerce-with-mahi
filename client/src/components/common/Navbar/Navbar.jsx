@@ -7,6 +7,7 @@ import { FaSun, FaCloudSun, FaMoon } from 'react-icons/fa';
 import { useSelector } from "react-redux";
 import { NavbarLinks } from "../../../constant/menubar";
 import { Link } from "react-router-dom";
+import { FaAngleDoubleDown } from "react-icons/fa";
 
 function getGreeting() {
   const currentHour = new Date().getHours();
@@ -59,17 +60,38 @@ function Navbar({ isOpen, setIsOpen }) {
             transition={{ type: "tween", duration: 0.3 }}
           >
             <div className="w-11/12 mx-auto mt-6">
-              <div className="flex flex-col items-center text-2xl">
+              <div className="flex flex-col  text-lg gap-1 items-center">
+
+              <div>
+              <div className=" flex justify-center">
+                  <img src={user?.image} alt="" width={50} className=" rounded-full" />
+                </div>
+
                 <div className="flex items-center">
                   <div className="mr-2">{icon}</div>
-                  <div className="flex flex-col gap-3">{greeting}</div>
-                </div>
-                <div>
-                  {user && <p>{user.name}</p>}
+                  <div className="flex flex-col gap-3 ">{greeting}</div>
                 </div>
               </div>
-              <div className="flex justify-center-center w-full mt-14">
-                <ul className="flex flex-col items-center justify-center gap-4">
+              
+                <div className=" flex flex-col gap-1" >
+                
+               <div className=" flex  gap-1">
+              
+                  {user && <p>{user.name}</p>}
+               </div>
+
+     
+
+                </div>
+              </div>
+              <div className="flex  w-full mt-14 flex-col">
+              {
+                user ? (<Link to="profile"  onClick={()=> dispatch(setIsOpen(false))} className=" -ml-3 mb-4 font-semibold flex items-center gap-2  "> My Profile   <FaAngleDoubleDown className=" -rotate-45 text-blue-500" /></Link>) : (
+                  <Link to="/login" onClick={()=> dispatch(setIsOpen(false))} > Login</Link>
+                )
+
+              }
+                <ul className="flex flex-col  justify-center gap-4">
                   {NavbarLinks.map((link, index) => (
                     <Link key={index} to={link.path} className="transition-colors duration-300 hover:text-blue-600" onClick={()=>dispatch(setIsOpen(false))}>
                       <p>{link.title}</p>

@@ -253,6 +253,27 @@ console.log(payable)
       totalPrice: payable, // Update with actual total price
     });
 
+
+
+    for (const item of products) {
+      const product = await Product.findById(item.product._id);
+      if (!product) {
+        throw new Error(`Product with ID ${item.product._id} not found`);
+      }
+
+      product.sold += item.quantity;
+      product.quantity -= item.quantity;
+
+      if (product.quantity < 0) {
+        throw new Error(`Not enough stock for product with ID ${item.product._id}`);
+      }
+
+      await product.save();
+    }
+
+
+
+
     const orders = await Order.find({ user: userId }).exec();
     
     if (orders.length === 1 && userDetails.referralBy !== null) {

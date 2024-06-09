@@ -26,8 +26,8 @@ function VerifyOtp({ sendOtp, email }) {
       {...props}
       placeholder="-"
       style={{
-        width: '48px',
-        height: '48px',
+        width: '40px',
+        height: '40px',
         borderRadius: '8px',
         margin: '0 6px',
         border: '2px solid #C4C4C4',
@@ -43,13 +43,13 @@ function VerifyOtp({ sendOtp, email }) {
   return (
     <div>
       {userPresent ? (
-        <div className="min-h-[calc(100vh-3.5rem)] grid place-items-center">
+        <div className="min-h-[calc(100vh-3.5rem)] grid place-items-center ">
           {loading ? (
             <div>
               <div className="spinner"></div>
             </div>
           ) : (
-            <div className="max-w-[500px] p-4 lg:p-8">
+            <div className="max-w-[500px]  p-4 lg:p-8">
               <h1 className="text-gray-900 font-semibold text-2xl lg:text-3xl">
                 Verify Email
               </h1>
@@ -57,17 +57,25 @@ function VerifyOtp({ sendOtp, email }) {
                 A verification code has been sent to you. Enter the code below
               </p>
               <form onSubmit={handleVerify}>
-                <OtpInput
-                  value={otp}
-                  onChange={setOtp}
-                  className="text-center"
-                  numInputs={6}
-                  renderInput={renderInput}
-                  containerStyle={{
-                    justifyContent: 'space-between',
-                    gap: '0 6px',
+              <OtpInput
+              value={otp}
+              onChange={setOtp}
+              numInputs={6}
+              renderInput={(props) => (
+                <input
+                  {...props}
+                  placeholder="-"
+                  style={{
+                    boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
                   }}
+                  className="w-[48px] lg:w-[60px] border-0 bg-gray-300 rounded-[0.5rem] text-richblack-5 aspect-square text-center focus:border-0 focus:outline-2 focus:outline-yellow-50"
                 />
+              )}
+              containerStyle={{
+                justifyContent: "space-between",
+                gap: "0 6px",
+              }}
+            />
                 <button
                   type="submit"
                   className="w-full bg-yellow-500 py-3 px-4 mt-6 rounded-md text-gray-900 font-semibold transition duration-300 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"

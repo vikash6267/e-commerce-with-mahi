@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { displayMoney } from "../../helper/utills";
 import "./ProductCard.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
+import AOS from "aos";
+import 'aos/dist/aos.css'
 
 function ProductCard({ products }) {
+
+  useEffect(()=>{
+    AOS.init({duraction:2000,once: true})
+  },[])
   const {
     _id,
     title,
@@ -28,8 +34,8 @@ function ProductCard({ products }) {
   const newPrice = displayMoney(price);
   const oldPrice = displayMoney(highPrice);
   return (
-    <div className="card products_card font-montserrat  ">
-      <figure className="products_img ">
+    <div className=" font-montserrat flex flex-col gap-0  " data-aos="zoom-in">
+      <figure className=" ">
         <Link
           to={`/product/${_id}`}
           className="flex  justify-center items-center"
@@ -52,7 +58,7 @@ function ProductCard({ products }) {
       </figure>
 
       
-      <div className="products_details">
+      <div className=" -mt-3">
         {/* <span className="rating_star">
           {[...Array(totalrating)].map((_, i) => (
             <IoMdStar key={i} />
@@ -60,35 +66,35 @@ function ProductCard({ products }) {
         
         </span> */}
         <h3 className="products_title">
-          <Link to={`/product/${_id}`} className=" font-bold text-xl">{title}</Link>
+          <Link to={`/product/${_id}`} className=" text-gray-700 lg:text-xl text-[12px] ">{title}</Link>
         </h3>
-        <h5 className="products_info text-base w-full">{truncatedDescription}</h5>
+        {/* <h5 className="products_info text-base w-full">{truncatedDescription}</h5> */}
 
 
 
        
-        <div className=" ">
+        {/* <div className=" ">
         
           <ul className="flex  gap-3 mt-3 font-bold text-sm">
             {sizes.map((size, index) => (
               <li key={index}>{size}</li>
             ))}
           </ul>
-        </div>
-        <div className="w-0 bg-white  transition-all origin-left"></div>
+        </div> */}
+        {/* <div className="w-0 bg-white  transition-all origin-left"></div> */}
       
 
 
-        <div className="my-4 border-t border-gray-600"></div>
+        {/* <div className="my-4 border-t border-gray-600"></div> */}
 
-        <h2 className=" font-bold flex text-base lg:text-xl  sm:text-xl md:text-xl xs:text-sm justify-between">
+        <h2 className="  flex text-[12px] lg:text-xl -mt-5 lg:mt-0  sm:text-xl md:text-xl xs:text-sm justify-between">
           {newPrice} &nbsp;
           <small>
             <del className=" text-red-600">{oldPrice}</del>
           </small>
         </h2>
 
-        <div className="mt-4 flex justify-center w-full text-base lg:text-xl  sm:text-xl md:text-xl xs:text-sm">
+        {/* <div className="mt-4 flex justify-center w-full text-base lg:text-xl  sm:text-xl md:text-xl xs:text-sm">
   {cart.some((item) => item.product._id === _id) ? (
     <Link
       to="/cart"
@@ -105,8 +111,7 @@ function ProductCard({ products }) {
       <MdOutlineShoppingCartCheckout className="text-xl" />
     </button>
   )}
-  {/* Heart icon button for favorite */}
-</div>
+</div> */}
 
 
 

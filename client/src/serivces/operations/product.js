@@ -67,6 +67,7 @@ export const fetchProductDetails = async (productID) => {
 // WISHLIST 
 
 export const addToWish = async (productId,token,dispatch) =>{
+  const toastId = toast.loading("Adding Wishlist...")
    
 let result = null
   try {
@@ -86,13 +87,15 @@ let result = null
     console.log("WISHLIST API ERROR............", error)
     toast.error(error.response.data.message);
   }
+  toast.dismiss(toastId)
    
   return result
+
 }
 
 
 export const removeFromWish = async (productId,token,dispatch) =>{
-   
+   const toastId = toast.loading("Removing Wishlist...")
 
   try {
     const response = await apiConnector("DELETE", REMOVE_TO_WISHLIST, {
@@ -109,7 +112,7 @@ export const removeFromWish = async (productId,token,dispatch) =>{
     console.log("WISHLIST API ERROR............", error)
     toast.error(error.response?.data?.message);
   }
-   
+   toast.dismiss(toastId)
 
 }
 
@@ -126,8 +129,8 @@ export const fetchWishlist = async (token,dispatch) => {
     } )
     // console.log("GET_WISHLIST_DETAILS API RESPONSE............", response)
 
-    if (!response.data.success) {
-      throw new Error(response.data.message)
+    if (!response?.data?.success) {
+      throw new Error(response?.data?.message)
     }
     result = response?.data
 
@@ -135,8 +138,8 @@ export const fetchWishlist = async (token,dispatch) => {
     dispatch(allWishlist(response?.data?.wishlist))
   } catch (error) {
     console.log("GET_WISHLIST_DETAILS API ERROR............", error)
-    result = error.response.data
-    toast.error(error.response.data.message);
+    result = error?.response?.data
+    toast.error(error?.response?.data?.message);
   }
    
   //   dispatch(setLoading(false));
