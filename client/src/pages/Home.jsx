@@ -5,14 +5,14 @@ import { IoShirtSharp } from "react-icons/io5";
 import { FaGrinHearts } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import TestSlide from "../components/core/Home/TestSlide";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ThreeScene from "./Test";
 function Home() {
   const [products, setProduct] = useState([]);
   const { allProduct } = useSelector((state) => state.product);
 
-   // const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   // const fetchSubLinks = async () => {
   //   (async () => {
   //     const res = await (getAllProduct());
@@ -33,11 +33,9 @@ function Home() {
         {/* <MetaData title="Absence" /> */}
 
         <div className=" w-screen mt-[64px] lg:h-[calc(100vh - 60px)] z-0">
-
-        <div >
-      <ThreeScene />
-   
-    </div>
+          <div>
+            <ThreeScene />
+          </div>
 
           {/* <div className="   flex text-center w-[80%] mx-auto  gap-3 font-montserrat  text-2xl text-black justify-center">
            <Link to={"/allProduct/Male"} className=" p-[10px] bg-gray-700 text-white rounded-3xl  ">Men </Link>
@@ -56,13 +54,40 @@ function Home() {
             </h2> */}
             {products && <TestSlide products={products} />}
 
-            <Link to="/allProduct" className=" p-2 hover:bg-gray-100  flex gap-2 items-center w-full justify-center">
-              <div to="/allProduct" className=" text-[15px] border p-[1px] px-5 ">
-               Discover More
+            <Link
+              to="/allProduct"
+              className=" p-2 hover:bg-gray-100  flex gap-2 items-center w-full justify-center"
+            >
+              <div
+                to="/allProduct"
+                className=" text-[15px] border p-[1px] px-5 "
+              >
+                Discover More
               </div>
 
               {/* <IoShirtSharp className=" text-blue-600" /> */}
             </Link>
+          </div>
+
+          <div class="relative h-28 bg-gray-100 flex items-center justify-center">
+            <div class="absolute top-1/2 left-0 w-full transform rotate-3">
+              <marquee
+                class="bg-green-500 text-white text-xl font-bold"
+                direction="left"
+                loop=""
+              >
+                10% off for today
+              </marquee>
+            </div>
+            <div class="absolute top-1/2 left-0 w-full transform -rotate-3">
+              <marquee
+                class="bg-green-500 text-white text-xl font-bold"
+                direction="right"
+                loop=""
+              >
+                10% off for today
+              </marquee>
+            </div>
           </div>
 
           <div className=" text-black z-0 mt-3 font-montserrat text-xl mb-24 ">
@@ -71,20 +96,15 @@ function Home() {
                 textAlign: "center",
                 fontWeight: "800",
               }}
-            >
-             
-            </h2>
+            ></h2>
 
             <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2">
               {products &&
                 products.map((product) => (
-                  <ProductCard key={product._id} products={product}  />
+                  <ProductCard key={product._id} products={product} />
                 ))}
             </div>
           </div>
-
-
-     
         </div>
       </div>
     </div>
