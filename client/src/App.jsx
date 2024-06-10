@@ -135,7 +135,7 @@ function App() {
             show={checkout}
             handleClose={() => dispatch(setCheckout(false))}
           >
-            <CheckoutForm />
+            <CheckoutForm  handleClose={() => dispatch(setCheckout(false))} />
           </Modal>
         </PrivateRoute>
       )}

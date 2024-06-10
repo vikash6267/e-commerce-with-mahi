@@ -10,7 +10,7 @@ export default function ImageSlider({ slides }) {
   };
 
   return (
-    <div className="lg:h-[60%] mt-[60px] w-full flex gap-10">
+    <div className="lg:h-[60%]  mt-[60px] w-full flex gap-10">
       {/* Thumbnails */}
       <div className="flex flex-col w-24 overflow-y-auto mobile">
         {slides.map((slide, index) => (

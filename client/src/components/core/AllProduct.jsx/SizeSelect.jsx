@@ -1,6 +1,6 @@
 import React from "react";
 
-const SizeSelectionModal = ({ sizes, onSelectSize, onClose }) => {
+const SizeSelectionModal = ({ sizes, onSelectSize, onClose,handleAddItem , stock}) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg min-w-[300px]">
@@ -27,14 +27,25 @@ const SizeSelectionModal = ({ sizes, onSelectSize, onClose }) => {
           {sizes.map((size) => (
             <button
               key={size}
-              onClick={() => onSelectSize(size)}
+              onClick={() => {onSelectSize(size) ; onClose()}}
               className="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
             >
               {size}
             </button>
           ))}
         </div>
+        {/* <button
+                  variant="contained"
+                  className="p-2  rounded-xl text-black mt-6 border-black border"
+                  onClick={handleAddItem}
+                  disabled={stock}
+                >
+                  Add to cart
+                </button> */}
       </div>
+
+
+
     </div>
   );
 };

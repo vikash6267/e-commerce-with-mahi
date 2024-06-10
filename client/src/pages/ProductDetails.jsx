@@ -10,7 +10,7 @@ import { MdOutlineDone } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import Button from "@mui/material/Button";
 import { IoIosAdd, IoIosRemove } from "react-icons/io";
-
+import NotificationModal from "../components/core/Product Details/Notification";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { addToCart } from "../slices/cartSlice";
 import { toast } from "react-hot-toast";
@@ -42,6 +42,7 @@ function ProductDetails() {
   const { allProduct } = useSelector((state) => state.product);
 
   const [showModal, setShowModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Function to handle showing/hiding the modal
   const toggleModal = () => {
@@ -51,6 +52,8 @@ function ProductDetails() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const allSizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
   // useEffect(()=>{
   // console.log("Redux Wishlist",wishlistProduct)
@@ -91,10 +94,28 @@ function ProductDetails() {
     setWishlistLoading(true);
   };
 
+
+
+
+
+
+  const [selectedUnavailableSize, setSelectedUnavailableSize] = useState(null);
+
   const handleSizeClick = (size) => {
-    setSelectedSize(size === selectedSize ? null : size);
-    setShowModal(false);
+    if (product.sizes.includes(size)) {
+      setSelectedSize(size === selectedSize ? null : size);
+
+    } else {
+      setSelectedUnavailableSize(size);
+      setIsModalOpen(true);
+    }
   };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUnavailableSize(null);
+  };
+
   const handlePreviewImg = (images, i) => {
     setPreviewImg(images[i].url);
     handleActive(i);
@@ -200,13 +221,22 @@ function ProductDetails() {
             </div>
             {/*=== Product Details Right-content ===*/}
             <div className="prod_details_right_col_001">
-              <div className="flex justify-between">
-                <div className=" space-y-3">
-                  <h1 className=" uppercase text-xl min-w-full">
+              <div className="">
+                <div className=" space-y-2 flex min-w-screen items-center flex-col lg:block">
+                  <h1 className=" uppercase text-xl min-w-screen font-semibold  ">
                     {product.title}
                   </h1>
-                  <h4 className="prod_details_info">
-                    {product.description && product.description}
+                  <h4 className="">
+                    {/* {product.description && product.description} */}
+
+                    <h2 className="price">
+                    INR. {product.price} &nbsp;
+                    <small className="del_price">
+                      <del className=" text-red-500">{oldPrice}</del>
+                    </small>
+                  </h2>
+
+                  
                   </h4>
                 </div>
 
@@ -249,19 +279,19 @@ function ProductDetails() {
 
               <div className="prod_details_price">
                 <div className="price_box">
-                  <h2 className="price">
+                  {/* <h2 className="price">
                     {newPrice} &nbsp;
                     <small className="del_price">
                       <del>{oldPrice}</del>
                     </small>
-                  </h2>
-                  <p className="saved_price">
+                  </h2> */}
+                  {/* <p className="saved_price">
                     You save: {savedPrice} ({savedDiscount}%)
                   </p>
-                  <span className="tax_txt">(Inclusive of all taxes)</span>
+                  <span className="tax_txt">(Inclusive of all taxes)</span> */}
                 </div>
 
-                <div className="flex  ">
+                {/* <div className="flex items-center min-w-screen  ">
                   {product.quantity >= 1 ? (
                     <span className="instock flex items-center">
                       <MdOutlineDone /> In Stock
@@ -272,39 +302,48 @@ function ProductDetails() {
                       Out of stock
                     </span>
                   )}
-                </div>
+                </div> */}
               </div>
-              <div className="seprator2"></div>
+              {/* <div className="seprator2"></div> */}
 
-              <div className="productDescription">
+              <div className=" flex flex-col  items-center mt-2 lg:block">
                 {/* <div className="productDiscriptiopn_text">
                     <h4>Descripition :</h4>
                     <p>{product.description}</p>
                   </div> */}
                 <div>
                   <div>
-                    <h2>Select Size:</h2>
+                    {/* <h2>Select Size:</h2> */}
                     <div>
-                      {product.sizes?.map((size) => (
-                        <Button
-                          key={size}
-                          variant={
-                            size === selectedSize ? "contained" : "outlined"
-                          }
-                          color="primary"
-                          onClick={() => handleSizeClick(size)}
-                          style={{ margin: "5px" }}
-                        >
-                          {size}
-                        </Button>
-                      ))}
-                    </div>
+      <div className="flex flex-wrap gap-3">
+        {allSizes.map((size) => (
+          <div
+            key={size}
+            onClick={() => handleSizeClick(size)}
+            className={`px-2 py-1 rounded border cursor-pointer ${
+              size === selectedSize ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+            } ${product.sizes.includes(size) ? 'border-gray-500' : 'border-red-500'}`}
+          >
+            {product.sizes.includes(size) ? (
+              size
+            ) : (
+              <del className="text-red-500">{size}</del>
+            )}
+          </div>
+        ))}
+      </div>
+      {isModalOpen && <NotificationModal closeModal={closeModal} size={selectedUnavailableSize} />}
+    </div>
+
+
+
+
                   </div>
                 </div>
-                <div className="deliveryText">
+                {/* <div className="deliveryText">
                   <MdOutlineLocalShipping />
                   We deliver! Just say when and how.
-                </div>
+                </div> */}
               </div>
               <div className="seprator2"></div>
 
@@ -331,15 +370,54 @@ function ProductDetails() {
                   </button>
                 </div>
 
-                <Button
+              
+
+
+              
+              </div>
+
+          
+
+              <div className=" mt-4 text-wrap flex rounded-xl text-center justify-center flex-col gap-4">
+                <button className="p-2 bg-gray-600 rounded-xl text-white   onClick={WishlistButton} flex items-center  justify-center gap-3 "   onClick={WishlistButton}>  
+                
+                <FaHeart
+                  className={` text-[22px] ${
+                    isProductInWishlist ? "text-red-600" : "text-gray-200"
+                  }  `}
+                
+                />
+                {
+                  isProductInWishlist ? "Remove From Wishlist" : "Add To WishList"
+                }
+                </button>
+
+                {/* <button
                   variant="contained"
-                  className="prod_details_addtocart_btn"
+                  className="p-2 bg-gray-600 rounded-xl text-white"
                   onClick={handleAddItem}
                   disabled={product.stock <= 0}
                 >
                   Add to cart
-                </Button>
-              </div>
+                </button> */}
+                {
+                selectedSize === null ?   <button
+                  className=" p-2 px-16 rounded-2xl  text-gray border-black border"
+                  onClick={handleAddItem}
+                  disabled={product.stock <= 0}
+                >
+                 Selcte Size <span className=" text-[10px]">For Add To cart</span>
+                </button> :   <button
+                  className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
+                  onClick={handleAddItem}
+                  disabled={product.stock <= 0}
+                >
+                  Add To Cart
+                </button>
+              }
+                  </div>
+
+
             </div>
           </div>
         </div>
@@ -350,6 +428,8 @@ function ProductDetails() {
           sizes={product.sizes}
           onSelectSize={handleSizeClick}
           onClose={toggleModal}
+          handleAddItem={handleAddItem}
+          stock={product.stock <= 0}
         />
       )}
 
@@ -374,6 +454,8 @@ function ProductDetails() {
               {/* Add To Cart */}
 
               <div>
+
+              
                 <button
                   className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
                   onClick={handleAddItem}
@@ -386,6 +468,8 @@ function ProductDetails() {
           </div>
         </div>
       </div>
+
+     
     </div>
   );
 }

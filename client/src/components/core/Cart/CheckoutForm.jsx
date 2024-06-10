@@ -8,8 +8,9 @@ import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { fetchCoupon } from '../../../serivces/operations/product';
 import Address from './Address';
 import Payment from './Payment';
+import { Link } from 'react-router-dom';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({handleClose}) => {
   const { cart, total, totalItems, isCartOpen } = useSelector((state) => state.cart);
   const [isOpen, setIsOpen] = useState(true);
   const [payable,setPayable] = useState(total)
@@ -163,8 +164,10 @@ const handleCoupon = async() =>{
             <li key={ind} className=' border p-2'>
               <div className=' flex gap-2'>
                 <div className='w-[25%] border-r-2 pr-3'>
-            
+            <Link to={`/product/${item.product._id}`} onClick={handleClose}>
+
                 <img src={item.product.images[0].url} alt="product-img " className=' '   />
+            </Link>
 
                 </div>
 
