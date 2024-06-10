@@ -2,7 +2,7 @@ import React from 'react';
 import { TbTrash } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { removeFromCart } from '../../../slices/cartSlice';
+import { handleIsCartOpen, removeFromCart } from '../../../slices/cartSlice';
 import QuantityBox from './QuantityBox';
 import { displayMoney } from '../../../helper/utills';
 
@@ -14,10 +14,13 @@ const CartItems = ( props) => {
     const newPrice = displayMoney(price);
     const oldPrice = displayMoney(highPrice);
 
+
+
+    
     return (
         <div className="cart_item flex gap-4  py-4 items-center border-b-2 w-11/12 mx-auto">
             <figure className="w-[50%] ">
-                <Link to={`/product/${_id}`} className=''>
+                <Link to={`/product/${_id}`} className='' onClick={()=>dispatch(handleIsCartOpen(false))}>
                     <img src={images[0].url} alt="product-img " className=''   />
                 </Link>
             </figure>

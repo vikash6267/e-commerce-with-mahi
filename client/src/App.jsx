@@ -143,7 +143,7 @@ function App() {
       {/* <div className="fixed bottom-0 z-40">
         <MobileMenu />
       </div> */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

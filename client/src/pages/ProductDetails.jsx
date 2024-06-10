@@ -48,6 +48,9 @@ function ProductDetails() {
     setShowModal(!showModal);
   };
   //
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // useEffect(()=>{
   // console.log("Redux Wishlist",wishlistProduct)
@@ -331,6 +334,8 @@ function ProductDetails() {
                 <Button
                   variant="contained"
                   className="prod_details_addtocart_btn"
+                  onClick={handleAddItem}
+                  disabled={product.stock <= 0}
                 >
                   Add to cart
                 </Button>

@@ -22,25 +22,57 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      console.log(action.payload.quantity)
-      const product = action.payload.products
-      const index = state.cart.findIndex((item) => item.product._id === product._id)
-
+      console.log(action.payload.quantity);
+      const product = action.payload.products;
+      const index = state.cart.findIndex((item) => item.product._id === product._id);
+    
+      let quant = action.payload.quantity !== undefined ? action.payload.quantity : 1;
+      let size = action.payload.size !== undefined ? action.payload.size : "S";
+    
       if (index >= 0) {
-        toast.error("Product already in cart")
-        return
+        // Product is already in the cart
+        let item = state.cart[index];
+        let updated = false;
+    
+        if (item.size !== size) {
+          // Update the size if different
+          item.size = size;
+          updated = true;
+          toast.success(`Product size updated to ${size} in cart`);
+        }
+        
+        if (item.quantity !== quant) {
+          // Update the quantity if different
+          state.total += Number(product.price * (quant - item.quantity));
+          state.totalItems += (quant - item.quantity);
+          item.quantity = quant;
+          updated = true;
+          toast.success("Product quantity updated in cart");
+        }
+    
+        if (!updated) {
+          toast.error("Product already in cart");
+          return;
+        }
+    
+        // Update localStorage
+        localStorage.setItem("cart", JSON.stringify(state.cart));
+        localStorage.setItem("total", JSON.stringify(state.total));
+        localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+      } else {
+        // Product is not in the cart, add it
+        state.cart.push({product, quantity: quant, size: size});
+        state.totalItems++;
+        state.total += Number(product.price * quant);
+        toast.success("Product added to cart");
+    
+        // Update localStorage
+        localStorage.setItem("cart", JSON.stringify(state.cart));
+        localStorage.setItem("total", JSON.stringify(state.total));
+        localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
       }
-      let quant =  action.payload.quantity !== undefined ? action.payload.quantity : 1 
-      state.cart.push({product,quantity: quant,size: action.payload.size !== undefined ? action.payload.size : "S"  })
-
-      state.totalItems++
-      state.total += Number(product.price * quant)
-      localStorage.setItem("cart", JSON.stringify(state.cart))
-      localStorage.setItem("total", JSON.stringify(state.total))
-      localStorage.setItem("totalItems", JSON.stringify(state.totalItems))
-      // show toast
-      toast.success("Product added to cart")
     },
+    
     
     removeFromCart: (state, action) => {
       const productID = action.payload
