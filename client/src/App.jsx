@@ -27,7 +27,6 @@ import { fetchWishlist } from "./serivces/operations/product";
 
 import Wishlist from "./pages/Wishlist";
 import ShirtViewer from "./pages/Test";
-import ComputersCanvas from "./components/Test/Computers";
 import TrackOrder from "./pages/TrackOrder";
 import Credit from "./pages/Credit";
 import Refer from "./pages/Refer";
@@ -48,12 +47,12 @@ function App() {
   }, [token]);
 
   return (
-    <div className="min-w-screen min-h-screen flex flex-col font-montserrat">
+    <div className="min-w-screen min-h-screen flex flex-col font-montserrat ">
       <Header />
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/hello" element={<ComputersCanvas />} />
+
 
         <Route path="/test" element={<ShirtViewer />} />
 

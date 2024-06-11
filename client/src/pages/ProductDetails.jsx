@@ -15,6 +15,7 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import { addToCart } from "../slices/cartSlice";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   addToWish,
   removeFromWish,
@@ -25,9 +26,13 @@ import Swal from "sweetalert2";
 import Error from "./Error";
 import SizeSelectionModal from "../components/core/AllProduct.jsx/SizeSelect";
 import ImageSlider from "../components/core/Product Details/ImageSlider";
-
+import Details from "../components/core/Product Details/Details";
+import ProductCard from "../components/common/ProductCard";
 function ProductDetails() {
+
   const [product, setProduct] = useState(null);
+  const [alsoLike, setAlsoLike] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const { productID } = useParams();
   const [selectedSize, setSelectedSize] = useState(null);
@@ -94,7 +99,24 @@ function ProductDetails() {
     setWishlistLoading(true);
   };
 
+  const selectRandomProducts = (products) => {
+    if (!Array.isArray(products)) {
+      console.error("Products is not an array");
+      return [];
+    }
 
+    // Create a shallow copy of the products array
+    const productsCopy = products.slice();
+
+    // Fisher-Yates shuffle algorithm
+    for (let i = productsCopy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [productsCopy[i], productsCopy[j]] = [productsCopy[j], productsCopy[i]];
+    }
+
+    // Select the first four products from the shuffled array
+    return productsCopy.slice(0, 4);
+  };
 
 
 
@@ -116,15 +138,14 @@ function ProductDetails() {
     setSelectedUnavailableSize(null);
   };
 
-  const handlePreviewImg = (images, i) => {
-    setPreviewImg(images[i].url);
-    handleActive(i);
-  };
-
+ 
+let selectedProducts
   // Calculating Avg Review count
   const [avgReviewCount, setAvgReviewCount] = useState(12);
   useEffect(() => {
     const count = GetAvgRating(product?.ratingAndReviews);
+    selectedProducts = selectRandomProducts(allProduct);
+    setAlsoLike(selectedProducts)
     setAvgReviewCount(count);
   }, [product]);
 
@@ -418,6 +439,18 @@ function ProductDetails() {
                   </div>
 
 
+
+<div className=" min-h-[200px]"> 
+  <Details product={product}></Details>
+</div>
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>
@@ -434,14 +467,14 @@ function ProductDetails() {
       )}
 
       {/* for Mobile  */}
-      <div className="fixed bottom-0 z-40 h-[50px] invisible">
+      {/* <div className="fixed bottom-0 z-40 h-[50px] ">
         <div style={{ zIndex: 100 }} className="bg-white w-full">
-          {/*  */}
+        
 
           <div className="w-[100vw] border-2 p-2  z-50  lg:hidden sm:hidden md:hidden flex justify-between  items-center">
-            {/* isProductInWishlist */}
+         
             <div className=" w-11/12 mx-auto flex justify-between items-center">
-              {/* //Wishlist/ */}
+         
               <div>
                 <FaHeart
                   className={` text-[27px] ${
@@ -451,7 +484,6 @@ function ProductDetails() {
                 />
               </div>
 
-              {/* Add To Cart */}
 
               <div>
 
@@ -467,9 +499,35 @@ function ProductDetails() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-     
+      <div className=" lg:mt-[100px]">
+<div className=" flex items-center justify-between w-11/12 mx-auto mt-[10px] ">
+          <p className=" font-semibold text-[12px]">YOU MAY ALSO LIKE </p>
+
+
+          <Link
+              to="/allProduct"
+              className=""
+            >
+              <div
+                to="/allProduct"
+                className=" text-[12px] border-2 text-black p-1 px-3 rounded-md"
+              >
+                Discover More
+              </div>
+
+              {/* <IoShirtSharp className=" text-blue-600" /> */}
+            </Link>
+
+        </div>
+<div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 mt-[20px]">
+              {allProduct &&
+                alsoLike.map((product) => (
+                  <ProductCard key={product._id} products={product} />
+                ))}
+            </div>
+</div>
     </div>
   );
 }

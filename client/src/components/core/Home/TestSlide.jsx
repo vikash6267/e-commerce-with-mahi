@@ -21,7 +21,7 @@ function TestSlide({ products }) {
         overflowX: "auto",
         WebkitOverflowScrolling: "touch",
         scrollbarWidth: "none",
-        "-ms-overflow-style": "none",
+        "msOverflowStyle": "none",
       }}
     >
       <div className="flex lg:justify-center flex-nowrap justify-start px-6 ">
@@ -33,7 +33,7 @@ function TestSlide({ products }) {
           >
             <div
               className="h-full w-36 overflow-hidden relative lg:w-60 md:w-60"
-              data-aos="fade-right"
+              // data-aos="fade-right"
             >
               <div>
                 <img

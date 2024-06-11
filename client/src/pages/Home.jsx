@@ -43,7 +43,7 @@ function Home() {
            <Link to={"/allProduct/Unisex"} className=" p-[10px] bg-gray-700 text-white rounded-3xl"> Unisex</Link>
           </div> */}
 
-          <div className=" text-black z-0  font-montserrat text-xl mt-24 ">
+          <div className=" text-black z-0  font-montserrat text-xl mt-2 ">
             {/* <h2
               style={{
                 textAlign: "center",
