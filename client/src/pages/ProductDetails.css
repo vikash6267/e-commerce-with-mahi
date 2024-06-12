@@ -129,13 +129,13 @@ img {
      height: 80vmin;
     object-fit: cover;
      max-width: 100%;
-    margin-top: 1rem; 
+    /* margin-top: 1rem;  */
        padding: 10px;
        border-radius: 10px;
   
 }
 .prod_details_right_col_001{
-  margin-top: 70px;
+  margin-top: 40px;
     width:50%;
     margin-left: 1rem;
     padding: 1rem 3rem;
@@ -504,4 +504,16 @@ padding: 0px;
     font-size: 8px;
     padding: .5rem;
 }
+}
+
+
+.scrolling-text {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }

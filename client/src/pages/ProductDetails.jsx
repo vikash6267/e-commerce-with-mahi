@@ -36,7 +36,7 @@ function ProductDetails() {
   const [alsoLike, setAlsoLike] = useState([]);
 
   const [loading, setLoading] = useState(false);
-  const { productID } = useParams();
+  const { productID,refer } = useParams();
   const [selectedSize, setSelectedSize] = useState(null);
   const [previewImg, setPreviewImg] = useState("");
   const { handleActive, activeClass } = useActive(0);
@@ -44,12 +44,21 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const { wishlistProduct } = useSelector((state) => state.wishlist);
-
+  const [earnings, setEarnings] = useState(0);
   const { token } = useSelector((state) => state.auth);
   const { allProduct } = useSelector((state) => state.product);
 
   const [showModal, setShowModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useSelector((state) => state.profile);
+
+
+
+
+
+
+
+
 
   // Function to handle showing/hiding the modal
   const toggleModal = () => {
@@ -62,9 +71,7 @@ function ProductDetails() {
 
   const allSizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
-  // useEffect(()=>{
-  // console.log("Redux Wishlist",wishlistProduct)
-  // },[])
+
 
   useEffect(() => {
     const fetchWishlistData = async () => {
@@ -143,12 +150,12 @@ function ProductDetails() {
  
 let selectedProducts
   // Calculating Avg Review count
-  const [avgReviewCount, setAvgReviewCount] = useState(12);
+
   useEffect(() => {
-    const count = GetAvgRating(product?.ratingAndReviews);
-    selectedProducts = selectRandomProducts(allProduct);
+        selectedProducts = selectRandomProducts(allProduct);
     setAlsoLike(selectedProducts)
-    setAvgReviewCount(count);
+
+
   }, [product]);
 
   // handling Add-to-cart
@@ -158,7 +165,15 @@ let selectedProducts
       toggleModal();
       return;
     }
-    dispatch(addToCart({ products: product, quantity, size: selectedSize }));
+    if(refer){
+      
+      dispatch(addToCart({ products: product, quantity, size: selectedSize,refer:refer }));
+    }
+    else{
+
+      dispatch(addToCart({ products: product, quantity, size: selectedSize }));
+    }
+    
   };
 
   function increaseQuantityHandler() {
@@ -203,11 +218,21 @@ let selectedProducts
         }
       })();
     }
-  }, [productID]);
 
+  
+  }, [productID]);
+  useEffect(() => {
+    if (product && product.price) {
+      console.log(product.price); // Check the value of product.price
+      const calculatedEarnings = parseInt(product.price * 0.30);
+        setEarnings(calculatedEarnings);
+      console.log(earnings); // Move this line here
+    }
+  }, [product, setEarnings]);
+  
 
   const shareProduct = () => {
-    const productUrl = encodeURIComponent('https://absencemain.vercel.app/product/' + productID);
+    const productUrl = encodeURIComponent('https://absencemain.vercel.app/product/' + productID + "/" + user?.referralCode) ;
     const whatsappUrl = `https://api.whatsapp.com/send?text=Check out this product: ${productUrl}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -244,312 +269,337 @@ let selectedProducts
   };
 
   return (
+    <>
+         <div className="bg-black mt-[60px] text-white flex  ">
+      {/* Marquee tag to continuously display earnings */}
+      <marquee behavior="scroll" direction="left" >
+ <div className="flex gap-20">  
+
+ <p>    Buy And Earn Upto {earnings}</p>
+ <p>    Buy And Earn Upto {earnings}</p>
+ 
+
+ <p>    Buy And Earn Upto {earnings}</p>
+ <p>    Buy And Earn Upto {earnings}</p>
+
+ </div>
+
+      </marquee>
+    </div>
     <div className="prodcutDetialsContainer min-w-screen mb-[200px] ">
-      <section className="w-screen " id="product_details">
-        <div className="">
-          <div className="wrapper prod_details_wrapper lg:w-11/12 mx-auto">
-            {/*=== Product Details Left-content ===*/}
-            <div className="lg:w-[50%] md:w-[50%] w-screen">
-              <ImageSlider slides={product?.images} />
-            </div>
-            {/*=== Product Details Right-content ===*/}
-            <div className="prod_details_right_col_001">
-              <div className="">
-                <div className=" space-y-2 flex min-w-screen items-center flex-col lg:block">
-                  <h1 className=" uppercase text-xl min-w-screen font-semibold  ">
-                    {product.title}
-                  </h1>
-                  <h4 className="">
-                    {/* {product.description && product.description} */}
+    
 
-                    <h2 className="price">
-                    INR. {product.price} &nbsp;
-                    <small className="del_price">
-                      <del className=" text-red-500">{oldPrice}</del>
-                    </small>
-                  </h2>
+    <section className="w-screen " id="product_details">
 
-                  
-                  </h4>
-                </div>
+ 
+      <div className="">
+        <div className="wrapper prod_details_wrapper lg:w-11/12 mx-auto">
+          {/*=== Product Details Left-content ===*/}
+          <div className="lg:w-[50%] md:w-[50%] w-screen">
+            <ImageSlider slides={product?.images} />
+          </div>
+          {/*=== Product Details Right-content ===*/}
+          <div className="prod_details_right_col_001">
+            <div className="">
+              <div className=" space-y-2 flex min-w-screen items-center flex-col lg:block">
+                <h1 className=" uppercase text-xl min-w-screen font-semibold  ">
+                  {product.title}
+                </h1>
+                <h4 className="">
+                  {/* {product.description && product.description} */}
 
-                {/* <div>
-  {isProductInWishlist ? (
-    <div className="flex items-center">
-      <FaHeart
-        onClick={() => handleRemoveFromWishlist(product._id, token)}
-        className="text-red-500 bg-white rounded-full p-1 cursor-pointer mr-1 hover:text-red-600 hover:bg-red-100 transition-colors duration-300"
-      />
-      <span 
-        className="text-red-500 bg-white rounded-full p-1 cursor-pointer hover:text-red-600 hover:bg-red-100 transition-colors duration-300" 
-        onClick={() => handleRemoveFromWishlist(product._id, token)}
-      >
-        Remove From Wishlist
-      </span>
-    </div>
-  ) : (
-    <div className="flex items-center">
-      <FaRegHeart
-        onClick={() => handleAddToWishlist(product._id, token)}
-        className="bg-red-500 text-white rounded-full p-1 cursor-pointer mr-1 hover:bg-red-600 transition-colors duration-300"
-      />
-      <span 
-        className="bg-red-500 text-white rounded-full p-1 cursor-pointer hover:bg-red-600 transition-colors duration-300" 
-        onClick={() => handleAddToWishlist(product._id, token)}
-      >
-        Add To Wishlist
-      </span>
-    </div>
-  )}
+                  <h2 className="price">
+                  INR. {product.price} &nbsp;
+                  <small className="del_price">
+                    <del className=" text-red-500">{oldPrice}</del>
+                  </small>
+                </h2>
+
+                
+                </h4>
+              </div>
+
+              {/* <div>
+{isProductInWishlist ? (
+  <div className="flex items-center">
+    <FaHeart
+      onClick={() => handleRemoveFromWishlist(product._id, token)}
+      className="text-red-500 bg-white rounded-full p-1 cursor-pointer mr-1 hover:text-red-600 hover:bg-red-100 transition-colors duration-300"
+    />
+    <span 
+      className="text-red-500 bg-white rounded-full p-1 cursor-pointer hover:text-red-600 hover:bg-red-100 transition-colors duration-300" 
+      onClick={() => handleRemoveFromWishlist(product._id, token)}
+    >
+      Remove From Wishlist
+    </span>
+  </div>
+) : (
+  <div className="flex items-center">
+    <FaRegHeart
+      onClick={() => handleAddToWishlist(product._id, token)}
+      className="bg-red-500 text-white rounded-full p-1 cursor-pointer mr-1 hover:bg-red-600 transition-colors duration-300"
+    />
+    <span 
+      className="bg-red-500 text-white rounded-full p-1 cursor-pointer hover:bg-red-600 transition-colors duration-300" 
+      onClick={() => handleAddToWishlist(product._id, token)}
+    >
+      Add To Wishlist
+    </span>
+  </div>
+)}
 </div> */}
-              </div>
-
-              {/* <div className="text-sm flex flex-wrap items-center gap-2 prod_details_ratings">
-                  <span className="text-yellow-25">{avgReviewCount}</span>
-                  <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                  <span>{`(${ratingAndReviews.length} reviews)`}</span>
-                </div> */}
-
-              <div className="prod_details_price">
-                <div className="price_box">
-                  {/* <h2 className="price">
-                    {newPrice} &nbsp;
-                    <small className="del_price">
-                      <del>{oldPrice}</del>
-                    </small>
-                  </h2> */}
-                  {/* <p className="saved_price">
-                    You save: {savedPrice} ({savedDiscount}%)
-                  </p>
-                  <span className="tax_txt">(Inclusive of all taxes)</span> */}
-                </div>
-
-                {/* <div className="flex items-center min-w-screen  ">
-                  {product.quantity >= 1 ? (
-                    <span className="instock flex items-center">
-                      <MdOutlineDone /> In Stock
-                    </span>
-                  ) : (
-                    <span className="outofstock">
-                      <IoClose />
-                      Out of stock
-                    </span>
-                  )}
-                </div> */}
-              </div>
-              {/* <div className="seprator2"></div> */}
-
-              <div className=" flex flex-col  items-center mt-2 lg:block">
-                {/* <div className="productDiscriptiopn_text">
-                    <h4>Descripition :</h4>
-                    <p>{product.description}</p>
-                  </div> */}
-                <div>
-                  <div>
-                    {/* <h2>Select Size:</h2> */}
-                    <div>
-      <div className="flex flex-wrap gap-3">
-        {allSizes.map((size) => (
-          <div
-            key={size}
-            onClick={() => handleSizeClick(size)}
-            className={`px-2 py-1 rounded border cursor-pointer ${
-              size === selectedSize ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
-            } ${product.sizes.includes(size) ? 'border-gray-500' : 'border-red-500'}`}
-          >
-            {product.sizes.includes(size) ? (
-              size
-            ) : (
-              <del className="text-red-500">{size}</del>
-            )}
-          </div>
-        ))}
-      </div>
-      {isModalOpen && <NotificationModal closeModal={closeModal} size={selectedUnavailableSize} />}
-    </div>
-
-
-
-
-                  </div>
-                </div>
-                {/* <div className="deliveryText">
-                  <MdOutlineLocalShipping />
-                  We deliver! Just say when and how.
-                </div> */}
-              </div>
-              <div className="seprator2"></div>
-
-              <div className="prod_details_additem mt-2">
-                <h5>QTY :</h5>
-                <div className="additem">
-                  <button
-                    onClick={deceraseQuantityHandler}
-                    className="additem_decrease"
-                  >
-                    <IoIosRemove />
-                  </button>
-                  <input
-                    readOnly
-                    type="number"
-                    value={quantity}
-                    className="input"
-                  />
-                  <button
-                    onClick={increaseQuantityHandler}
-                    className="additem_increase"
-                  >
-                    <IoIosAdd />
-                  </button>
-                </div>
-
-              
-
-
-              
-              </div>
-
-          
-
-              <div className=" mt-4 text-wrap flex rounded-xl text-center justify-center flex-col gap-4">
-                <button className="p-2 bg-gray-600 rounded-xl text-white   onClick={WishlistButton} flex items-center  justify-center gap-3 "   onClick={WishlistButton}>  
-                
-                <FaHeart
-                  className={` text-[22px] ${
-                    isProductInWishlist ? "text-red-600" : "text-gray-200"
-                  }  `}
-                
-                />
-                {
-                  isProductInWishlist ? "Remove From Wishlist" : "Add To WishList"
-                }
-                </button>
-
-                {/* <button
-                  variant="contained"
-                  className="p-2 bg-gray-600 rounded-xl text-white"
-                  onClick={handleAddItem}
-                  disabled={product.stock <= 0}
-                >
-                  Add to cart
-                </button> */}
-                {
-                selectedSize === null ?   <button
-                  className=" p-2 px-16 rounded-2xl  text-gray border-black border"
-                  onClick={handleAddItem}
-                  disabled={product.stock <= 0}
-                >
-                 Selcte Size <span className=" text-[10px]">For Add To cart</span>
-                </button> :   <button
-                  className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
-                  onClick={handleAddItem}
-                  disabled={product.stock <= 0}
-                >
-                  Add To Cart
-                </button>
-              }
-                  </div>
-
-                  <div className="  mt-[10px] text-[12px]   ">
-  <button className="flex  items-center gap-2 bg-gray-300  p-2 rounded-lg" onClick={shareProduct}>
-  Share And Earn upto 100 
-  <IoMdShare />
-  </button>
-
-  
-</div>
-
-<div className=" min-h-[200px]"> 
-  <Details product={product}></Details>
-</div>
-
-
-
-
-
-
-
-
             </div>
-          </div>
+
+            {/* <div className="text-sm flex flex-wrap items-center gap-2 prod_details_ratings">
+                <span className="text-yellow-25">{avgReviewCount}</span>
+                <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
+                <span>{`(${ratingAndReviews.length} reviews)`}</span>
+              </div> */}
+
+            <div className="prod_details_price">
+              <div className="price_box">
+                {/* <h2 className="price">
+                  {newPrice} &nbsp;
+                  <small className="del_price">
+                    <del>{oldPrice}</del>
+                  </small>
+                </h2> */}
+                {/* <p className="saved_price">
+                  You save: {savedPrice} ({savedDiscount}%)
+                </p>
+                <span className="tax_txt">(Inclusive of all taxes)</span> */}
+              </div>
+
+              {/* <div className="flex items-center min-w-screen  ">
+                {product.quantity >= 1 ? (
+                  <span className="instock flex items-center">
+                    <MdOutlineDone /> In Stock
+                  </span>
+                ) : (
+                  <span className="outofstock">
+                    <IoClose />
+                    Out of stock
+                  </span>
+                )}
+              </div> */}
+            </div>
+            {/* <div className="seprator2"></div> */}
+
+            <div className=" flex flex-col  items-center mt-2 lg:block">
+              {/* <div className="productDiscriptiopn_text">
+                  <h4>Descripition :</h4>
+                  <p>{product.description}</p>
+                </div> */}
+              <div>
+                <div>
+                  {/* <h2>Select Size:</h2> */}
+                  <div>
+    <div className="flex flex-wrap gap-3">
+      {allSizes.map((size) => (
+        <div
+          key={size}
+          onClick={() => handleSizeClick(size)}
+          className={`px-2 py-1 rounded border cursor-pointer ${
+            size === selectedSize ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+          } ${product.sizes.includes(size) ? 'border-gray-500' : 'border-red-500'}`}
+        >
+          {product.sizes.includes(size) ? (
+            size
+          ) : (
+            <del className="text-red-500">{size}</del>
+          )}
         </div>
-      </section>
+      ))}
+    </div>
+    {isModalOpen && <NotificationModal closeModal={closeModal} size={selectedUnavailableSize} />}
+  </div>
 
-      {showModal && (
-        <SizeSelectionModal
-          sizes={product.sizes}
-          onSelectSize={handleSizeClick}
-          onClose={toggleModal}
-          handleAddItem={handleAddItem}
-          stock={product.stock <= 0}
-        />
-      )}
 
-      {/* for Mobile  */}
-      {/* <div className="fixed bottom-0 z-40 h-[50px] ">
-        <div style={{ zIndex: 100 }} className="bg-white w-full">
+
+
+                </div>
+              </div>
+              {/* <div className="deliveryText">
+                <MdOutlineLocalShipping />
+                We deliver! Just say when and how.
+              </div> */}
+            </div>
+            <div className="seprator2"></div>
+
+            <div className="prod_details_additem mt-2">
+              <h5>QTY :</h5>
+              <div className="additem">
+                <button
+                  onClick={deceraseQuantityHandler}
+                  className="additem_decrease"
+                >
+                  <IoIosRemove />
+                </button>
+                <input
+                  readOnly
+                  type="number"
+                  value={quantity}
+                  className="input"
+                />
+                <button
+                  onClick={increaseQuantityHandler}
+                  className="additem_increase"
+                >
+                  <IoIosAdd />
+                </button>
+              </div>
+
+            
+
+
+            
+            </div>
+
         
 
-          <div className="w-[100vw] border-2 p-2  z-50  lg:hidden sm:hidden md:hidden flex justify-between  items-center">
-         
-            <div className=" w-11/12 mx-auto flex justify-between items-center">
-         
-              <div>
-                <FaHeart
-                  className={` text-[27px] ${
-                    isProductInWishlist ? "text-red-600" : "text-gray-900"
-                  }  `}
-                  onClick={WishlistButton}
-                />
-              </div>
-
-
-              <div>
-
+            <div className=" mt-4 text-wrap flex rounded-xl text-center justify-center flex-col gap-4">
+              <button className="p-2 bg-gray-600 rounded-xl text-white   onClick={WishlistButton} flex items-center  justify-center gap-3 "   onClick={WishlistButton}>  
               
-                <button
-                  className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
-                  onClick={handleAddItem}
-                  disabled={product.stock <= 0}
-                >
-                  Add To Cart
-                </button>
-              </div>
+              <FaHeart
+                className={` text-[22px] ${
+                  isProductInWishlist ? "text-red-600" : "text-gray-200"
+                }  `}
+              
+              />
+              {
+                isProductInWishlist ? "Remove From Wishlist" : "Add To WishList"
+              }
+              </button>
+
+              {/* <button
+                variant="contained"
+                className="p-2 bg-gray-600 rounded-xl text-white"
+                onClick={handleAddItem}
+                disabled={product.stock <= 0}
+              >
+                Add to cart
+              </button> */}
+
+             
+              {
+              selectedSize === null ?   <button
+                className=" p-2 px-16 rounded-2xl  text-gray border-black border"
+                onClick={handleAddItem}
+                disabled={product.stock <= 0}
+              >
+               Selcte Size <span className=" text-[10px]">For Add To cart</span>
+              </button> :   <button
+                className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
+                onClick={handleAddItem}
+                disabled={product.stock <= 0}
+              >
+                Add To Cart
+              </button>
+            }
+                </div>
+
+                <div className="  mt-[10px] text-[13px]    ">
+<button className="flex  items-center gap-2 bg-gray-300  p-2 rounded-lg" onClick={shareProduct}>
+Share And Earn upto 100 
+<IoMdShare />
+</button>
+
+
+
+</div>
+<div className=" min-h-[200px]"> 
+<Details product={product}></Details>
+</div>
+
+
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {showModal && (
+      <SizeSelectionModal
+        sizes={product.sizes}
+        onSelectSize={handleSizeClick}
+        onClose={toggleModal}
+        handleAddItem={handleAddItem}
+        stock={product.stock <= 0}
+      />
+    )}
+
+    {/* for Mobile  */}
+    {/* <div className="fixed bottom-0 z-40 h-[50px] ">
+      <div style={{ zIndex: 100 }} className="bg-white w-full">
+      
+
+        <div className="w-[100vw] border-2 p-2  z-50  lg:hidden sm:hidden md:hidden flex justify-between  items-center">
+       
+          <div className=" w-11/12 mx-auto flex justify-between items-center">
+       
+            <div>
+              <FaHeart
+                className={` text-[27px] ${
+                  isProductInWishlist ? "text-red-600" : "text-gray-900"
+                }  `}
+                onClick={WishlistButton}
+              />
+            </div>
+
+
+            <div>
+
+            
+              <button
+                className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
+                onClick={handleAddItem}
+                disabled={product.stock <= 0}
+              >
+                Add To Cart
+              </button>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
+    </div> */}
 
 
 
-      <div className=" lg:mt-[100px]">
+    <div className=" lg:mt-[100px]">
 <div className=" flex items-center justify-between w-11/12 mx-auto mt-[10px] ">
-          <p className=" font-semibold text-[12px]">YOU MAY ALSO LIKE </p>
+        <p className=" font-semibold text-[12px]">YOU MAY ALSO LIKE </p>
 
 
-          <Link
+        <Link
+            to="/allProduct"
+            className=""
+          >
+            <div
               to="/allProduct"
-              className=""
+              className=" text-[12px] border-2 text-black p-1 px-3 rounded-md"
             >
-              <div
-                to="/allProduct"
-                className=" text-[12px] border-2 text-black p-1 px-3 rounded-md"
-              >
-                Discover More
-              </div>
-
-              {/* <IoShirtSharp className=" text-blue-600" /> */}
-            </Link>
-
-        </div>
-<div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 mt-[20px]">
-              {allProduct &&
-                alsoLike.map((product) => (
-                  <ProductCard key={product._id} products={product} />
-                ))}
+              Discover More
             </div>
+
+            {/* <IoShirtSharp className=" text-blue-600" /> */}
+          </Link>
+
+      </div>
+<div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 mt-[20px]">
+            {allProduct &&
+              alsoLike.map((product) => (
+                <ProductCard key={product._id} products={product} />
+              ))}
+          </div>
 </div>
-    </div>
+  </div>
+    
+    </>
   );
 }
 

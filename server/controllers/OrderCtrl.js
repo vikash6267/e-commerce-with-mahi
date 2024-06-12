@@ -255,6 +255,36 @@ console.log(payable)
 
 
 
+
+
+    const coinToAdd = Math.floor(payable * 0.0667);
+    userDetails.totalCredit += coinToAdd
+    // Add the calculated amount as coins for the user
+    userDetails.virtualMoney.push({
+        date: new Date(),
+        money: coinToAdd.toString(),
+        message: `Earned ${coinToAdd} coins for  order.`,
+    });
+
+    for (const product of products) {
+      if (product.refer) {
+          const referringUser = await User.findOne({ referralCode: product.refer });
+          if (referringUser) {
+              const randomCoins = Math.floor(Math.random() * 71); // Generate random coins between 0 and 70
+              referringUser.totalCredit += randomCoins;
+              referringUser.virtualMoney.push({
+                  date: new Date(),
+                  money: randomCoins.toString(),
+                  message: `Earned ${randomCoins} coins for referring a purchase by ${userDetails.name}.`,
+              });
+              await referringUser.save();
+          }
+      }
+    }
+    await userDetails.save()
+
+
+
     for (const item of products) {
       const product = await Product.findById(item.product._id);
       if (!product) {

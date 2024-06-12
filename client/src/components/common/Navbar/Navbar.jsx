@@ -72,7 +72,7 @@ function Navbar({ isOpen, setIsOpen }) {
           <motion.div
             id="cart"
             ref={ref}
-            className="fixed top-0 left-0 bottom-0 lg:w-[350px] w-[320px] bg-white p-4 z-40 border-r-2 shadow-2xl text-lg overflow-y-auto hidden-scrollbar"
+            className="fixed top-0 left-0 bottom-0 lg:w-[350px] w-[320px] bg-white p-4 z-40 border-r-2 shadow-2xl text-lg overflow-y-auto scrollable-div"
             initial={{ x: "-100%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "-100%", opacity: 0 }}
@@ -126,7 +126,7 @@ function Navbar({ isOpen, setIsOpen }) {
                       to="profile"
                       onClick={() => dispatch(setIsOpen(false))}
                       className="   font-semibold flex items-center gap-2  p-[7px]  "
-                    data-aos="fade-up" data-aos-delay="600"
+                    data-aos="fade-up" data-aos-delay="600" data-aos-init
                     >
                       {" "}
                       My Profile{" "}
@@ -138,7 +138,7 @@ function Navbar({ isOpen, setIsOpen }) {
                         dispatch(setIsOpen(false));
                       }}
                       className=" text-start  text-red-500 pl-[7px]"
-                           data-aos="fade-up" data-aos-delay="650"
+                           data-aos="fade-up" data-aos-delay="600" data-aos-init
                     >
                       Logout
                     </button>
@@ -148,7 +148,7 @@ function Navbar({ isOpen, setIsOpen }) {
                     to="/login"
                     className="-ml-[9px] my-2 p-[7px]"
                     onClick={() => dispatch(setIsOpen(false))}
-                       data-aos="fade-up" data-aos-delay="600"
+                       data-aos="fade-up" data-aos-delay="600" data-aos-init
                   >
                     {" "}
                     Login

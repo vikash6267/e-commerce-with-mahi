@@ -357,3 +357,10 @@ top: 0;
 .billing{
   font-size: 13px !important;
 }
+
+
+.scrollable-div {
+  -webkit-overflow-scrolling: touch; /* Webkit browsers ke liye touch scrolling enable karna */
+  scrollbar-width: none; /* Scrollbar ko hide karna */
+  -ms-overflow-style: none; /* Internet Explorer ke liye scrollbar ko hide karna */
+}

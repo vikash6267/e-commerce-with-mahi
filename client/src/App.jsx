@@ -61,6 +61,7 @@ function App() {
         <Route path="/allProduct" element={<AllProduct />} />
         <Route path="/allProduct/:query" element={<AllProduct />} />
         <Route path="product/:productID" element={<ProductDetails />} />
+        <Route path="product/:productID/:refer" element={<ProductDetails />} />
 
         <Route
           path="login"

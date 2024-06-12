@@ -28,6 +28,7 @@ const cartSlice = createSlice({
     
       let quant = action.payload.quantity !== undefined ? action.payload.quantity : 1;
       let size = action.payload.size !== undefined ? action.payload.size : "S";
+      let refer = action.payload.refer !== undefined ? action.payload.refer : false;
     
       if (index >= 0) {
         // Product is already in the cart
@@ -61,7 +62,7 @@ const cartSlice = createSlice({
         localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
       } else {
         // Product is not in the cart, add it
-        state.cart.push({product, quantity: quant, size: size});
+        state.cart.push({product, quantity: quant, size: size , refer:refer});
         state.totalItems++;
         state.total += Number(product.price * quant);
         toast.success("Product added to cart");
