@@ -10,6 +10,7 @@ import { setCheckout } from "../slices/paymentSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import Backdrop from "../components/core/Cart/Backdrop";
+import { Link } from "react-router-dom";
 
 function Cart() {
   const { cart, total, totalItems, isCartOpen } = useSelector(
@@ -37,8 +38,7 @@ function Cart() {
   const displayTotalAmount = displayMoney(total);
 
   const checkoutHandel = () => {
-    dispatch(setCheckout(true));
-    dispatch(handleIsCartOpen(false));
+      dispatch(handleIsCartOpen(false));
   };
 
   return (
@@ -94,7 +94,8 @@ function Cart() {
                           <b>{displayTotalAmount}</b>
                         </div>
                       </div>
-                      <button
+                 <Link to="/checkout">
+                 <button
                         type="button"
                         className={`w-11/12 bg-gray-900 hover:bg-gray-950 text-white p-2 mt-3 rounded-xl mx-auto font-bold ${
                           cartQuantity === 0
@@ -106,6 +107,7 @@ function Cart() {
                       >
                         Checkout
                       </button>
+                 </Link>
                     </div>
                   </div>
                 </div>

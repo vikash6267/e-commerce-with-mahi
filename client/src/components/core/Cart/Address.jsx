@@ -69,10 +69,10 @@ function Address() {
   
 
   return (
-    <div className="flex   flex-col items- w-full lg:mt-0 mt-[23px]   ">
+    <div className="flex   flex-col items- w-full lg:mt-0 mt-[23px]    ">
       <div className="bg-white  rounded-lg ">
         <h2 className="text-xl font-semibold mb-6 text-center text-gray-800">Billing Address</h2>
-        <div className="lg:w-11/12 mx-auto lg:max-h-[calc(100vh-300px)]  overflow-y-auto overflow-x-hidden pl-2 p-2 billing">
+        <div className="w-11/12 mx-auto    pl-2 p-2 billing">
           <div className="mb-3">
             <label className="block mb-1 text-gray-600">Pincode</label>
             <input
@@ -162,9 +162,9 @@ function Address() {
      
         </div>
       </div>
-      <div className="flex justify-start mt-">
+      <div className="flex lg:justify-start mt-">
   <button
-    className="px-3 py-2 text-[15px] bg-gradient-to-r bg-gray-800 text-white rounded-2xl"
+    className="px-3 py-3 text-[15px] bg-gradient-to-r bg-gray-700 text-white rounded-xl w-full hover:bg-gray-800"
     onClick={handleSubmit}
     // disabled={!areAllFieldsFilled()}
   >

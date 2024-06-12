@@ -8,10 +8,12 @@ const{
 }= require("../middlewares/auth")
 
 const {
-    imageUpload
+    imageUpload,
+    uploadImages
 }=require("../controllers/imageCtrl")
 
 router.post("/upload",imageUpload)
+router.post("/multi",uploadImages)
 // export all router
 module.exports = router
 

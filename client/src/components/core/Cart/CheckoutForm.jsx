@@ -67,10 +67,11 @@ const handleCoupon = async() =>{
 
 }
   return (
-   <div className=' w-full flex flex-wrap-reverse lg:min-h-[calc(100vh-150px)] min-h-[calc(100vh-200px)]  lg:max-h-[calc(100vh-150px)] max-h-[calc(100vh-130px)] checkout font-montserrat  '>
+   <div className=' w-screen flex flex-wrap-reverse  checkout font-montserrat  '>
 {/* left */}
 
-
+<div className=' w-11/12 mx-auto flex flex-wrap-reverse'>
+  
 <div className=' lg:w-[65%]  w-screen border-r-2 '>
     {/* <div className="relative mb-2 flex w-full justify-center">
       {steps.map((item) => (
@@ -249,6 +250,7 @@ const handleCoupon = async() =>{
     </div>
 
     </div>
+</div>
 
 
 

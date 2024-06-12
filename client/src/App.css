@@ -52,22 +52,10 @@ height: 100%;
   .mobile{
    display: none;
   }
-  .checkout{
-    min-height: 80vh;
-    overflow-y: scroll;
-    
-  }
+ 
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.checkout {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.checkout::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
-}
+
 
  
   .head-media{

@@ -46,8 +46,8 @@ const ProfileContent = ({ active }) => {
   };
 
   return (
-    <div className="grid w-11/12 mx-auto lg:mr-28 -ml-0 overflow-x-hidden gap-20">
-      <div className="flex justify-center w-full mt-14">
+    <div className="grid w-11/12 mx-auto -ml-0  gap-2 p-[20px] ">
+      <div className="flex justify-center w-full mt-8">
         <div className="relative">
           <img
             src={`${user?.image}`}

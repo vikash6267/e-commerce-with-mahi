@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchProductDetails } from "../serivces/operations/product";
-import { useParams } from "react-router-dom";
+import { useParams,useLocation  } from "react-router-dom";
 import "./ProductDetails.css";
 import { displayMoney, calculateDiscount } from "../helper/utills";
 import useActive from "../hooks/useActive";
@@ -16,6 +16,8 @@ import { addToCart } from "../slices/cartSlice";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { IoMdShare } from "react-icons/io";
+
 import {
   addToWish,
   removeFromWish,
@@ -29,7 +31,7 @@ import ImageSlider from "../components/core/Product Details/ImageSlider";
 import Details from "../components/core/Product Details/Details";
 import ProductCard from "../components/common/ProductCard";
 function ProductDetails() {
-
+  const location = useLocation();
   const [product, setProduct] = useState(null);
   const [alsoLike, setAlsoLike] = useState([]);
 
@@ -56,7 +58,7 @@ function ProductDetails() {
   //
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [location]);
 
   const allSizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
@@ -202,6 +204,16 @@ let selectedProducts
       })();
     }
   }, [productID]);
+
+
+  const shareProduct = () => {
+    const productUrl = encodeURIComponent('https://absencemain.vercel.app/product/' + productID);
+    const whatsappUrl = `https://api.whatsapp.com/send?text=Check out this product: ${productUrl}`;
+    window.open(whatsappUrl, '_blank');
+  };
+  
+  // Call the shareProduct function when needed
+  
 
   if (loading || !product) {
     return (
@@ -438,7 +450,14 @@ let selectedProducts
               }
                   </div>
 
+                  <div className="  mt-[10px] text-[12px]   ">
+  <button className="flex  items-center gap-2 bg-gray-300  p-2 rounded-lg" onClick={shareProduct}>
+  Share And Earn upto 100 
+  <IoMdShare />
+  </button>
 
+  
+</div>
 
 <div className=" min-h-[200px]"> 
   <Details product={product}></Details>
@@ -500,6 +519,8 @@ let selectedProducts
           </div>
         </div>
       </div> */}
+
+
 
       <div className=" lg:mt-[100px]">
 <div className=" flex items-center justify-between w-11/12 mx-auto mt-[10px] ">

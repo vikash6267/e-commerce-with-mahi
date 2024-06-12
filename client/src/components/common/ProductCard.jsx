@@ -51,14 +51,9 @@ function ProductCard({ products }) {
         </Link>
       </figure>
 
-      <div className=" -mt-3">
-        {/* <span className="rating_star">
-          {[...Array(totalrating)].map((_, i) => (
-            <IoMdStar key={i} />
-          ))}
-        
-        </span> */}
-        <h3 className="products_title">
+      <div className=" -space-y-2 ">
+      
+        <h3 className="">
           <Link
             to={`/product/${_id}`}
             className=" text-gray-700 lg:text-[13px] text-[12px] "
@@ -66,45 +61,16 @@ function ProductCard({ products }) {
             {title}
           </Link>
         </h3>
-        {/* <h5 className="products_info text-base w-full">{truncatedDescription}</h5> */}
+     
 
-        {/* <div className=" ">
-        
-          <ul className="flex  gap-3 mt-3 font-bold text-sm">
-            {sizes.map((size, index) => (
-              <li key={index}>{size}</li>
-            ))}
-          </ul>
-        </div> */}
-        {/* <div className="w-0 bg-white  transition-all origin-left"></div> */}
-
-        {/* <div className="my-4 border-t border-gray-600"></div> */}
-
-        <h2 className="  flex text-[12px] lg:text-[13px] -mt-5 lg:-mt-2  sm:text-xl md:text-xl xs:text-sm justify-between">
+        <h2 className="  flex text-[12px] lg:text-[13px]  sm:text-xl md:text-xl xs:text-sm justify-between">
           {newPrice} &nbsp;
           <small>
             <del className=" text-red-600">{oldPrice}</del>
           </small>
         </h2>
 
-        {/* <div className="mt-4 flex justify-center w-full text-base lg:text-xl  sm:text-xl md:text-xl xs:text-sm">
-  {cart.some((item) => item.product._id === _id) ? (
-    <Link
-      to="/cart"
-      className="bg-gray-200 text-gray-700  px-4 rounded-xl hover:bg-gray-300 hover:text-gray-800 transition duration-300 text-sm lg:text-xl  sm:text-xl md:text-xl xs:text-sm"
-    >
-      Go to Cart
-    </Link>
-  ) : (
-    <button
-      onClick={() => handleAddToCart(products)}
-      className="bg-gradient-to-r from-green-400 to-green-500 text-white py-2 px-4 rounded-xl hover:from-green-500 hover:to-green-600 flex items-center gap-2 transition duration-300 text-sm lg:text-xl  sm:text-xl md:text-xl xs:text-sm"
-    >
-      <span>Add To Cart</span>
-      <MdOutlineShoppingCartCheckout className="text-xl" />
-    </button>
-  )}
-</div> */}
+     
       </div>
     </div>
   );

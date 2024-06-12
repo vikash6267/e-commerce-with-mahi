@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ThreeScene from "./Test";
 function Home() {
+
   const [products, setProduct] = useState([]);
   const { allProduct } = useSelector((state) => state.product);
 
@@ -29,7 +30,7 @@ function Home() {
   }, [allProduct]);
   return (
     <div className="">
-      <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 text-white">
+      <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between  text-white">
         {/* <MetaData title="Absence" /> */}
 
         <div className=" w-screen mt-[64px] lg:h-[calc(100vh - 60px)] z-0">
@@ -37,11 +38,7 @@ function Home() {
             <ThreeScene />
           </div>
 
-          {/* <div className="   flex text-center w-[80%] mx-auto  gap-3 font-montserrat  text-2xl text-black justify-center">
-           <Link to={"/allProduct/Male"} className=" p-[10px] bg-gray-700 text-white rounded-3xl  ">Men </Link>
-           <Link to={"/allProduct/Female"} className=" p-[10px] bg-gray-700 text-white rounded-3xl"> Women </Link>
-           <Link to={"/allProduct/Unisex"} className=" p-[10px] bg-gray-700 text-white rounded-3xl"> Unisex</Link>
-          </div> */}
+        
 
           <div className=" text-black z-0  font-montserrat text-xl mt-2 ">
             {/* <h2
@@ -90,15 +87,10 @@ function Home() {
             </div>
           </div>
 
-          <div className=" text-black z-0 mt-3 font-montserrat text-xl mb-24 ">
-            <h2
-              style={{
-                textAlign: "center",
-                fontWeight: "800",
-              }}
-            ></h2>
+          <div className=" text-black  ">
+         
 
-            <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2">
+            <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 text-black">
               {products &&
                 products.map((product) => (
                   <ProductCard key={product._id} products={product} />

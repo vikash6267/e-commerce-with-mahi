@@ -94,7 +94,7 @@ const filterProducts = () => {
 
   useEffect(()=>{
     AOS.init({duraction:5000})
-  
+    window.scrollTo(0, 0);
     if(query){
       setSelectedGender(query)
       filterProducts()
