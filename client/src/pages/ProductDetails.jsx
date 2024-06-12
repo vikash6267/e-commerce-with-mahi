@@ -232,10 +232,15 @@ let selectedProducts
   
 
   const shareProduct = () => {
-    const productUrl = encodeURIComponent('https://absencemain.vercel.app/product/' + productID + "/" + user?.referralCode) ;
+    let productUrl = 'https://absencemain.vercel.app/product/' + productID;
+    if (user?.referralCode) {
+        productUrl += '/' + user.referralCode;
+    }
+    productUrl = encodeURIComponent(productUrl);
     const whatsappUrl = `https://api.whatsapp.com/send?text=Check out this product: ${productUrl}`;
     window.open(whatsappUrl, '_blank');
-  };
+};
+
   
   // Call the shareProduct function when needed
   
