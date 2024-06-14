@@ -44,7 +44,7 @@ const Footer = () => {
       <div className="footer_bottom bg-gray-300 py-4">
         <div className="container mx-auto">
           <div className="flex justify-between items-center flex-wrap gap-2">
-            <p className="mb-0 text-gray-700 flex items-center gap-2">Made with <span className="text-red-500"><FaHeart /></span>  <a href="mahi-technocrafts.vercel.app" target='_blank' className=' text-blue-900 underline'>Mahi Technocrafts</a></p>
+            <p className="mb-0 text-gray-700 flex items-center gap-2">Made with <span className="text-red-500"><FaHeart /></span>  <a href="https://mahi-technocrafts.vercel.app/" target='_blank' className=' text-blue-900 underline'>Mahi Technocrafts</a></p>
             <p className="mb-0 text-gray-700">©Absence  2024 All rights reserved.</p>
           </div>
         </div>

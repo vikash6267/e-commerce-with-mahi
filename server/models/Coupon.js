@@ -1,6 +1,6 @@
-const mongoose = require("mongoose"); // Erase if already required
+const mongoose = require("mongoose");
 
-// Declare the Schema of the Mongo model
+
 const couponSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -16,7 +16,15 @@ const couponSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 });
+
+couponSchema.methods.isExpired = function() {
+  return this.expiry < new Date(); // Returns true if expiry date is in the 
+};
 
 //Export the model
 module.exports = mongoose.model("Coupon", couponSchema);
