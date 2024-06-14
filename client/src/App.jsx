@@ -33,6 +33,8 @@ import Refer from "./pages/Refer";
 import Order from "./pages/Order";
 import Footer from "./components/common/Footer/Footer"
 import Checkout from "./pages/Checkout"
+
+import Whatsapp from "./components/common/Whatsapp";
 function App() {
   const dispatch = useDispatch();
   const { checkout } = useSelector((state) => state.payment);
@@ -153,6 +155,11 @@ function App() {
         <MobileMenu />
       </div> */}
       <Footer />
+
+      <div className="fixed bottom-8 md:right-10 right-4">
+    <Whatsapp />
+
+      </div>
     </div>
   );
 }
