@@ -1,7 +1,7 @@
 const Product = require("../models/Product");
 const slugify = require("slugify");
 const validateMongoDbId = require("../utills/validateMongoDbId");
-
+const Category = require("../models/Category")
 // Controller to create a new product
 exports.createProduct = async (req, res) => {
   try {
