@@ -28,51 +28,42 @@ function ProductCard({ products }) {
   const newPrice = displayMoney(price);
   const oldPrice = displayMoney(highPrice);
   return (
-    <div className=" font-montserrat flex flex-col gap-0  " data-aos="zoom-in">
-      <figure className=" ">
-        <Link
-          to={`/product/${_id}`}
-          className="flex  justify-center items-center"
-        >
-          <div className="flex justify-center items-center">
-            <div className="relative flex justify-center items-center">
-              <img
-                src={images[0]?.url}
-                alt={title}
-                className=" transition duration-1000 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-              />
-              <img
-                src={images[1]?.url}
-                alt={title}
-                className=" absolute top-0 left-0 opacity-0 transition duration-1000 ease-in-out transform hover:opacity-100"
-              />
+    <Link
+    to={`/product/${_id}`}
+    key={_id}
+    data-aos="zoom-in-down"
+  >
+    <div className="flex flex-col gap-3 mt-2">
+      <div className="h-full min-w-[10rem] overflow-hidden relative">
+        <img
+          src={images[0]?.url}
+          alt=""
+          className="object-cover h-full w transition duration-500 ease-in-out transform hover:-translate-y-1"
+        />
+        <img
+          src={images[1].url}
+          alt=""
+          className="object-cover h-full w absolute top-0 left-0 opacity-0 transition duration-500 ease-in-out transform hover:opacity-100"
+        />
+      </div>
+      <div>
+        <p className="font-montserrat lg:text-lg text-gray-600 text-[13px]">
+          {title}
+        </p>
+        <p className="font-montserrat lg:text-sm text-gray-600 text-[12px]">
+          {" "}
+          {displayMoney(price)}
+        </p>
+        {/* <div className="flex gap-2 text-[11px] text-red-500">
+          {sizes?.map((size, index) => (
+            <div key={index} className="relative ">
+              {size}
             </div>
-          </div>
-        </Link>
-      </figure>
-
-      <div className=" -space-y-2 ">
-      
-        <h3 className="">
-          <Link
-            to={`/product/${_id}`}
-            className=" text-gray-700 lg:text-[13px] text-[12px] "
-          >
-            {title}
-          </Link>
-        </h3>
-     
-
-        <h2 className="  flex text-[12px] lg:text-[13px]  sm:text-xl md:text-xl xs:text-sm justify-between">
-          {newPrice} &nbsp;
-          <small>
-            <del className=" text-red-600">{oldPrice}</del>
-          </small>
-        </h2>
-
-     
+          ))}
+        </div> */}
       </div>
     </div>
+  </Link>
   );
 }
 
