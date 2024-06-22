@@ -1,0 +1,55 @@
+
+/* styles.css */
+
+/* Form group */
+.form-group {
+    margin-bottom: 1rem;
+  }
+  
+  /* Form label */
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  /* Form input */
+  .form-input {
+    border: 1px solid #a36c6c;
+    padding: 0.75rem;
+    border-radius: 0.45rem;
+    width: 100%;
+    font-size: 1rem;
+  }
+  
+  .form-select {
+    appearance: none;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    width: 100%;
+    font-size: 1rem;
+  }
+  /* Form input focus state */
+  .form-input:focus {
+    outline: none;
+    border-color: #4c51bf;
+    box-shadow: 0 0 0 3px rgba(76, 81, 191, 0.2);
+  }
+  
+  /* Error message */
+  .text-red-500 {
+    color: #ef4444;
+    font-size: 0.875rem;
+  }
+  
+  /* Margin top */
+  .mt-1 {
+    margin-top: 0.25rem;
+  }
+  
+  /* Text small */
+  .text-sm {
+    font-size: 0.875rem;
+  }
+    

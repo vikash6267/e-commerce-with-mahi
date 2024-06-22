@@ -105,7 +105,7 @@ const ThreeScene = () => {
 
 
   return (
-    <div className=''>
+    <div className=' fixed top-0 left-0'>
 
 
     <div className="container mb-10">

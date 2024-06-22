@@ -1,5 +1,5 @@
 const {uploadImageToCloudinary} = require("../utills/imageUploader")
-
+const fs = require("fs")
 exports.imageUpload = async(req,res)=>{
     try{
     const thumbnail = req.files.file  

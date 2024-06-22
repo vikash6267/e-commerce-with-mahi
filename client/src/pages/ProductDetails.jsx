@@ -197,7 +197,7 @@ let selectedProducts
 
     if (isProductAvailble) {
       setProduct(isProductAvailble);
-      setPreviewImg(isProductAvailble?.images[0].url);
+      setPreviewImg(isProductAvailble?.images[0]?.url);
       // console.log(isProductAvailble)
     } else {
       (async () => {
@@ -208,8 +208,8 @@ let selectedProducts
 
           if (res.data !== undefined) {
             setProduct(res?.data?.productDetails);
-            console.log(res?.data?.productDetails?.images[0].url);
-            setPreviewImg(res?.data?.productDetails?.images[0].url);
+            console.log(res?.data?.productDetails?.images[0]?.url);
+            setPreviewImg(res?.data?.productDetails?.images[0]?.url);
           }
           setLoading(false);
         } catch (error) {

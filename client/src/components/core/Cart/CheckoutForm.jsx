@@ -167,7 +167,7 @@ const handleCoupon = async() =>{
                 <div className='w-[25%] border-r-2 pr-3'>
             <Link to={`/product/${item.product._id}`} onClick={handleClose}>
 
-                <img src={item.product.images[0].url} alt="product-img " className=' '   />
+                <img src={item.product.images[0]?.url} alt="product-img " className=' '   />
             </Link>
 
                 </div>

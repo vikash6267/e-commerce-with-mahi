@@ -18,6 +18,8 @@ function VerifyOtp({ sendOtp, email }) {
   const handleVerify = async (e) => {
     e.preventDefault();
     const res = await dispatch(compareOtp(otp, email, navigate));
+    console.log(res)
+
     setUserPresent(res);
   };
 

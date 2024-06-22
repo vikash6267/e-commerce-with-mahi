@@ -55,7 +55,7 @@ export function compareOtp(otp, email, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
-    let result = []
+    let result = true 
     try {
       const response = await apiConnector("POST", VERIFY_OTP_API, {
         otp, email
@@ -84,10 +84,11 @@ export function compareOtp(otp, email, navigate) {
       // navigate("/verify-email")
     } catch (error) {
       console.log("SENDOTP API ERROR............", error)
-      toast.error("Could Not Send OTP")
+      toast.error(error?.response?.data?.message)
     }
     dispatch(setLoading(false))
     toast.dismiss(toastId)
+    return result
   }
 }
 

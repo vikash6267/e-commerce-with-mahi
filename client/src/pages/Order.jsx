@@ -70,7 +70,7 @@ function Order() {
                   {order.orderItems.map((item) => (
                     <li key={item._id} className="flex items-center mb-2">
                       <img
-                        src={item.product.images[0].url}
+                        src={item.product.images[0]?.url}
                         alt={item.product.name}
                         className="w-12 h-12 object-cover rounded-full mr-3"
                       />

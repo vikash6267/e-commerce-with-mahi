@@ -1,36 +1,18 @@
-import express from "express";
-import {
-  categoryControlller,
-  createCategoryController,
-  deleteCategoryCOntroller,
-  singleCategoryController,
-  updateCategoryController,
-} from "./../controllers/categoryController.js";
-
+const express = require("express");
 const router = express.Router();
 
+const { auth, isAdmin, isCustomre } = require("../middlewares/auth");
 
-router.post(
-  "/create-category",
-  createCategoryController
-);
+const {
+  showAllCategories,
+  createCategory,
+  categoryPageDetails,
+  editCategory,
+} = require("../controllers/Category");
 
-//update category
-router.put(
-  "/update-category/:id",
-  updateCategoryController
-);
+router.post("/createCategory", createCategory);
+router.post("/editCategory",  editCategory);
+router.get("/showAllCategories", showAllCategories);
+router.post("/getCategoryPageDetails", categoryPageDetails);
 
-//getALl category
-router.get("/get-category", categoryControlller);
-
-//single category
-router.get("/single-category/:slug", singleCategoryController);
-
-//delete category
-router.delete(
-  "/delete-category/:id",
-  deleteCategoryCOntroller
-);
-
-export default router;
+module.exports = router;

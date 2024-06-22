@@ -12,7 +12,7 @@ function TestSlide({ products }) {
   // const displayedProducts =  products.slice(0, 5);
   const displayedProducts = [...products].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
+  ).slice(0, 4);
 
   return (
     <div
@@ -25,7 +25,7 @@ function TestSlide({ products }) {
       }}
     >
       <div className="flex lg:justify-center flex-nowrap justify-start px-6 ">
-        {displayedProducts.map((product) => (
+        {displayedProducts.slice(0.4).map((product) => (
           <Link
             to={`/product/${product._id}`}
             key={product._id}
@@ -37,7 +37,7 @@ function TestSlide({ products }) {
             >
               <div>
                 <img
-                  src={product.images[0].url}
+                  src={product.images[0]?.url}
                   alt=""
                   className="object-cover h-full w-full transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 />

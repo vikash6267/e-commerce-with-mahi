@@ -2,7 +2,7 @@ import { FaFacebook, FaTwitter, FaLinkedin, FaPinterest,FaHeart,FaInstagram   } 
 
 const Footer = () => {
   return (
-    <footer className="new_footer_area bg-gray-200">
+    <footer className="new_footer_area bg-gray-200 z-0">
       <div className="new_footer_top">
         <div className="container mx-auto py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

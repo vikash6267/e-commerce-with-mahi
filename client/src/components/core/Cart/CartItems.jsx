@@ -21,7 +21,7 @@ const CartItems = ( props) => {
         <div className="cart_item flex gap-4  py-4 items-center border-b-2 w-11/12 mx-auto">
             <figure className="w-[50%] ">
                 <Link to={`/product/${_id}`} className='' onClick={()=>dispatch(handleIsCartOpen(false))}>
-                    <img src={images[0].url} alt="product-img " className=''   />
+                    <img src={images[0]?.url} alt="product-img " className=''   />
                 </Link>
             </figure>
             <div className=" flex flex-col gap-1 w-full">

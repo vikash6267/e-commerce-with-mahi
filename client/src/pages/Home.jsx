@@ -12,31 +12,55 @@ function Home() {
 
   const [products, setProduct] = useState([]);
   const { allProduct } = useSelector((state) => state.product);
+  const [products2, setProduct2] = useState([]);
+  
+  let selectedProducts
 
-  // const dispatch = useDispatch()
-  // const fetchSubLinks = async () => {
-  //   (async () => {
-  //     const res = await (getAllProduct());
-  //     if (res) {
-  //       setProduct(res);
-  //       console.log(products);
-  //     }
-  //   })();
-  // };
+  
+
+  const selectRandomProducts = (products) => {
+    if (!Array.isArray(products)) {
+      console.error("Products is not an array");
+      return [];
+    }
+
+    // Create a shallow copy of the products array
+    const productsCopy = products.slice();
+
+    // Fisher-Yates shuffle algorithm
+    for (let i = productsCopy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [productsCopy[i], productsCopy[j]] = [productsCopy[j], productsCopy[i]];
+    }
+
+    // Select the first four products from the shuffled array
+    return productsCopy.slice(0, 4);
+  };
+
+
 
   useEffect(() => {
     // fetchSubLinks();
     setProduct(allProduct);
+    selectedProducts = selectRandomProducts(allProduct);
+    console.log(selectedProducts)
+    setProduct2(selectedProducts)
   }, [allProduct]);
+
+
+  // useEffect(() => {
+  //   // fetchSubLinks();
+  //   setProduct(allProduct);
+  // }, [allProduct]);
   return (
     <div className="">
       <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between  text-white">
         {/* <MetaData title="Absence" /> */}
 
-        <div className=" w-screen mt-[64px] lg:h-[calc(100vh - 60px)] z-0">
-          <div>
+          <div className="  min-h-[60vh] " >
             <ThreeScene />
           </div>
+        <div className=" w-screen  lg:h-[calc(100vh - 60px)] z-0 bg-white">
 
         
 
@@ -91,8 +115,8 @@ function Home() {
          
 
             <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 text-black">
-              {products &&
-                products.map((product) => (
+            {products &&
+                products2?.map((product) => (
                   <ProductCard key={product._id} products={product} />
                 ))}
             </div>

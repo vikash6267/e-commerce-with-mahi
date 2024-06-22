@@ -55,7 +55,7 @@ const FeaturedSlider = ({ products }) => {
             <Link to={`/product/${_id}`} className="">
               <div className=" p-4 rounded-md ">
                 <figure className="">
-                  <img src={images[0].url} alt={title} className=" " />
+                  <img src={images[0]?.url} alt={title} className=" " />
                 </figure>
 
                 <div className="featured_title text-lg font-semibold text-center">{title}</div>

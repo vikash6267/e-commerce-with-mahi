@@ -45,10 +45,11 @@ function Details({product}) {
   val === 2 && <div>
 
     <ul>
-        <li>100% COTTON</li>
-        <li>WEIGHT - 240GSM</li>
-        <li>PUFF PRINT</li>
-        <li>MACHINE REVERSE WASH</li>
+        <li>{product?.fabric}</li>
+        <li>{product?.gsm}</li>
+        <li>{product?.printing}</li>
+        <li>{product?.washingInstructions}</li>
+      
     </ul>
   </div>
 }

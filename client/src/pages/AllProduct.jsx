@@ -253,13 +253,13 @@ const filterProducts = () => {
                 >
                   <div className='flex flex-col gap-3 mt-2'>
                     <div className='h-full min-w-[10rem] overflow-hidden relative'>
-                      <img src={product.images[0].url} alt='' className='object-cover h-full w transition duration-500 ease-in-out transform hover:-translate-y-1' />
+                      <img src={product.images[0]?.url} alt='' className='object-cover h-full w transition duration-500 ease-in-out transform hover:-translate-y-1' />
                       <img src={product.images[1].url} alt='' className='object-cover h-full w absolute top-0 left-0 opacity-0 transition duration-500 ease-in-out transform hover:opacity-100' />
                     </div>
                     <div>
-                      <p className='font-montserrat lg:text-lg text-gray-600'>{product.title}</p>
-                      <p className='font-montserrat lg:text-sm text-gray-600'> {displayMoney(product.price)}</p>
-                      <div className='flex gap-2 text-sm text-red-500'>
+                      <p className='font-montserrat lg:text-lg text-gray-600 text-[13px]'>{product.title}</p>
+                      <p className='font-montserrat lg:text-sm text-gray-600 text-[12px]'> {displayMoney(product.price)}</p>
+                      <div className='flex gap-2 text-[11px] text-red-500'>
                         {product.sizes?.map((size, index) => (
                           <div key={index} className='relative '>
                             {size}
