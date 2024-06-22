@@ -35,6 +35,7 @@ import Footer from "./components/common/Footer/Footer"
 import Checkout from "./pages/Checkout"
 
 import Whatsapp from "./components/common/Whatsapp";
+import ContactUs from "./pages/ContactUs";
 function App() {
   const dispatch = useDispatch();
   const { checkout } = useSelector((state) => state.payment);
@@ -60,6 +61,7 @@ function App() {
         <Route path="/test" element={<ShirtViewer />} />
 
         <Route path="/cart" element={<CartMain />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/allProduct" element={<AllProduct />} />
         <Route path="/allProduct/:query" element={<AllProduct />} />
         <Route path="product/:productID" element={<ProductDetails />} />

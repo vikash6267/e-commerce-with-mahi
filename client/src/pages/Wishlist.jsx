@@ -18,7 +18,7 @@ function Wishlist() {
   }, []);
 
   return (
-    <div className='container mx-auto mt-[63px] px-4'>
+    <div className='container mx-auto  px-4 min-h-[90vh] mt-[70px]'>
       <h1 className='text-3xl font-semibold mb-8'>Wishlist</h1>
       <div className='flex flex-wrap'>
         {wishlistProduct.map((product) => (

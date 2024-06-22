@@ -9,7 +9,7 @@ const Footer = () => {
             <div className="f_widget company_widget">
               <h3 className="f-title font-semibold text-lg mb-4">Get in Touch</h3>
               <p className="text-gray-700 mb-4">Don’t miss any updates of our new products and T-shrts!</p>
-              <form action="#" className="f_subscribe_two mailchimp" method="post" noValidate>
+              <form  className="f_subscribe_two mailchimp"  noValidate>
                 <input type="text" name="EMAIL" className="form-control memail bg-gray-100 px-4 py-2 rounded-md mb-2" placeholder="Email" />
                 <button className="btn btn_get btn_get_two bg-blue-500 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out hover:bg-blue-600" type="submit">Subscribe</button>
                 <p className="mchimp-errmessage" style={{ display: 'none' }}></p>

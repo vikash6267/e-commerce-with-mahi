@@ -30,9 +30,9 @@ function Order() {
   };
 
   return (
-    <div className="flex flex-col items-center px-4">
+    <div className="flex flex-col items-center px-4 min-h-[90vh] mt-[70px]">
       <div className="w-full flex justify-center text-2xl font-bold p-4 border-b-2 mb-6">
-        <h2>Your Orders</h2>
+        <h2>My Orders</h2>
       </div>
 
       {orders.length === 0 ? (
@@ -70,7 +70,7 @@ function Order() {
                   {order.orderItems.map((item) => (
                     <li key={item._id} className="flex items-center mb-2">
                       <img
-                        src={item.product.images[0]?.url}
+                        src={item?.product?.images[0]?.url}
                         alt={item.product.name}
                         className="w-12 h-12 object-cover rounded-full mr-3"
                       />
