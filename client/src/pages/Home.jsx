@@ -57,14 +57,14 @@ function Home() {
       <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between  text-white">
         {/* <MetaData title="Absence" /> */}
 
-          <div className="  min-h-[60vh] " >
+          <div className="  min-h-[80vh] " >
             <ThreeScene />
           </div>
-        <div className=" w-screen  lg:h-[calc(100vh - 60px)] z-0 bg-white">
+        <div className=" w-screen   z-0 bg-white">
 
         
 
-          <div className=" text-black z-0  font-montserrat text-xl mt-2 ">
+          <div className=" text-black z-0  font-montserrat text-xl  ">
             {/* <h2
               style={{
                 textAlign: "center",

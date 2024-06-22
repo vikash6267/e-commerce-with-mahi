@@ -296,7 +296,7 @@ height: 100%;
 .containerone {
   position: relative;
   width: 100vw;
-  max-height: 60vh;
+  max-height: 80vh;
   /* z-index: -1;
   position: sticky; */
 }
@@ -316,9 +316,9 @@ top: 0;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 70vh;
+  height: 75vh;
   object-fit: cover;
-  overflow: hidden;
+  /* overflow: hidden; */
   z-index: -1;
 }
 
