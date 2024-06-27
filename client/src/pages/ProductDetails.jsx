@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchProductDetails } from "../serivces/operations/product";
-import { useParams,useLocation  } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import "./ProductDetails.css";
 import { displayMoney, calculateDiscount } from "../helper/utills";
 import useActive from "../hooks/useActive";
@@ -17,6 +17,7 @@ import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IoMdShare } from "react-icons/io";
+import { Helmet } from 'react-helmet';
 
 import {
   addToWish,
@@ -36,7 +37,7 @@ function ProductDetails() {
   const [alsoLike, setAlsoLike] = useState([]);
 
   const [loading, setLoading] = useState(false);
-  const { productID,refer } = useParams();
+  const { productID, refer } = useParams();
   const [selectedSize, setSelectedSize] = useState(null);
   const [previewImg, setPreviewImg] = useState("");
   const { handleActive, activeClass } = useActive(0);
@@ -52,14 +53,6 @@ function ProductDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useSelector((state) => state.profile);
 
-
-
-
-
-
-
-
-
   // Function to handle showing/hiding the modal
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -69,9 +62,7 @@ function ProductDetails() {
     window.scrollTo(0, 0);
   }, [location]);
 
-  const allSizes = ['S', 'M', 'L', 'XL', 'XXL'];
-
-
+  const allSizes = ["S", "M", "L", "XL", "XXL"];
 
   useEffect(() => {
     const fetchWishlistData = async () => {
@@ -127,15 +118,11 @@ function ProductDetails() {
     return productsCopy.slice(0, 4);
   };
 
-
-
-
   const [selectedUnavailableSize, setSelectedUnavailableSize] = useState(null);
 
   const handleSizeClick = (size) => {
     if (product.sizes.includes(size)) {
       setSelectedSize(size === selectedSize ? null : size);
-
     } else {
       setSelectedUnavailableSize(size);
       setIsModalOpen(true);
@@ -147,15 +134,12 @@ function ProductDetails() {
     setSelectedUnavailableSize(null);
   };
 
- 
-let selectedProducts
+  let selectedProducts;
   // Calculating Avg Review count
 
   useEffect(() => {
-        selectedProducts = selectRandomProducts(allProduct);
-    setAlsoLike(selectedProducts)
-
-
+    selectedProducts = selectRandomProducts(allProduct);
+    setAlsoLike(selectedProducts);
   }, [product]);
 
   // handling Add-to-cart
@@ -165,15 +149,18 @@ let selectedProducts
       toggleModal();
       return;
     }
-    if(refer){
-      
-      dispatch(addToCart({ products: product, quantity, size: selectedSize,refer:refer }));
-    }
-    else{
-
+    if (refer) {
+      dispatch(
+        addToCart({
+          products: product,
+          quantity,
+          size: selectedSize,
+          refer: refer,
+        })
+      );
+    } else {
       dispatch(addToCart({ products: product, quantity, size: selectedSize }));
     }
-    
   };
 
   function increaseQuantityHandler() {
@@ -218,32 +205,27 @@ let selectedProducts
         }
       })();
     }
-
-  
   }, [productID]);
   useEffect(() => {
     if (product && product.price) {
       console.log(product.price); // Check the value of product.price
-      const calculatedEarnings = parseInt(product.price * 0.30);
-        setEarnings(calculatedEarnings);
+      const calculatedEarnings = parseInt(product.price * 0.3);
+      setEarnings(calculatedEarnings);
       console.log(earnings); // Move this line here
     }
   }, [product, setEarnings]);
-  
 
   const shareProduct = () => {
-    let productUrl = 'https://absencemain.vercel.app/product/' + productID;
+    let productUrl = "https://absencemain.vercel.app/product/" + productID;
     if (user?.referralCode) {
-        productUrl += '/' + user.referralCode;
+      productUrl += "/" + user.referralCode;
     }
     productUrl = encodeURIComponent(productUrl);
     const whatsappUrl = `https://api.whatsapp.com/send?text=Check out this product: ${productUrl}`;
-    window.open(whatsappUrl, '_blank');
-};
+    window.open(whatsappUrl, "_blank");
+  };
 
-  
   // Call the shareProduct function when needed
-  
 
   if (loading || !product) {
     return (
@@ -275,56 +257,57 @@ let selectedProducts
 
   return (
     <>
-         <div className="bg-black mt-[60px] text-white flex  ">
-      {/* Marquee tag to continuously display earnings */}
-      <marquee behavior="scroll" direction="left" >
- <div className="flex gap-20">  
+      <div className="bg-black mt-[60px] text-white flex  ">
 
- <p>    Buy And Earn Upto {earnings}</p>
- <p>    Buy And Earn Upto {earnings}</p>
- 
 
- <p>    Buy And Earn Upto {earnings}</p>
- <p>    Buy And Earn Upto {earnings}</p>
+      <Helmet>
+      <title>{product.title}</title>
+      <meta name="description" content={product.description} />
+      <meta property="og:title" content={product.title} />
+      <meta property="og:description" content={product.description} />
+      <meta property="og:url" content={`http://absence.fashion/product/${product.id}`} />
+      <meta property="og:type" content="product" />
+      <meta property="og:image" content={product.images[0].url} />
+    </Helmet>
+        {/* Marquee tag to continuously display earnings */}
+        <marquee behavior="scroll" direction="left">
+          <div className="flex gap-20">
+            <p> Buy And Earn Upto {earnings}</p>
+            <p> Buy And Earn Upto {earnings}</p>
 
- </div>
-
-      </marquee>
-    </div>
-    <div className="prodcutDetialsContainer min-w-screen mb-[200px] ">
-    
-
-    <section className="w-screen " id="product_details">
-
- 
-      <div className="">
-        <div className="wrapper prod_details_wrapper lg:w-11/12 mx-auto">
-          {/*=== Product Details Left-content ===*/}
-          <div className="lg:w-[50%] md:w-[50%] w-screen">
-            <ImageSlider slides={product?.images} />
+            <p> Buy And Earn Upto {earnings}</p>
+            <p> Buy And Earn Upto {earnings}</p>
           </div>
-          {/*=== Product Details Right-content ===*/}
-          <div className="prod_details_right_col_001">
-            <div className="">
-              <div className=" space-y-2 flex min-w-screen items-center flex-col lg:block">
-                <h1 className=" uppercase text-xl min-w-screen font-semibold  ">
-                  {product.title}
-                </h1>
-                <h4 className="">
-                  {/* {product.description && product.description} */}
-
-                  <h2 className="price">
-                  INR. {product.price} &nbsp;
-                  <small className="del_price">
-                    <del className=" text-red-500">{oldPrice}</del>
-                  </small>
-                </h2>
-
-                
-                </h4>
+        </marquee>
+      </div>
+      <div className="prodcutDetialsContainer min-w-screen mb-[200px] ">
+        <section className="w-screen " id="product_details">
+          <div className="">
+            <div className="wrapper prod_details_wrapper lg:w-11/12 mx-auto">
+              {/*=== Product Details Left-content ===*/}
+              <div className="lg:w-[50%] md:w-[50%] w-screen">
+                <ImageSlider slides={product?.images} />
               </div>
+              {/*=== Product Details Right-content ===*/}
+              <div className="prod_details_right_col_001">
+                <div className="">
+                  <div className=" space-y-2 flex min-w-screen items-center flex-col lg:block">
+                    <h1 className=" uppercase text-xl min-w-screen font-semibold  ">
+                      {product.title}
+                    </h1>
+                    <h4 className="">
+                      {/* {product.description && product.description} */}
 
-              {/* <div>
+                      <h2 className="price">
+                        INR. {product.price} &nbsp;
+                        <small className="del_price">
+                          <del className=" text-red-500">{oldPrice}</del>
+                        </small>
+                      </h2>
+                    </h4>
+                  </div>
+
+                  {/* <div>
 {isProductInWishlist ? (
   <div className="flex items-center">
     <FaHeart
@@ -353,29 +336,29 @@ let selectedProducts
   </div>
 )}
 </div> */}
-            </div>
+                </div>
 
-            {/* <div className="text-sm flex flex-wrap items-center gap-2 prod_details_ratings">
+                {/* <div className="text-sm flex flex-wrap items-center gap-2 prod_details_ratings">
                 <span className="text-yellow-25">{avgReviewCount}</span>
                 <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
                 <span>{`(${ratingAndReviews.length} reviews)`}</span>
               </div> */}
 
-            <div className="prod_details_price">
-              <div className="price_box">
-                {/* <h2 className="price">
+                <div className="prod_details_price">
+                  <div className="price_box">
+                    {/* <h2 className="price">
                   {newPrice} &nbsp;
                   <small className="del_price">
                     <del>{oldPrice}</del>
                   </small>
                 </h2> */}
-                {/* <p className="saved_price">
+                    {/* <p className="saved_price">
                   You save: {savedPrice} ({savedDiscount}%)
                 </p>
                 <span className="tax_txt">(Inclusive of all taxes)</span> */}
-              </div>
+                  </div>
 
-              {/* <div className="flex items-center min-w-screen  ">
+                  {/* <div className="flex items-center min-w-screen  ">
                 {product.quantity >= 1 ? (
                   <span className="instock flex items-center">
                     <MdOutlineDone /> In Stock
@@ -387,96 +370,97 @@ let selectedProducts
                   </span>
                 )}
               </div> */}
-            </div>
-            {/* <div className="seprator2"></div> */}
+                </div>
+                {/* <div className="seprator2"></div> */}
 
-            <div className=" flex flex-col  items-center mt-2 lg:block">
-              {/* <div className="productDiscriptiopn_text">
+                <div className=" flex flex-col  items-center mt-2 lg:block">
+                  {/* <div className="productDiscriptiopn_text">
                   <h4>Descripition :</h4>
                   <p>{product.description}</p>
                 </div> */}
-              <div>
-                <div>
-                  {/* <h2>Select Size:</h2> */}
                   <div>
-    <div className="flex flex-wrap gap-3">
-      {allSizes.map((size) => (
-        <div
-          key={size}
-          onClick={() => handleSizeClick(size)}
-          className={`px-2 py-1 rounded border cursor-pointer ${
-            size === selectedSize ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
-          } ${product.sizes.includes(size) ? 'border-gray-500' : 'border-red-500'}`}
-        >
-          {product.sizes.includes(size) ? (
-            size
-          ) : (
-            <del className="text-red-500">{size}</del>
-          )}
-        </div>
-      ))}
-    </div>
-    {isModalOpen && <NotificationModal closeModal={closeModal} size={selectedUnavailableSize} />}
-  </div>
-
-
-
-
-                </div>
-              </div>
-              {/* <div className="deliveryText">
+                    <div>
+                      {/* <h2>Select Size:</h2> */}
+                      <div>
+                        <div className="flex flex-wrap gap-3">
+                          {allSizes.map((size) => (
+                            <div
+                              key={size}
+                              onClick={() => handleSizeClick(size)}
+                              className={`px-2 py-1 rounded border cursor-pointer ${
+                                size === selectedSize
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-white text-blue-500"
+                              } ${
+                                product.sizes.includes(size)
+                                  ? "border-gray-500"
+                                  : "border-red-500"
+                              }`}
+                            >
+                              {product.sizes.includes(size) ? (
+                                size
+                              ) : (
+                                <del className="text-red-500">{size}</del>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                        {isModalOpen && (
+                          <NotificationModal
+                            closeModal={closeModal}
+                            size={selectedUnavailableSize}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {/* <div className="deliveryText">
                 <MdOutlineLocalShipping />
                 We deliver! Just say when and how.
               </div> */}
-            </div>
-            <div className="seprator2"></div>
+                </div>
+                <div className="seprator2"></div>
 
-            <div className="prod_details_additem mt-2">
-              <h5>QTY :</h5>
-              <div className="additem">
-                <button
-                  onClick={deceraseQuantityHandler}
-                  className="additem_decrease"
-                >
-                  <IoIosRemove />
-                </button>
-                <input
-                  readOnly
-                  type="number"
-                  value={quantity}
-                  className="input"
-                />
-                <button
-                  onClick={increaseQuantityHandler}
-                  className="additem_increase"
-                >
-                  <IoIosAdd />
-                </button>
-              </div>
+                <div className="prod_details_additem mt-2">
+                  <h5>QTY :</h5>
+                  <div className="additem">
+                    <button
+                      onClick={deceraseQuantityHandler}
+                      className="additem_decrease"
+                    >
+                      <IoIosRemove />
+                    </button>
+                    <input
+                      readOnly
+                      type="number"
+                      value={quantity}
+                      className="input"
+                    />
+                    <button
+                      onClick={increaseQuantityHandler}
+                      className="additem_increase"
+                    >
+                      <IoIosAdd />
+                    </button>
+                  </div>
+                </div>
 
-            
+                <div className=" mt-4 text-wrap flex rounded-xl text-center justify-center flex-col gap-4">
+                  <button
+                    className="p-2 bg-gray-600 rounded-xl text-white   onClick={WishlistButton} flex items-center  justify-center gap-3 "
+                    onClick={WishlistButton}
+                  >
+                    <FaHeart
+                      className={` text-[22px] ${
+                        isProductInWishlist ? "text-red-600" : "text-gray-200"
+                      }  `}
+                    />
+                    {isProductInWishlist
+                      ? "Remove From Wishlist"
+                      : "Add To WishList"}
+                  </button>
 
-
-            
-            </div>
-
-        
-
-            <div className=" mt-4 text-wrap flex rounded-xl text-center justify-center flex-col gap-4">
-              <button className="p-2 bg-gray-600 rounded-xl text-white   onClick={WishlistButton} flex items-center  justify-center gap-3 "   onClick={WishlistButton}>  
-              
-              <FaHeart
-                className={` text-[22px] ${
-                  isProductInWishlist ? "text-red-600" : "text-gray-200"
-                }  `}
-              
-              />
-              {
-                isProductInWishlist ? "Remove From Wishlist" : "Add To WishList"
-              }
-              </button>
-
-              {/* <button
+                  {/* <button
                 variant="contained"
                 className="p-2 bg-gray-600 rounded-xl text-white"
                 onClick={handleAddItem}
@@ -485,61 +469,55 @@ let selectedProducts
                 Add to cart
               </button> */}
 
-             
-              {
-              selectedSize === null ?   <button
-                className=" p-2 px-16 rounded-2xl  text-gray border-black border"
-                onClick={handleAddItem}
-                disabled={product.stock <= 0}
-              >
-               Selcte Size <span className=" text-[10px]">For Add To cart</span>
-              </button> :   <button
-                className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
-                onClick={handleAddItem}
-                disabled={product.stock <= 0}
-              >
-                Add To Cart
-              </button>
-            }
+                  {selectedSize === null ? (
+                    <button
+                      className=" p-2 px-16 rounded-2xl  text-gray border-black border"
+                      onClick={handleAddItem}
+                      disabled={product.stock <= 0}
+                    >
+                      Selcte Size{" "}
+                      <span className=" text-[10px]">For Add To cart</span>
+                    </button>
+                  ) : (
+                    <button
+                      className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
+                      onClick={handleAddItem}
+                      disabled={product.stock <= 0}
+                    >
+                      Add To Cart
+                    </button>
+                  )}
                 </div>
 
                 <div className="  mt-[10px] text-[13px]    ">
-<button className="flex  items-center gap-2 bg-gray-300  p-2 rounded-lg" onClick={shareProduct}>
-Share And Earn upto 100 
-<IoMdShare />
-</button>
-
-
-
-</div>
-<div className=" min-h-[200px]"> 
-<Details product={product}></Details>
-</div>
-
-
-
-
-
-
-
-
+                  <button
+                    className="flex  items-center gap-2 bg-gray-300  p-2 rounded-lg"
+                    onClick={shareProduct}
+                  >
+                    Share And Earn upto 100
+                    <IoMdShare />
+                  </button>
+                </div>
+                <div className=" min-h-[200px]">
+                  <Details product={product}></Details>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    {showModal && (
-      <SizeSelectionModal
-        sizes={product.sizes}
-        onSelectSize={handleSizeClick}
-        onClose={toggleModal}
-        handleAddItem={handleAddItem}
-        stock={product.stock <= 0}
-      />
-    )}
+        {showModal && (
+          <SizeSelectionModal
+            sizes={product.sizes}
+            onSelectSize={handleSizeClick}
+            onClose={toggleModal}
+            handleAddItem={handleAddItem}
+            stock={product.stock <= 0}
+          />
+        )}
 
-    {/* for Mobile  */}
-    {/* <div className="fixed bottom-0 z-40 h-[50px] ">
+        {/* for Mobile  */}
+        {/* <div className="fixed bottom-0 z-40 h-[50px] ">
       <div style={{ zIndex: 100 }} className="bg-white w-full">
       
 
@@ -573,37 +551,29 @@ Share And Earn upto 100
       </div>
     </div> */}
 
+        <div className=" lg:mt-[100px]">
+          <div className=" flex items-center justify-between w-11/12 mx-auto mt-[10px] ">
+            <p className=" font-semibold text-[12px]">YOU MAY ALSO LIKE </p>
 
+            <Link to="/allProduct" className="">
+              <div
+                to="/allProduct"
+                className=" text-[12px] border-2 text-black p-1 px-3 rounded-md"
+              >
+                Discover More
+              </div>
 
-    <div className=" lg:mt-[100px]">
-<div className=" flex items-center justify-between w-11/12 mx-auto mt-[10px] ">
-        <p className=" font-semibold text-[12px]">YOU MAY ALSO LIKE </p>
-
-
-        <Link
-            to="/allProduct"
-            className=""
-          >
-            <div
-              to="/allProduct"
-              className=" text-[12px] border-2 text-black p-1 px-3 rounded-md"
-            >
-              Discover More
-            </div>
-
-            {/* <IoShirtSharp className=" text-blue-600" /> */}
-          </Link>
-
-      </div>
-<div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 mt-[20px]">
+              {/* <IoShirtSharp className=" text-blue-600" /> */}
+            </Link>
+          </div>
+          <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 mt-[20px]">
             {allProduct &&
               alsoLike.map((product) => (
                 <ProductCard key={product._id} products={product} />
               ))}
           </div>
-</div>
-  </div>
-    
+        </div>
+      </div>
     </>
   );
 }

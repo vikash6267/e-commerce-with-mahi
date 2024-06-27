@@ -29,8 +29,12 @@ exports.auth = async (req, res, next) => {
 			// Storing the decoded JWT payload in the request object for further use
 			req.user = decode;
 		} catch (error) {
+			// console.log(error.name)
 			console.log(error)
 			// If JWT verification fails, return 401 Unauthorized response
+			if (error.name === 'TokenExpiredError') {
+                return res.status(401).json({ success: false, message: 'Token expired' });
+            }
 			return res
 				.status(401)
 				.json({ success: false, message: "token is invalid" });

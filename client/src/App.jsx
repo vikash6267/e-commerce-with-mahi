@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import MobileMenu from "./components/common/MobileMenu";
 import Home from "./pages/Home";
 import Header from "./components/common/Header";
@@ -38,6 +38,7 @@ import Whatsapp from "./components/common/Whatsapp";
 import ContactUs from "./pages/ContactUs";
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { checkout } = useSelector((state) => state.payment);
   const { token } = useSelector((state) => state.auth);
 
@@ -46,7 +47,7 @@ function App() {
 
     if (token) {
       fetchWishlist(token, dispatch);
-      dispatch(fetchMyProfile(token));
+      dispatch(fetchMyProfile(token,navigate));
     }
   }, [token]);
 

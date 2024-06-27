@@ -5,6 +5,9 @@ import { setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { userEndpoints } from "../apis"
 import { resetWishlist } from "../../slices/wishListSlice"
+import swal from 'sweetalert';
+
+
 const {
   SEND_OTP_API,
   VERIFY_OTP_API,
@@ -130,7 +133,7 @@ export function signUp(
 
 
 
-export function fetchMyProfile(token) {
+export function fetchMyProfile(token,navigate) {
 
   return async (dispatch) => {
     dispatch(setLoading(true))
@@ -154,7 +157,19 @@ export function fetchMyProfile(token) {
       localStorage.setItem("user", JSON.stringify(response.data.user))
 
     } catch (error) {
-      // console.log("LOGIN API ERROR............", error)
+      console.log("LOGIN API ERROR............", error.response.data.message)
+
+      if (error?.response?.data?.message === 'Token expired') {
+        swal({
+          title: "Session Expired",
+          text: "Please log in again for security purposes.",
+          icon: "warning",
+          button: "Login",
+        }).then(() => {
+          dispatch(logout(navigate));
+          navigate('/login'); // Redirect to login page
+        });
+      }
     }
     dispatch(setLoading(false))
   }
