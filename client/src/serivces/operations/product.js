@@ -57,7 +57,7 @@ export const fetchProductDetails = async (productID) => {
     toast.error(error.response.data.message);
   }
   //  
-  //   dispatch(setLoading(false));
+    // dispatch(setLoading(false));
   return result
 }
 
@@ -110,7 +110,7 @@ export const removeFromWish = async (productId,token,dispatch) =>{
   fetchWishlist(token,dispatch)
   } catch (error) {
     console.log("WISHLIST API ERROR............", error)
-    toast.error(error.response?.data?.message);
+   
   }
    toast.dismiss(toastId)
 
@@ -139,7 +139,7 @@ export const fetchWishlist = async (token,dispatch) => {
   } catch (error) {
     console.log("GET_WISHLIST_DETAILS API ERROR............", error)
     result = error?.response?.data
-    toast.error(error?.response?.data?.message);
+    // toast.error(error?.response?.data?.message);
   }
    
   //   dispatch(setLoading(false));

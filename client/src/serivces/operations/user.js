@@ -159,7 +159,7 @@ export function fetchMyProfile(token,navigate) {
     } catch (error) {
       console.log("LOGIN API ERROR............", error.response.data.message)
 
-      if (error?.response?.data?.message === 'Token expired') {
+      if (error?.response?.data?.message === 'Token expired' || error?.response?.data?.message === 'token is invalid') {
         swal({
           title: "Session Expired",
           text: "Please log in again for security purposes.",

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeFromWish } from '../serivces/operations/product';
 import { Link } from 'react-router-dom';
 import { FaTrash } from 'react-icons/fa';
+import { div } from 'three/examples/jsm/nodes/Nodes.js';
 
 function Wishlist() {
   const dispatch = useDispatch();
@@ -19,9 +20,15 @@ function Wishlist() {
 
   return (
     <div className='container mx-auto  px-4 min-h-[90vh] mt-[70px]'>
-      <h1 className='text-3xl font-semibold mb-8'>Wishlist</h1>
+      <h1 className='text-3xl font-semibold mb-8 text-center'>Wishlist</h1>
       <div className='flex flex-wrap'>
-        {wishlistProduct.map((product) => (
+       {
+
+
+        wishlistProduct?.length === 0 ? (
+          <div className=' h-[50vh] w-full flex items-center justify-center'>No Wishlist Product Found</div>
+        ):(
+          wishlistProduct.map((product) => (
           <div key={product._id} className='border p-4 rounded-md mb-4'>
             <div className='relative w-24 h-24 overflow-hidden rounded-full mb-4'>
               <img
@@ -51,7 +58,9 @@ function Wishlist() {
               </button>
             </div>
           </div>
-        ))}
+        ))
+        )
+       }
       </div>
     </div>
   );

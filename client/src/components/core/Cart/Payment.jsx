@@ -1,58 +1,83 @@
-import React, { useEffect } from 'react'
-import { setStep } from '../../../slices/paymentSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import { BuyProduct } from '../../../serivces/operations/order'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { setStep } from '../../../slices/paymentSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { BuyProduct } from '../../../serivces/operations/order';
+import { useNavigate } from 'react-router-dom';
 
-function Payment({payable,coupon}) {
-const dispatch = useDispatch()
-const navigate = useNavigate()
-const {addressData} = useSelector(state=> state.payment)
-const { user } = useSelector((state) => state.profile);
-const {  token } = useSelector((state) => state.auth);
-const { cart } = useSelector( (state) => state.cart
-);
+function Payment({ payable, coupon }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { addressData } = useSelector(state => state.payment);
+  const { user } = useSelector(state => state.profile);
+  const { token } = useSelector(state => state.auth);
+  const { cart } = useSelector(state => state.cart);
 
+  const [coinUsage, setCoinUsage] = useState(0);
+  const [finalPayable, setFinalPayable] = useState(payable);
+  const maxCoinUsage = Math.min(payable * 0.2, user.totalCredit); // 20% of payable or user's total coins, whichever is less
 
+  useEffect(() => {
+    setFinalPayable(payable - coinUsage);
+  }, [coinUsage, payable]);
 
+  const handleCoinUsageChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value >= 0 && value <= maxCoinUsage) {
+      setCoinUsage(value);
+    }
+  };
 
-const paymentHandle = () =>{
-  BuyProduct (token,
-       cart,
-    coupon,
-    addressData,
-    payable,
-    user,
-    navigate,
-    dispatch
-  )
-}
-// useEffect(()=>{
-// console.log(addressData)
-// },[])
+  const paymentHandle = () => {
+    BuyProduct(token, cart, coupon, addressData, payable, user,coinUsage, navigate, dispatch);
+  };
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   return (
     <div className='flex flex-col h-full justify-between'>
-
-
-<div className='flex w-full justify-center font-bold text-2xl'>
-  Payment Methods
-</div>
-
-
-<button onClick={paymentHandle}>Pay</button>
-
-
-
-
-            
-    <div>
-
-
-<button onClick={()=> dispatch(setStep(1))}>Back</button>
-</div>
+    <h2 className='text-center font-bold text-2xl lg:text-3xl mt-10 mb-6'>Payment Methods</h2>
+    <div className='text-center'>
+      <p className='mb-2'>Original Payable Amount: {payable}</p>
+      <p className='mb-2'>Coin Balance: {user.totalCredit}</p>
+      <p className='mb-2'>Maximum Coins You Can Use: {maxCoinUsage}</p>
+      <div className='flex items-center justify-center mt-4'>
+        <label htmlFor='coinUsage' className='mr-2'>Use Absence Coins:</label>
+        <input
+          type='number'
+          id='coinUsage'
+          className='p-1 border min-w-[90px] border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
+          value={coinUsage}
+          onChange={handleCoinUsageChange}
+          min={0}
+          max={maxCoinUsage}
+          aria-label='Coin Usage'
+        />
+      </div>
     </div>
-  )
+    <div className='text-center mt-4'>
+      <p className='font-bold mb-2'>Payable Amount after Coin Usage: {finalPayable}</p>
+    </div>
+    <div className='flex justify-center mt-6'>
+      <button
+        onClick={paymentHandle}
+        className='bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 transition duration-300'
+      >
+        Pay
+      </button>
+    </div>
+    <div className='flex justify-center mt-4'>
+      <button
+        onClick={() => dispatch(setStep(1))}
+        className='bg-gray-300 text-black px-6 py-3 rounded-md hover:bg-gray-400 transition duration-300'
+      >
+        Back
+      </button>
+    </div>
+  </div>
+  
+  );
 }
 
-export default Payment
+export default Payment;

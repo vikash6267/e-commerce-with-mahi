@@ -73,66 +73,10 @@ const handleCoupon = async() =>{
 <div className=' w-11/12 mx-auto flex flex-wrap-reverse'>
   
 <div className=' lg:w-[65%]  w-screen border-r-2 '>
-    {/* <div className="relative mb-2 flex w-full justify-center">
-      {steps.map((item) => (
-        <>
-          <div
-            className="flex flex-col items-center "
-            key={item.id}
-          >
-            <button
-              className={`grid cursor-default aspect-square w-[34px] place-items-center rounded-full border-[1px] ${
-                step === item.id
-                  ? "border-yellow-50 bg-yellow-900 text-yellow-50"
-                  : "border-gray-700 bg-gray-800 text-gray-300"
-              } ${step > item.id && "bg-yellow-50 text-yellow-50"}} `}
-            >
-              {step > item.id ? (
-                <FaCheck className="font-bold text-gray-900" />
-              ) : (
-                item.id
-              )}
-            </button>
-            
-          </div>
-          {item.id !== steps.length && (
-            <>
-              <div
-                className={`h-[calc(34px/2)] w-[33%]  border-dashed border-b-2 ${
-                step > item.id  ? "border-yellow-50" : "border-gray-500"
-              } `}
-              ></div>
-            </>
-          )}
-        </>
-      ))}
-    </div> */}
-{/* 
-    <div className="relative mb-16 flex w-full  justify-center">
-      {steps.map((item) => (
-        <>
-          <div
-            className="flex w-full flex-col items-center gap-y-2"
-            key={item.id}
-          >
-            
-            <p
-              className={`text-sm ${
-                step >= item.id ? "text-gray-5" : "text-gray-500"
-              }`}
-            >
-              {item.title}
-            </p>
-          </div>
-          
-        </>
-      ))}
-    </div> */}
+   
     {/* Render specific component based on current step */}
     {step === 1 && <Address />}
     {step === 2 && <Payment payable={payable} coupon={couponName} />}
-    {/* {step === 2 && <div> STEP 2</div>} */}
-    {/* {step === 3 && <div> STEP 3</div>} */}
   </div>
 
 
@@ -223,11 +167,15 @@ const handleCoupon = async() =>{
     <div className="input-container ">
     <input 
   type="text" 
-  id='coupon' 
-  className='p-1' 
-  placeholder='Coupon Code' 
+  id="coupon" 
+  disabled={!!coupon} // Disable the input if 'coupon' is truthy
+  className="p-1" 
+  placeholder="Coupon Code" 
   value={couponName.toUpperCase()} // Convert text to uppercase
-  onChange={(e) => {setCouponName(e.target.value.toUpperCase()) ; setCouponValid(true) } } // Convert input value to uppercase
+  onChange={(e) => {
+    setCouponName(e.target.value.toUpperCase()); // Convert input value to uppercase
+    setCouponValid(true); 
+  }} 
 />
 
     </div>
@@ -236,6 +184,9 @@ const handleCoupon = async() =>{
             {couponName} is not valid Coupon.
           </div>
         )}
+        {
+          coupon && <div className='text-green-500 absolute -top-3 left-0 text-[15px] font-semibold'>Coupon Applied</div>
+        }
     <button type='submit' className='button' onClick={handleCoupon}>Apply</button>
   </div>
 </div>

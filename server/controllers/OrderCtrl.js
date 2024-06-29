@@ -42,17 +42,26 @@ const User = require("../models/User")
 
 
 const capturePayment = async (req, res) => {
-  const { products ,coupon} = req.body
+  const { products, coupon, absenceCoinuse } = req.body;
+  console.log(req.body)
+  const { id } = req.user;
 
-console.log("enter payment")
+  try {
+    // Check if user ID exists
+    if (!id) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
 
-  if (products.length === 0) {
-    return res.json({ success: false, message: "Please Provide Course ID" })
-  }
+    // Fetch user details including totalCredit (coins)
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
 
-  let total_amount = 0;
+    // console.log("User:", user);
 
- 
+    // Calculate maximum allowable coin usage (20% of total amount or available coins, whichever is lower)
+    let total_amount = 0;
     for (const item of products) {
       const product_id = item.product._id;
       let product;
@@ -63,7 +72,7 @@ console.log("enter payment")
 
         // If the product is not found, return an error
         if (!product) {
-          return res.status(200).json({ success: false, message: "Could not find the Product" });
+          return res.status(404).json({ success: false, message: `Product with ID ${product_id} not found` });
         }
 
         // Add the price of the product to the total amount
@@ -72,43 +81,75 @@ console.log("enter payment")
         console.log(error);
         return res.status(500).json({ success: false, message: error.message });
       }
-   
-  }
-
-  console.log("total ammont - ", total_amount)
-
-
-  if(coupon !==""){
-    const couponValue = await Coupon.findOne({ name: coupon.toUpperCase() });
-
-    if (couponValue) {
-      total_amount -= couponValue.discount
-
     }
-  }
-  const options = {
-    amount: total_amount * 100,
-    currency: "INR",
-    receipt: Math.random(Date.now()).toString(),
-  }
 
-  try {
-    // Initiate the payment using Razorpay
-    const paymentResponse = await instance.orders.create(options)
-    console.log(paymentResponse)
+    // console.log("Total amount before discount:", total_amount);
+
+    // Apply coupon discount if provided
+    if (coupon) {
+      const couponValue = await Coupon.findOne({ name: coupon.toUpperCase() });
+      if (couponValue) {
+        total_amount -= couponValue.discount;
+        console.log("Total amount after coupon discount:", total_amount);
+      }
+    }
+    console.log(absenceCoinuse)
+
+    // Calculate maximum coin usage
+    const maxCoinUsage = Math.min(total_amount * 0.2, Number(user.totalCredit));
+
+
+
+    // Validate absenceCoinUse
+    if (absenceCoinuse > maxCoinUsage) {
+      return res.status(400).json({
+        success: false,
+        message: `You can use up to ${maxCoinUsage} coins only (${total_amount * 0.2} of total amount).`
+      });
+    }
+
+    // Update total_amount after deducting absenceCoinUse
+    total_amount -= absenceCoinuse;
+
+
+  
+
+
+    
+    
+    // Prepare payment options
+    const options = {
+      amount: total_amount * 100, // Amount in paise (multiplied by 100)
+      currency: "INR",
+      receipt: Math.random(Date.now()).toString(),
+    };
+
+    // Initiate payment using your preferred gateway (e.g., Razorpay)
+    const paymentResponse = await instance.orders.create(options);
+    console.log("Payment Response:", paymentResponse);
+   
+    if (absenceCoinuse > 0) {
+      user.totalCredit -= absenceCoinuse;
+      user.virtualMoney.push({
+        date: new Date(),
+        money: -absenceCoinuse.toString(),
+        message: `Deducate ${absenceCoinuse} coins for  Use In Order.`,
+    });
+      await user.save();
+      console.log(`Deducted ${absenceCoinuse} coins. Updated totalCredit: ${user.totalCredit}`);
+   
+    }
+    // Send success response with payment data
     res.json({
       success: true,
       data: paymentResponse,
-    })
+    });
 
-    console.log(paymentResponse)
   } catch (error) {
-    console.log(error)
-    res
-      .status(500)
-      .json({ success: false, message: "Could not initiate order." })
+    console.error("Capture Payment Error:", error);
+    res.status(500).json({ success: false, message: "Could not initiate order." });
   }
-}
+};
 
 
 const paymentVerification = async (req, res) => {

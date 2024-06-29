@@ -41,16 +41,18 @@ function Login() {
   {emailSent ? (
         <VerifyOtp sendOtp={sendOTP} email={email} />
       ) :
-  (  <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+  (  
+    
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-3">
         <div className="text-center">
-          <AiOutlineMail className="mx-auto h-12 w-auto text-indigo-600" />
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Enter Your Email</h2>
-          <p className="mt-2 text-sm text-gray-600">A 6-digit OTP will be sent to this email address</p>
+          <AiOutlineMail className="mx-auto h-8 w-auto text-black" /> {/* Updated color to text-white */}
+          <h2 className="mt- text-2xl font-extrabold text-gray-900 uppercase font-montserrat">Login with otp</h2>
+          <p className="mt-1 text-[12px] text-gray-600">Please enter your email address</p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={sendOTP}>
+        <form className="mt- space-y-3" onSubmit={sendOTP}>
           <input type="hidden" name="remember" value="true" />
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md shadow-sm ">
             <div>
               <label htmlFor="email-address" className="sr-only">Email address</label>
               <input
@@ -59,7 +61,7 @@ function Login() {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none  relative block w-[80%] mx-auto px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -69,13 +71,12 @@ function Login() {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="group relative w-full flex justify-center px-4 border border-transparent text-sm font-medium rounded-md text-white  focus:ring-offset-2 focus:ring-indigo-500"
             >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <HiOutlineArrowNarrowRight className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-              </span>
-              Send OTP
+             
+              <p className=' bg-gray-800 p-2 rounded-lg px-4 '>Send OTP</p>
             </button>
+          <p className="mt-1 text-[12px] text-gray-600 text-center">A 6 digit OTP will be sent to your email address</p>
           </div>
         </form>
       </div>
@@ -84,14 +85,16 @@ function Login() {
           <p className="font-semibold">You've been invited by {referName}</p>
         </div>
       )}
-      <div className="mt-8 text-center">
+      {/* <div className="mt-8 text-center">
         <p className="text-sm text-gray-600">Or sign in with</p>
         <button className="flex items-center justify-center mt-4 px-4 py-2 bg-white text-indigo-600 border border-indigo-600 rounded-md shadow-sm hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          <FaGoogle className="mr-2" />
+          <FaGoogle className="mr-2 text-indigo-600" /> 
           Google
         </button>
-      </div>
-    </div>)
+      </div> */}
+    </div>
+    
+    )
   }
   </>
   );

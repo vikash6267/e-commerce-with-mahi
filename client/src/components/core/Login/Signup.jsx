@@ -43,8 +43,8 @@ function Signup({ email }) {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="max-w-md w-full bg-white p-8 rounded-md shadow-md shirt-animation">
+    <div className="flex justify-center items-center h-screen mt-[50px]">
+      <div className="max-w-md w-full bg-white p-8 rounded-md shadow-md ">
         <h2 className="text-3xl font-bold mb-6 text-center">Sign Up</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -54,7 +54,7 @@ function Signup({ email }) {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-indigo-500"
+              className="w-full border-gray-100 ring-2 rounded-md py-2 px-3 focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
@@ -65,7 +65,7 @@ function Signup({ email }) {
               name="email"
               value={email}
               readOnly
-              className="w-full border-gray-300 rounded-md py-2 px-3 bg-gray-100 cursor-not-allowed"
+              className="w-full border-gray-300 ring-2 rounded-md py-2 px-3 bg-gray-100 cursor-not-allowed"
               required
             />
           </div>
@@ -78,7 +78,7 @@ function Signup({ email }) {
               value={formData.contactNumber}
               pattern="\d*"
               onChange={handleChange}
-              className="min-w-full border-gray-300 rounded-md py-2 px-3 bg-gray-100 "
+              className="min-w-full border-gray-300 ring-2 rounded-md py-2 px-3  "
               required
             />
           </div>
@@ -90,7 +90,7 @@ function Signup({ email }) {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-indigo-500"
+              className="w-full border-gray-300 ring-2 rounded-md py-2 px-3 focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
@@ -101,7 +101,7 @@ function Signup({ email }) {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-indigo-500"
+              className="w-full border-gray-300 ring-2 rounded-md py-2 px-3 focus:outline-none focus:border-indigo-500"
               required
             />
           </div>

@@ -41,6 +41,7 @@ function loadScript(src) {
     address,
     payable,
     user_details,
+    absenceCoinuse,
     navigate,
     dispatch
   ) {
@@ -63,7 +64,8 @@ function loadScript(src) {
         {
             products,
             coupon,
-            payable
+            payable,
+            absenceCoinuse
         },
         {
           Authorization: `Bearer ${token}`,
