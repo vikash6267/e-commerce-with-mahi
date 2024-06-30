@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
-import { editProduct } from '../serivces/operations/admin';
+import axios from 'axios'; // Import axios for making HTTP requests
 
 const EditProductModal = ({ product, closeModal }) => {
   const [formData, setFormData] = useState({
+    id: product._id,
     title: product.title,
     description: product.description,
     price: product.price,
+    category: product.category,
+    sizes: JSON.stringify(product.sizes), // Convert array to JSON string
+    quantity: product.quantity,
     fabric: product.fabric,
+    gsm: product.gsm,
     washingInstructions: product.washingInstructions,
     printing: product.printing,
-    sizes: product.sizes.join(', '), // Assuming sizes is an array
-    gender: product.gender.join(', '), // Assuming gender is an array
-    category: product.category,
-    quantity: product.quantity,
-    sold: product.sold,
-    images: product.images.map(image => image.url).join(', '), // Assuming images is an array of objects with `url` property
+    gender: JSON.stringify(product.gender), // Convert array to JSON string
+    images: JSON.stringify(product.images.map(image => ({ url: image.url }))), // Convert array of objects to JSON string
     views: product.views,
   });
-  const [token, setToken] = useState(''); // Set your authentication token here
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await editProduct(formData);
-      closeModal(); // Close modal after successful edit
+      const response = await axios.post('/api/edit', formData);
+      console.log('Edit Product API Response:', response.data);
+      closeModal(); // Close modal after successful edit (assuming closeModal is a function passed from parent)
     } catch (error) {
       console.error('Failed to edit product:', error);
       // Handle error (optional)
@@ -72,12 +73,48 @@ const EditProductModal = ({ product, closeModal }) => {
             onChange={handleChange}
           />
           
+          {/* Category */}
+          <label>Category:</label>
+          <input
+            type="text"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+          />
+          
+          {/* Sizes (comma-separated) */}
+          <label>Sizes (comma-separated):</label>
+          <input
+            type="text"
+            name="sizes"
+            value={formData.sizes}
+            onChange={handleChange}
+          />
+          
+          {/* Quantity */}
+          <label>Quantity:</label>
+          <input
+            type="number"
+            name="quantity"
+            value={formData.quantity}
+            onChange={handleChange}
+          />
+          
           {/* Fabric */}
           <label>Fabric:</label>
           <input
             type="text"
             name="fabric"
             value={formData.fabric}
+            onChange={handleChange}
+          />
+          
+          {/* GSM */}
+          <label>GSM:</label>
+          <input
+            type="number"
+            name="gsm"
+            value={formData.gsm}
             onChange={handleChange}
           />
           
@@ -98,48 +135,12 @@ const EditProductModal = ({ product, closeModal }) => {
             onChange={handleChange}
           />
           
-          {/* Sizes */}
-          <label>Sizes (comma-separated):</label>
-          <input
-            type="text"
-            name="sizes"
-            value={formData.sizes}
-            onChange={handleChange}
-          />
-          
-          {/* Gender */}
+          {/* Gender (comma-separated) */}
           <label>Gender (comma-separated):</label>
           <input
             type="text"
             name="gender"
             value={formData.gender}
-            onChange={handleChange}
-          />
-          
-          {/* Category */}
-          <label>Category:</label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-          />
-          
-          {/* Quantity */}
-          <label>Quantity:</label>
-          <input
-            type="number"
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-          />
-          
-          {/* Sold */}
-          <label>Sold:</label>
-          <input
-            type="number"
-            name="sold"
-            value={formData.sold}
             onChange={handleChange}
           />
           
