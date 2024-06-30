@@ -57,14 +57,14 @@ export const createProduct = async (data, token) => {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       })
-      console.log("EDIT COURSE API RESPONSE............", response)
+      console.log("EDIT product API RESPONSE............", response)
       if (!response?.data?.success) {
-        throw new Error("Could Not Update Course Details")
+        throw new Error("Could Not Update product Details")
       }
-      toast.success("Course Details Updated Successfully")
+      toast.success("product Details Updated Successfully")
     
     } catch (error) {
-      console.log("EDIT COURSE API ERROR............", error)
+      console.log("EDIT product API ERROR............", error)
       toast.error(error.message)
     }
     toast.dismiss(toastId)

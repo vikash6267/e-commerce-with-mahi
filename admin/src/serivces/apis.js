@@ -15,7 +15,7 @@ export const userEndpoints = {
 export const productEndpoints = {
     GET_ALL_PRODUCT_API: BASE_URL + "/product/all-product",
      GET_PRODUCT_DETAILS : BASE_URL + "/product/getProductDetails",
-
+     
 
       //COUPON APIS 
      GET_COUPON : BASE_URL + "/coupon/get"

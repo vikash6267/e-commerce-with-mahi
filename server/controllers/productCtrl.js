@@ -188,6 +188,7 @@ exports.updateProduct = async (req, res) => {
 
 
 
+
 exports.getAllProduct = async (req, res) => {
   try {
     const allProduct = await Product.find();
@@ -202,6 +203,7 @@ exports.getAllProduct = async (req, res) => {
     });
   }
 };
+
 
 exports.getProductDetails = async (req, res) => {
   try {

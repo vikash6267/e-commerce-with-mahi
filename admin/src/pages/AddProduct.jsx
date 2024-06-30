@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './AddProduct.css'; // Import external CSS file
-import { fetchCategory,imageUpload,createProduct ,editProduct} from '../serivces/operations/admin';
-import Dropzone from "react-dropzone";
+import { fetchCategory, imageUpload, createProduct, editProduct } from '../serivces/operations/admin';
+import Dropzone from 'react-dropzone';
 import MultiSelectDropdown from '../components/Product/MultiSelectDropDown.';
 import { fetchProductDetails } from '../serivces/operations/product';
 import { useParams } from 'react-router-dom';
 
 const ProductForm = () => {
-  const { register, handleSubmit, formState: { errors },setValue  } = useForm(
-    {
-      defaultValues: {
-        sizes: [],
-        gender: [],
-      }
-    }
-  );
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+    defaultValues: {
+      sizes: [],
+      gender: [],
+    },
+  });
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedGenders, setSelectedGenders] = useState([]);
   const { id } = useParams();
   const [categories, setCategories] = useState([]);
-  const [images,setImages] = useState([])
+  const [images, setImages] = useState([]);
 
   const onSubmit = async (data) => {
-    console.log(data)
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('slug', data.slug);
@@ -42,48 +39,40 @@ const ProductForm = () => {
     formData.append('images', JSON.stringify(images));
 
     if (id) {
-      await editProduct( {...formData,id}); // Assuming updateProduct is a function that takes id and formData
+      await editProduct({ ...formData, id });
     } else {
       await createProduct(formData);
     }
   };
 
-  
   const sizeOptions = [
     { value: 'XS', label: 'XS' },
     { value: 'S', label: 'S' },
     { value: 'M', label: 'M' },
     { value: 'L', label: 'L' },
     { value: 'XL', label: 'XL' },
-    { value: 'XXL', label: 'XXL' }
+    { value: 'XXL', label: 'XXL' },
   ];
-  
+
   const genderOptions = [
     { value: 'Male', label: 'Male' },
     { value: 'Female', label: 'Female' },
-    { value: 'Unisex', label: 'Unisex' }
+    { value: 'Unisex', label: 'Unisex' },
   ];
-  
+
   const removeImage = (publicId) => {
-    // Filter out the image with the specified publicId
     const updatedImages = images.filter((image) => image.public_id !== publicId);
-    
-    // Update the state with the new array of images
     setImages(updatedImages);
   };
+
   const uploadImage = async (acceptedFiles) => {
     const response = await imageUpload(acceptedFiles);
     const uploadedImages = response?.map((image) => ({
       public_id: image?.asset_id,
-      url: image?.url
+      url: image?.url,
     }));
     setImages((prevImages) => [...prevImages, ...uploadedImages]);
   };
-
-
-
-
-
 
   useEffect(() => {
     const fetchCategoryMain = async () => {
@@ -91,15 +80,15 @@ const ProductForm = () => {
         const response = await fetchCategory();
         setCategories(response);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error('Error fetching categories:', error);
       }
     };
 
-    const fff = async () => {
+    const fetchProductDetailsMain = async () => {
       if (id) {
         try {
-          const product2 = await fetchProductDetails(id);
-         const product =  product2?.data?.productDetails
+          const productResponse = await fetchProductDetails(id);
+          const product = productResponse?.data?.productDetails;
           setValue('title', product.title);
           setValue('description', product.description);
           setValue('price', product.price);
@@ -117,24 +106,19 @@ const ProductForm = () => {
           setSelectedSizes(product?.sizes);
           setSelectedGenders(product?.gender);
           setImages(product.images);
-
-          
         } catch (error) {
-          console.error("Error fetching product details:", error);
+          console.error('Error fetching product details:', error);
         }
       }
     };
-    console.log(id)
 
     fetchCategoryMain();
-    fff();
+    fetchProductDetailsMain();
   }, [id, setValue]);
-
-
 
   return (
     <div className="max-w-lg mx-auto mt-10">
-    <h2 className=' font-bold text-2xl text-center mb-4'>Add Product</h2>
+      <h2 className="font-bold text-2xl text-center mb-4">Add Product</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="form-group">
           <label htmlFor="title" className="form-label">
@@ -150,7 +134,7 @@ const ProductForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
           )}
         </div>
-     
+
         <div className="form-group">
           <label htmlFor="description" className="form-label">
             Description
@@ -164,6 +148,7 @@ const ProductForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
           )}
         </div>
+
         <div className="form-group">
           <label htmlFor="price" className="form-label">
             Price
@@ -171,13 +156,17 @@ const ProductForm = () => {
           <input
             type="number"
             id="price"
-            {...register('price', { required: 'Price is required', min: { value: 0, message: 'Price must be greater than zero' } })}
+            {...register('price', {
+              required: 'Price is required',
+              min: { value: 0, message: 'Price must be greater than zero' },
+            })}
             className={`form-input ${errors.price ? 'border-red-500' : 'border-gray-300'}`}
           />
           {errors.price && (
             <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
           )}
         </div>
+
         <div className="form-group">
           <label htmlFor="highPrice" className="form-label">
             High Price
@@ -192,7 +181,7 @@ const ProductForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.highPrice.message}</p>
           )}
         </div>
-     
+
         <div className="form-group">
           <label htmlFor="fabric" className="form-label">
             Fabric
@@ -207,6 +196,7 @@ const ProductForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.fabric.message}</p>
           )}
         </div>
+
         <div className="form-group">
           <label htmlFor="gsm" className="form-label">
             GSM
@@ -221,6 +211,7 @@ const ProductForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.gsm.message}</p>
           )}
         </div>
+
         <div className="form-group">
           <label htmlFor="washingInstructions" className="form-label">
             Washing Instructions
@@ -235,6 +226,7 @@ const ProductForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.washingInstructions.message}</p>
           )}
         </div>
+
         <div className="form-group">
           <label htmlFor="printing" className="form-label">
             Printing
@@ -249,8 +241,8 @@ const ProductForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.printing.message}</p>
           )}
         </div>
-          {/* Sizes MultiSelectDropdown */}
-          <MultiSelectDropdown
+
+        <MultiSelectDropdown
           title="Sizes"
           options={sizeOptions}
           selectedOptions={selectedSizes}
@@ -277,7 +269,7 @@ const ProductForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>
           )}
         </div>
-         {/* Gender MultiSelectDropdown */}
+
         <MultiSelectDropdown
           title="Gender"
           options={genderOptions}
@@ -285,7 +277,6 @@ const ProductForm = () => {
           setSelectedOptions={setSelectedGenders}
         />
 
-    
         <div className="form-group">
           <label htmlFor="quantity" className="form-label">
             Quantity
@@ -293,29 +284,30 @@ const ProductForm = () => {
           <input
             type="number"
             id="quantity"
-            {...register('quantity', { required: 'Quantity is required', min: { value: 0, message: 'Quantity must be greater than zero' } })}
+            {...register('quantity', {
+              required: 'Quantity is required',
+              min: { value: 0, message: 'Quantity must be greater than zero' },
+            })}
             className={`form-input ${errors.quantity ? 'border-red-500' : 'border-gray-300'}`}
           />
           {errors.quantity && (
             <p className="text-red-500 text-sm mt-1">{errors.quantity.message}</p>
           )}
         </div>
-        <div className="bg-white border-2 border-blue-600 mb-[20px] p-[50px] text-center ">
-            <Dropzone
-              onDrop={(acceptedFiles) => uploadImage(acceptedFiles)}
-            >
-              {({ getRootProps, getInputProps }) => (
-                <section>
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
-                  </div>
-                </section>
-              )}
-            </Dropzone>
-          </div>
+
+        <div className="dropzone-wrapper">
+          <Dropzone onDrop={(acceptedFiles) => uploadImage(acceptedFiles)}>
+            {({ getRootProps, getInputProps }) => (
+              <section>
+                <div {...getRootProps()} className="dropzone">
+                  <input {...getInputProps()} />
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+                </div>
+              </section>
+            )}
+          </Dropzone>
+        </div>
+
         <div className="flex justify-end">
           <button
             type="submit"
@@ -326,34 +318,32 @@ const ProductForm = () => {
         </div>
       </form>
 
-
-      <div className=" flex gap-10 mt-[50px] flex-wrap">
-      {images?.map((image, index) => (
-  <div className="relative" key={index}>
-    <button
-      type="button"
-      onClick={() => removeImage(image.public_id)}
-      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full shadow-md focus:outline-none"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
-    </button>
-    <img src={image.url} alt="" className="w-40 h-40 object-cover rounded-lg shadow-md" />
-  </div>
-))}
-
+      <div className="images-preview flex gap-4 mt-4 flex-wrap">
+        {images?.map((image, index) => (
+          <div className="relative" key={index}>
+            <button
+              type="button"
+              onClick={() => removeImage(image.public_id)}
+              className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full shadow-md focus:outline-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <img src={image.url} alt="" className="w-40 h-40 object-cover rounded-lg shadow-md" />
+          </div>
+        ))}
       </div>
     </div>
   );

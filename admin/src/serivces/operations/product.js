@@ -13,25 +13,20 @@ const {
     GET_COUPON
 } =productEndpoints
 
-export const getAllProduct = () => async (dispatch) => {
-   ;
+export const getAllProduct = async () => {
   try {
     const response = await apiConnector("GET", GET_ALL_PRODUCT_API);
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch Product");
     }
     const result = response?.data?.data;
-  // Dispatching action to save products
-     ;
+    console.log("Fetched Products:", result); 
     return result;
   } catch (error) {
     console.log("GET_ALL_PRODUCT_API API ERROR:", error);
-    toast.error(error.message);
-     ;
-    return [];
+    throw error; 
   }
 };
-
   
 export const fetchProductDetails = async (productID) => {
   //  
