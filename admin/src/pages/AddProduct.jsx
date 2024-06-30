@@ -37,9 +37,10 @@ const ProductForm = () => {
     formData.append('gender', JSON.stringify(selectedGenders));
     formData.append('sizes', JSON.stringify(selectedSizes));
     formData.append('images', JSON.stringify(images));
-
+console.log(data)
     if (id) {
-      await editProduct({ ...formData, id });
+      formData.append('id', id); 
+      await editProduct(formData);
     } else {
       await createProduct(formData);
     }
@@ -117,8 +118,13 @@ const ProductForm = () => {
   }, [id, setValue]);
 
   return (
-    <div className="max-w-lg mx-auto mt-10">
-      <h2 className="font-bold text-2xl text-center mb-4">Add Product</h2>
+    <div className="w-11/12 mx-auto mt-10">
+      <h2 className="font-bold text-2xl text-center mb-4">
+{
+  id ? "Edit Product" : "Add Product"
+}
+
+      </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="form-group">
           <label htmlFor="title" className="form-label">
@@ -313,7 +319,9 @@ const ProductForm = () => {
             type="submit"
             className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md"
           >
-            Submit
+        {
+  id ? "Edit Product" : "Add Product"
+}
           </button>
         </div>
       </form>

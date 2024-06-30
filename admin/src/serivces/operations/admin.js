@@ -71,10 +71,10 @@ export const createProduct = async (data, token) => {
      }
 
   export const deleteProduct = async (data, token) => {
-
+console.log(data)
     const toastId = toast.loading("Loading...")
     try {
-      const response = await apiConnector("POST", DELETE_PRODUCT_API, data, {
+      const response = await apiConnector("DELETE", DELETE_PRODUCT_API, data, {
         Authorization: `Bearer ${token}`,
       })
       // console.log("DELETE  API RESPONSE............", response)

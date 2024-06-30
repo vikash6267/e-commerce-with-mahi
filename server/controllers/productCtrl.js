@@ -184,14 +184,41 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
+exports.deleteProduct = async (req, res) => {
+  const { productId } = req.body;
+  try {
+    // Check if the product exists
+    const product = await Product.findByIdAndDelete(productId);
+    
+   
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found',
+      });
+    }
 
+    // Delete the product
+    await product.remove();
+
+    res.status(200).json({
+      success: true,
+      message: 'Product deleted successfully',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 
 
 
 exports.getAllProduct = async (req, res) => {
   try {
-    const allProduct = await Product.find();
+    const allProduct = await Product.find().populate("category");
     res.status(200).json({
       success: true,
       data: allProduct,

@@ -145,19 +145,19 @@ export function fetchMyProfile(token,navigate) {
 
       console.log("APP JS RESPONSE............", response)
 
-      if (!response.data.success) {
-        throw new Error(response.data.message)
+      if (!response?.data?.success) {
+        throw new Error(response?.data?.message)
       }
       // console.log(response.data)
 
-      dispatch(setUser(response.data.user))
+      dispatch(setUser(response?.data?.user))
 
 
 
-      localStorage.setItem("user", JSON.stringify(response.data.user))
+      localStorage.setItem("user", JSON.stringify(response?.data?.user))
 
     } catch (error) {
-      console.log("LOGIN API ERROR............", error.response.data.message)
+      console.log("LOGIN API ERROR............", error?.response?.data?.message)
 
       if (error?.response?.data?.message === 'Token expired' || error?.response?.data?.message === 'token is invalid') {
         swal({

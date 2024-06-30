@@ -11,7 +11,7 @@ const App = () => {
       <div className="w-20">
         <Sidebar />
       </div>
-      <div className="w-3/4 p-8">
+      <div className=" p-8 w-full">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/admin/add-product" element={<AddProduct />} />

@@ -52,11 +52,11 @@ function AllProduct({ products }) {
       // Check if product's size matches with selected sizes
       const sizeMatch =
         selectedSizes.length === 0 ||
-        product.sizes.some((size) => selectedSizes.includes(size));
+        product?.sizes.some((size) => selectedSizes.includes(size));
       // Check if product's gender matches with selected gender
       const genderMatch =
         !selectedGender ||
-        product.gender?.some((g) => selectedGender.includes(g));
+        product?.gender?.some((g) => selectedGender.includes(g));
       return sizeMatch && genderMatch;
     });
 
@@ -262,33 +262,33 @@ function AllProduct({ products }) {
               >
                 {filteredProducts.map((product) => (
                   <Link
-                    to={`/product/${product._id}`}
-                    key={product._id}
+                    to={`/product/${product?._id}`}
+                    key={product?._id}
                     data-aos="zoom-in-down"
                   >
                     <div className="flex flex-col gap-3 mt-2">
                       <div className="h-full min-w-[10rem] overflow-hidden relative">
                         <img
-                          src={product.images[0]?.url}
+                          src={product?.images[0]?.url}
                           alt=""
                           className="object-cover h-full w transition duration-500 ease-in-out transform hover:-translate-y-1"
                         />
                         <img
-                          src={product.images[1].url}
+                          src={product?.images[1].url}
                           alt=""
                           className="object-cover h-full w absolute top-0 left-0 opacity-0 transition duration-500 ease-in-out transform hover:opacity-100"
                         />
                       </div>
                       <div>
                         <p className="font-montserrat lg:text-lg text-gray-600 text-[13px]">
-                          {product.title}
+                          {product?.title}
                         </p>
                         <p className="font-montserrat lg:text-sm text-gray-600 text-[12px]">
                           {" "}
-                          {displayMoney(product.price)}
+                          {displayMoney(product?.price)}
                         </p>
                         <div className="flex gap-2 text-[11px] text-red-500">
-                          {product.sizes?.map((size, index) => (
+                          {product?.sizes?.map((size, index) => (
                             <div key={index} className="relative ">
                               {size}
                             </div>

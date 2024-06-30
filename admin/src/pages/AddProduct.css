@@ -8,7 +8,7 @@ form {
 
 /* Form group */
 .form-group {
-  flex: 1 1 calc(50% - 1rem);
+  flex-wrap: wrap;
   margin-bottom: 1rem;
 }
 
