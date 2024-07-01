@@ -53,24 +53,43 @@ function Navbar({ isOpen, setIsOpen }) {
   };
 
   useEffect(() => {
-    console.log(isOpen);
-    AOS.init({  once: true });
+    if (isOpen) {
+      const scrollY = document.documentElement.style.getPropertyValue("--scroll-y");
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+
+    AOS.init({ once: true });
     AOS.refresh();
 
     return () => {
-      AOS.refreshHard();
+      document.body.style.position = "";
+      document.body.style.top = "";
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      document.documentElement.style.setProperty("--scroll-y", `${window.scrollY}px`);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <AnimatePresence>
+    <AnimatePresence >
       {isOpen && (
         <div
-          className={`fixed top-0 left-0 right-0 bottom-0 z-40 `}
+          className={`fixed top-0 left-0 right-0 bottom-0 z-50  `}
         >
           <Backdrop onClick={handleClose} />
           <motion.div
-            id="cart"
+            id="navbar"
             ref={ref}
             className="fixed top-0 left-0 bottom-0 lg:w-[350px] w-[320px] bg-white p-4 z-40 border-r-2 shadow-2xl text-lg overflow-y-auto scrollable-div"
             initial={{ x: "-100%", opacity: 0 }}

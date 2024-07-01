@@ -38,7 +38,7 @@ function ProductCard({ products }) {
         <img
           src={images[0]?.url}
           alt=""
-          className="object-cover h-full w transition duration-500 ease-in-out transform hover:-translate-y-1"
+          className="object-cover  w-full transition duration-500 ease-in-out transform hover:-translate-y-1"
         />
         <img
           src={images[1].url}
