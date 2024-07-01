@@ -64,7 +64,7 @@ function Home() {
 
         
 
-          <div className=" text-black z-0  font-montserrat text-xl  ">
+          <div className=" text-black z-0  font-montserrat text-xl w-screen  ">
             {/* <h2
               style={{
                 textAlign: "center",

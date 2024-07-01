@@ -6,7 +6,7 @@ function Refer() {
   const { user } = useSelector((state) => state.profile);
   const link = `https://absencemain.vercel.app/login?refer=${user.referralCode}`;
   const copyToClipboard = () => {
-    navigator.clipboard
+    navigator?.clipboard
       .writeText(link)
       .then(() => {
         alert("Link copied to clipboard!");

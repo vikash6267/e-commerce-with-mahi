@@ -216,13 +216,23 @@ function ProductDetails() {
   }, [product, setEarnings]);
 
   const shareProduct = () => {
-    let productUrl = "https://absencemain.vercel.app/product/" + productID;
+    let productUrl = `https://absencemain.vercel.app/product/${productID}`;
     if (user?.referralCode) {
       productUrl += "/" + user.referralCode;
     }
-    productUrl = encodeURIComponent(productUrl);
-    const whatsappUrl = `https://api.whatsapp.com/send?text=Check out this product: ${productUrl}`;
-    window.open(whatsappUrl, "_blank");
+    const shareData = {
+      title: product.title,
+      text: "Check out this product!",
+      url: productUrl,
+    };
+
+    if (navigator?.share) {
+      navigator.share(shareData)
+        .then(() => console.log("Shared successfully"))
+        .catch((error) => console.error("Error sharing:", error));
+    } else {
+      alert("Sharing is not supported on this browser.");
+    }
   };
 
   // Call the shareProduct function when needed
