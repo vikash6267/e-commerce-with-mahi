@@ -54,13 +54,13 @@ function Home() {
   // }, [allProduct]);
   return (
     <div className="">
-      <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between  text-white">
-        {/* <MetaData title="Absence" /> */}
-
           <div className="  min-h-[80vh] " >
             <ThreeScene />
           </div>
-        <div className=" min-w-screen max-w-screen   z-0 bg-white">
+      <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between  text-white">
+        {/* <MetaData title="Absence" /> */}
+
+        <div className=" min-w-screen max-w-screen   z-0 bg-white ">
 
         
 

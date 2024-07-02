@@ -73,13 +73,13 @@ function Navbar({ isOpen, setIsOpen }) {
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      document.documentElement.style.setProperty("--scroll-y", `${window.scrollY}px`);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     document.documentElement.style.setProperty("--scroll-y", `${window.scrollY}px`);
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   return (
     <AnimatePresence >
@@ -91,7 +91,7 @@ function Navbar({ isOpen, setIsOpen }) {
           <motion.div
             id="navbar"
             ref={ref}
-            className="fixed top-0 left-0 bottom-0 lg:w-[350px] w-[320px] bg-white p-4 z-40 border-r-2 shadow-2xl text-lg overflow-y-auto scrollable-div"
+            className="fixed top-0 left-0 bottom-0 lg:w-[350px] w-[320px] bg-black p-4 z-40 border-r-2 shadow-2xl text-lg overflow-y-auto scrollable-div text-white"
             initial={{ x: "-100%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "-100%", opacity: 0 }}
