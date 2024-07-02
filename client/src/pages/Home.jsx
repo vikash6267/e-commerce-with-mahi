@@ -60,7 +60,7 @@ function Home() {
           <div className="  min-h-[80vh] " >
             <ThreeScene />
           </div>
-        <div className=" w-screen   z-0 bg-white">
+        <div className=" min-w-screen max-w-screen   z-0 bg-white">
 
         
 
