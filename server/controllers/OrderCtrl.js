@@ -6,7 +6,7 @@ const Product = require("../models/Product")
 const { instance } = require("../config/razorpay")
 const mailSender = require("../utills/mailSender")
 const crypto = require("crypto")
-
+const axios = require("axios")
 
 const Coupon = require("../models/Coupon")
 const User = require("../models/User")
@@ -93,7 +93,7 @@ const capturePayment = async (req, res) => {
         console.log("Total amount after coupon discount:", total_amount);
       }
     }
-    console.log(absenceCoinuse)
+    // console.log(absenceCoinuse)
 
     // Calculate maximum coin usage
     const maxCoinUsage = Math.min(total_amount * 0.2, Number(user.totalCredit));
@@ -126,7 +126,7 @@ const capturePayment = async (req, res) => {
 
     // Initiate payment using your preferred gateway (e.g., Razorpay)
     const paymentResponse = await instance.orders.create(options);
-    console.log("Payment Response:", paymentResponse);
+    // console.log("Payment Response:", paymentResponse);
    
     if (absenceCoinuse > 0) {
       user.totalCredit -= absenceCoinuse;
@@ -136,7 +136,7 @@ const capturePayment = async (req, res) => {
         message: `Deducate ${absenceCoinuse} coins for  Use In Order.`,
     });
       await user.save();
-      console.log(`Deducted ${absenceCoinuse} coins. Updated totalCredit: ${user.totalCredit}`);
+      // console.log(`Deducted ${absenceCoinuse} coins. Updated totalCredit: ${user.totalCredit}`);
    
     }
     // Send success response with payment data
@@ -173,7 +173,10 @@ const paymentVerification = async (req, res) => {
       if (expectedSignature === razorpay_signature) {
         try {
           // Call the createOrder function
-          await createOrder(product, userId, address, razorpay_order_id, razorpay_payment_id, payable, res);
+
+          const { order_id, shipment_id } = await shipRocket(address, product,payable,userId)
+          
+          await createOrder(product,order_id,shipment_id, userId, address, razorpay_order_id, razorpay_payment_id, payable, res);
       
           // Send the response after the order is successfully created
           return res.status(200).json({ success: true, message: "Payment Verified" });
@@ -225,7 +228,7 @@ const paymentVerification = async (req, res) => {
 
 
 
-const createOrder = asyncHandler(async (products, userId, address, razorpay_order_id, razorpay_payment_id,payable, res) => {
+const createOrder = asyncHandler(async (products,orderId,shipmentId, userId, address, razorpay_order_id, razorpay_payment_id,payable, res) => {
   const userDetails = await User.findById(userId);
 console.log(payable)
   const {
@@ -269,11 +272,11 @@ console.log(payable)
     //   });
     //   orders.push(order);
     // }
-      const orderId = uuidv4();
+   
 
     const order = await Order.create({
       order_id: orderId, // Provide order_id
-      shipment_id: 123, // Example shipment_id
+      shipment_id: shipmentId, // Example shipment_id
       user: userId,
       shippingInfo: {
               name: userDetails.name, // assuming user has a name field
@@ -413,8 +416,94 @@ exports.sendPaymentSuccessEmail = async (req, res) => {
 }
 
 
+const shipRocket = asyncHandler(async(address, products,payable,userId)=>{
+
+  console.log("product",products)
+
+  const orderItems = products.map(p => ({
+    name: p.product.title,
+    sku: p.product._id,
+    units: p.quantity,
+    selling_price: p.product.price,
+    discount: 0,
+    tax: 0,
+    hsn: "0000"
+  }));
+
+  console.log("items",orderItems)
 
 
+const userDetails = await User.findById(userId)
+
+  const{
+    name,
+    email
+  } = userDetails
+
+  const orderPayload = {
+    order_id: "123",
+    order_date: new Date().toISOString(),
+    pickup_location: "Primary",
+    channel_id: "WEB",
+    comment: "Urgent delivery needed",
+    billing_customer_name: name,
+    billing_last_name: "",
+    billing_address: address.billingAddress,
+    billing_address_2: "",
+    billing_city: address.billingCity,
+    billing_pincode: address.billingPincode,
+    billing_state: address.billingState,
+    billing_country: address.billingCountry,
+    billing_email: email,
+    billing_phone: address.billingPhone,
+    shipping_is_billing: true,
+    order_items: orderItems,
+    payment_method: "Prepaid",
+    shipping_charges: "50",
+    giftwrap_charges: "0",
+    transaction_charges: "0",
+    total_discount: "0",
+    sub_total: payable,
+    length: "10",
+    breadth: "5",
+    height: "2",
+    weight: "0.5",
+    ewaybill_no: "",
+    customer_gstin: "",
+    invoice_number: "",
+    order_type: "ESSENTIALS"
+  };
+
+  try {
+    const loginData = {
+      email: "sendeepak182@gmail.com",
+      password: "Vikash@123"
+    };
+
+    const loginResponse = await axios.post('https://apiv2.shiprocket.in/v1/external/auth/login', loginData);
+    const token = loginResponse.data.token;
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+
+    const orderResponse = await axios.post('https://apiv2.shiprocket.in/v1/external/orders/create/adhoc', orderPayload, config);
+
+
+
+    const { order_id, shipment_id } = orderResponse.data;
+
+    if (order_id && shipment_id) {
+      return { order_id, shipment_id };
+    } else {
+      throw new Error('An error occurred while creating the order');
+    }
+  
+  } catch (error) {
+    console.error('Error creating order:', error.response?.data || error.message);
+    throw new Error('An error occurred while creating the order');
+  }
+});
 
 
 const getAllOrder = async(req,res)=>{
@@ -457,5 +546,6 @@ module.exports = {
     capturePayment,
   paymentVerification,
   createOrder,
+  shipRocket,
   getAllOrder
 };

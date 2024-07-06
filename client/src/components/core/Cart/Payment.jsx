@@ -28,6 +28,7 @@ function Payment({ payable, coupon }) {
   };
 
   const paymentHandle = () => {
+    console.log(cart)
     BuyProduct(token, cart, coupon, addressData, payable, user,coinUsage, navigate, dispatch);
   };
 

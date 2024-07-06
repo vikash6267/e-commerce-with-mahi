@@ -45,6 +45,8 @@ function loadScript(src) {
     navigate,
     dispatch
   ) {
+
+    console.log(products)
     const toastId = toast.loading("Loading...")
     try {
       // Loading the script of Razorpay SDK

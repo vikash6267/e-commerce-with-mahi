@@ -49,7 +49,7 @@ function Cart() {
           <motion.div
             id="cart"
             ref={ref}
-            className="fixed top-0 right-0 bottom-0 lg:w-[450px] w-[320px] bg-white p-4 z-50 max-h-screen "
+            className="fixed top-0 right-0 bottom-0 lg:w-[450px] w-[320px] bg-white p-4 z-50 max-h-screen overflow-auto "
             initial={{ x: "100%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0 }}
