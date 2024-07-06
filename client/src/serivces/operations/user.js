@@ -267,7 +267,7 @@ export function logout(navigate) {
   return (dispatch) => {
     dispatch(setToken(null))
     dispatch(setUser(null))
-    dispatch(resetCart())
+    // dispatch(resetCart())
     dispatch(resetWishlist())
     localStorage.removeItem("token")
     localStorage.removeItem("user")

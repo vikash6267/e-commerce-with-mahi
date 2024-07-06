@@ -1,5 +1,5 @@
 // CheckoutForm.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCheck } from "react-icons/fa"
 import { useSelector } from "react-redux"
 import { displayMoney , calculateTotal} from '../../../helper/utills';
@@ -8,14 +8,17 @@ import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { fetchCoupon } from '../../../serivces/operations/product';
 import Address from './Address';
 import Payment from './Payment';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import RedirectPrompt from './RedirectPromt';
+
 
 const CheckoutForm = ({handleClose}) => {
   const { cart, total, totalItems, isCartOpen } = useSelector((state) => state.cart);
   const [isOpen, setIsOpen] = useState(true);
   const [payable,setPayable] = useState(total)
   //Coupon
-
+  const [showRedirectPrompt, setShowRedirectPrompt] = useState(false); // State to manage showing the redirect prompt
+  const navigate = useNavigate();
   const [couponName,setCouponName] = useState('')
   const [coupon,setCoupon] = useState(false)
   const [couponValue,setCouponValue] = useState(0)
@@ -25,6 +28,13 @@ const CheckoutForm = ({handleClose}) => {
 
   const displayTotalAmount = displayMoney(total);
 
+  const totalHighPrice = cart.reduce((acc, curr) => acc + curr.product.highPrice, 0);
+const totalDiscount = displayMoney(totalHighPrice)
+
+
+// useEffect(()=>{
+
+// },[])
   const toggleSummary = () => {
     setIsOpen(!isOpen);
   };
@@ -66,9 +76,39 @@ const handleCoupon = async() =>{
   }
 
 }
+
+
+
+
+const handleBack = () => {
+  setShowRedirectPrompt(true); // Show redirect prompt when user clicks Back
+};
+
+const handleContinue = () => {
+  navigate('/checkout'); // Navigate to checkout page when user clicks Continue
+};
+
+const handleRedirectPromptConfirm = () => {
+  setShowRedirectPrompt(false);
+  navigate('/');
+};
+
+const handleRedirectPromptCancel = () => {
+  setShowRedirectPrompt(false);
+};
   return (
    <div className=' w-screen flex flex-wrap-reverse  checkout font-montserrat  '>
 {/* left */}
+
+
+{showRedirectPrompt && (
+        <RedirectPrompt
+          message='Are you sure you want to leave this page? Your order details may not be saved.'
+          onConfirm={handleRedirectPromptConfirm}
+          onCancel={handleRedirectPromptCancel}
+        />
+      )}
+
 
 <div className=' w-11/12 mx-auto flex flex-wrap-reverse'>
   
@@ -120,7 +160,7 @@ const handleCoupon = async() =>{
 
                 <div>
                 <p className=' text-[15px] font-semibold'>{item.product.title}</p>
-<p className=' text-[12px] lg:text-[14px]  '>{"Price-"}{"  "}{displayMoney(item.product.price)}</p>
+<p className=' text-[12px] lg:text-[14px]  '>{"Price-"}{"  "}{displayMoney(item?.product?.price)}</p>
 
 <p className=' text-[12px] lg:text-[14px] '>{"Size-"}{item.size}</p>
 <p className=' text-[12px] lg:text-[14px]'>{"Quantity-"}{item.quantity}</p>
@@ -144,9 +184,10 @@ const handleCoupon = async() =>{
     <div className='mt-[20px] font-montserrat' >
 
 <div className=' flex w-full justify-between px-6 text-[13px]'>Subtotal <span> {displayTotalAmount}</span></div>
+<div className=' flex w-full justify-between px-6 text-[13px]'>Discounts <span className=' text-red-700'> {totalDiscount}</span></div>
 {
   coupon && (
-<div className=' flex w-full justify-between px-6 text-[13px]'>Discount <span className=' text-green-600'> - {displayMoney(couponValue)}</span></div>
+<div className=' flex w-full justify-between px-6 text-[13px]'>Coupon Applied  <span className=' text-red-700'> - {displayMoney(couponValue)}</span></div>
 
   )
 }

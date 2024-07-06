@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const links = [
   { to: "/shop", text: "Shop" },
-  { to: "/about-us", text: "About Us" },
+  { to: "/about-us", text: "Get To Know Us" },
   { to: "/contact-us", text: "Contact Us" },
   { to: "/shipping-policy", text: "Shipping Policy" },
   { to: "/return-refund-policy", text: "Return/Refund Policy" },

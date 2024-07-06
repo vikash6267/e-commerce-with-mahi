@@ -16,7 +16,10 @@ function Home() {
   
   let selectedProducts
 
-  
+
+  useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, []);
 
   const selectRandomProducts = (products) => {
     if (!Array.isArray(products)) {
