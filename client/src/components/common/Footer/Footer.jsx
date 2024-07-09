@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 
 const links = [
   { to: "/shop", text: "Shop" },
-  { to: "/about-us", text: "Get To Know Us" },
+  { to: "/about-us", text: "About Us" },
   { to: "/contact-us", text: "Contact Us" },
+  { to: "/contact-us", text: "FAQ" },
   { to: "/shipping-policy", text: "Shipping Policy" },
   { to: "/return-refund-policy", text: "Return/Refund Policy" },
   { to: "/privacy-policy", text: "Privacy Policy" },
@@ -76,19 +77,19 @@ const Footer = () => {
       </div>
       <div className=" bg-black py-4 transition duration-300 text-center">
         <div className="w-11/12 mx-auto text-center">
-          <div className="flex justify-between items-center flex-wrap gap-2 text-[10px] ">
+          <div className="flex justify-between items-center flex-wrap gap-2 text-[12px] ">
             <p className="mb-0  text-gray-300 flex items-center gap-2 ">
-              Made with <span className="text-red-500"><FaHeart /></span> by 
+              Made with <span className="text-red-500"><FaHeart /></span>  
               <a 
                 href="https://mahitechnocrafts.in/" 
                 target='_blank' 
                 rel="noopener noreferrer" 
-                className="text-blue-900 text-blue-300 underline"
+                className=" text-blue-300 underline"
               >
               Mahi Technocrafts
               </a>
             </p>
-            <p className="mb-0 text-gray-700 text-gray-300">©Absence 2024 All rights reserved.</p>
+            <p className="mb-0  text-gray-300">©Absence 2024 All rights reserved.</p>
           </div>
         </div>
       </div>

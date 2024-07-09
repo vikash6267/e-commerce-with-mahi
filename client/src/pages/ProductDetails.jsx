@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import { IoIosAdd, IoIosRemove } from "react-icons/io";
 import NotificationModal from "../components/core/Product Details/Notification";
 import { MdOutlineLocalShipping } from "react-icons/md";
-import { addToCart } from "../slices/cartSlice";
+import { addToCart, handleIsCartOpen } from "../slices/cartSlice";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -31,6 +31,7 @@ import SizeSelectionModal from "../components/core/AllProduct.jsx/SizeSelect";
 import ImageSlider from "../components/core/Product Details/ImageSlider";
 import Details from "../components/core/Product Details/Details";
 import ProductCard from "../components/common/ProductCard";
+
 function ProductDetails() {
   const location = useLocation();
   const [product, setProduct] = useState(null);
@@ -52,7 +53,9 @@ function ProductDetails() {
   const [showModal, setShowModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useSelector((state) => state.profile);
-
+  const { cart} = useSelector(
+    (state) => state.cart
+  );
   // Function to handle showing/hiding the modal
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -160,6 +163,8 @@ function ProductDetails() {
       );
     } else {
       dispatch(addToCart({ products: product, quantity, size: selectedSize }));
+
+      dispatch(handleIsCartOpen())
     }
   };
 
@@ -265,6 +270,10 @@ function ProductDetails() {
     }
   };
 
+
+  const isProductInCart =  cart.some(
+    (cartItem) => cartItem.product._id === productID
+  );
   return (
     <>
       <div className="bg-black mt-[60px] text-white flex  ">
@@ -479,24 +488,31 @@ function ProductDetails() {
                 Add to cart
               </button> */}
 
-                  {selectedSize === null ? (
-                    <button
-                      className=" p-2 px-16 rounded-2xl  text-gray border-black border"
-                      onClick={handleAddItem}
-                      disabled={product.stock <= 0}
-                    >
-                      Selcte Size{" "}
-                      <span className=" text-[10px]">For Add To cart</span>
-                    </button>
-                  ) : (
-                    <button
-                      className=" p-2 px-16 rounded-2xl bg-gray-900 text-white"
-                      onClick={handleAddItem}
-                      disabled={product.stock <= 0}
-                    >
-                      Add To Cart
-                    </button>
-                  )}
+              {isProductInCart ? (
+        
+          <button className="p-2 px-16 rounded-2xl bg-gray-900 text-white w-full" onClick={()=>dispatch(handleIsCartOpen())}>
+            Go to Cart
+          </button>
+      
+      ) : selectedSize === null ? (
+        <button
+          className="p-2 px-16 rounded-2xl text-gray border-black border"
+          onClick={handleAddItem}
+          disabled={product.stock <= 0}
+        >
+          Select Size <span className="text-[10px]">For Add To Cart</span>
+        </button>
+      ) : (
+        <button
+          className="p-2 px-16 rounded-2xl bg-gray-900 text-white"
+          onClick={handleAddItem}
+          disabled={product.stock <= 0}
+        >
+          Add To Cart
+        </button>
+      )}
+
+             
                 </div>
 
                 <div className="  mt-[10px] text-[13px]    ">

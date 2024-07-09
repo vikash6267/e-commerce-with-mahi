@@ -36,6 +36,15 @@ import Checkout from "./pages/Checkout"
 
 import Whatsapp from "./components/common/Whatsapp";
 import ContactUs from "./pages/ContactUs";
+
+
+
+
+
+import Test from './test/Test'
+
+
+
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -59,7 +68,7 @@ function App() {
         <Route path="/" element={<Home />} />
 
 
-        <Route path="/test" element={<ShirtViewer />} />
+        <Route path="/test" element={<Test />} />
 
         <Route path="/cart" element={<CartMain />} />
         <Route path="/contact" element={<ContactUs />} />
@@ -67,6 +76,16 @@ function App() {
         <Route path="/allProduct/:query" element={<AllProduct />} />
         <Route path="product/:productID" element={<ProductDetails />} />
         <Route path="product/:productID/:refer" element={<ProductDetails />} />
+       
+       
+       
+       
+
+
+
+
+
+
 
         <Route
           path="login"

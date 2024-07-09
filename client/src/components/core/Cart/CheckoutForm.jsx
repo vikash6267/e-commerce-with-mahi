@@ -1,5 +1,5 @@
 // CheckoutForm.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaCheck } from "react-icons/fa"
 import { useSelector } from "react-redux"
 import { displayMoney , calculateTotal} from '../../../helper/utills';
@@ -10,7 +10,8 @@ import Address from './Address';
 import Payment from './Payment';
 import { Link, useNavigate } from 'react-router-dom';
 import RedirectPrompt from './RedirectPromt';
-
+import PaymentQuit from '../../common/PyamentQuit';
+import { FaArrowLeft } from "react-icons/fa";
 
 const CheckoutForm = ({handleClose}) => {
   const { cart, total, totalItems, isCartOpen } = useSelector((state) => state.cart);
@@ -18,7 +19,6 @@ const CheckoutForm = ({handleClose}) => {
   const [payable,setPayable] = useState(total)
   //Coupon
   const [showRedirectPrompt, setShowRedirectPrompt] = useState(false); // State to manage showing the redirect prompt
-  const navigate = useNavigate();
   const [couponName,setCouponName] = useState('')
   const [coupon,setCoupon] = useState(false)
   const [couponValue,setCouponValue] = useState(0)
@@ -26,6 +26,48 @@ const CheckoutForm = ({handleClose}) => {
 
 
 
+
+
+
+
+
+
+  const [showDialog, setShowDialog] = useState(false);
+  const handleBackButtonClick = useRef(null);
+
+
+
+
+  
+  // Set the current function to handle the back button click
+  handleBackButtonClick.current = () => {
+    setShowDialog(true);
+  };
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      event.preventDefault();
+      handleBackButtonClick.current();
+    };
+
+    window.history.pushState(null, '', window.location.href); // Push state to detect back button press
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+
+
+ 
+
+
+
+
+
+  
   const displayTotalAmount = displayMoney(total);
 
   const totalHighPrice = cart.reduce((acc, curr) => acc + curr.product.highPrice, 0);
@@ -80,38 +122,26 @@ const handleCoupon = async() =>{
 
 
 
-const handleBack = () => {
-  setShowRedirectPrompt(true); // Show redirect prompt when user clicks Back
-};
-
-const handleContinue = () => {
-  navigate('/checkout'); // Navigate to checkout page when user clicks Continue
-};
-
-const handleRedirectPromptConfirm = () => {
-  setShowRedirectPrompt(false);
-  navigate('/');
-};
-
-const handleRedirectPromptCancel = () => {
-  setShowRedirectPrompt(false);
-};
   return (
    <div className=' w-screen flex flex-wrap-reverse  checkout font-montserrat  '>
 {/* left */}
 
 
-{showRedirectPrompt && (
-        <RedirectPrompt
+
+{showDialog && (
+        <PaymentQuit
           message='Are you sure you want to leave this page? Your order details may not be saved.'
-          onConfirm={handleRedirectPromptConfirm}
-          onCancel={handleRedirectPromptCancel}
+        
+          setShowDialog={setShowDialog}
         />
       )}
 
 
 <div className=' w-11/12 mx-auto flex flex-wrap-reverse'>
-  
+  <div className=' absolute top-2 hover:scale-110 cursor-pointer'>
+  <FaArrowLeft onClick={()=>setShowDialog(true)} />
+
+  </div>
 <div className=' lg:w-[65%]  w-screen border-r-2 '>
    
     {/* Render specific component based on current step */}
@@ -149,10 +179,13 @@ const handleRedirectPromptCancel = () => {
             <li key={ind} className=' border p-2'>
               <div className=' flex gap-2'>
                 <div className='w-[25%] border-r-2 pr-3'>
-            <Link to={`/product/${item.product._id}`} onClick={handleClose}>
+            <div to={`/product/${item.product._id}`} onClick={handleClose} >
+       
 
-                <img src={item.product.images[0]?.url} alt="product-img " className=' '   />
-            </Link>
+                
+              <img src={item.product.images[0]?.url} alt="product-img " className=' '   />
+          
+            </div>
 
                 </div>
 

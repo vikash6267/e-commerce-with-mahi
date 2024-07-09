@@ -12,12 +12,18 @@ import SearchBar from "../core/Search";
 import { handleIsMenuOpen } from "../../slices/product";
 import { CiMenuFries } from "react-icons/ci";
 import { RiMenu4Fill } from "react-icons/ri";
+import { useLocation } from 'react-router-dom';
 
 function Header() {
   const { token } = useSelector((state) => state.auth);
   const { totalItems, isCartOpen } = useSelector((state) => state.cart);
   const { isMenuOpen } = useSelector((state) => state.product);
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  const isCheckoutPage = location.pathname === '/checkout';
+
+  
 
   useEffect(() => {
     if (isCartOpen || isMenuOpen) {
@@ -50,7 +56,9 @@ function Header() {
   }, []);
 
   return (
-    <div className="  ">
+   <>
+{!isCheckoutPage &&
+<div className="  ">
       <div className="border-b-2 fixed w-full z-50 bg-black">
         <div className="w-11/12 mx-auto flex h-[60px] items-center justify-between relative">
           <div className="flex  items-center ">
@@ -125,7 +133,8 @@ function Header() {
           </div>
         </div>
       </div>
-    </div>
+    </div>}
+   </>
   );
 }
 

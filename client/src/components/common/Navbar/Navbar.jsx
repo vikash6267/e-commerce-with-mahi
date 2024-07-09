@@ -12,7 +12,7 @@ import { logout } from "../../../serivces/operations/user";
 import LogoutModal from "../LogoutModal";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import { RxCross1 } from "react-icons/rx";
 
 function getGreeting() {
   const currentHour = new Date().getHours();
@@ -54,14 +54,15 @@ function Navbar({ isOpen, setIsOpen }) {
 
   useEffect(() => {
     if (isOpen) {
-      const scrollY = document.documentElement.style.getPropertyValue("--scroll-y");
+      const scrollY =
+        document.documentElement.style.getPropertyValue("--scroll-y");
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}`;
     } else {
       const scrollY = document.body.style.top;
       document.body.style.position = "";
       document.body.style.top = "";
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
 
     AOS.init({ once: true });
@@ -82,11 +83,9 @@ function Navbar({ isOpen, setIsOpen }) {
   // }, []);
 
   return (
-    <AnimatePresence >
+    <AnimatePresence>
       {isOpen && (
-        <div
-          className={`fixed top-0 left-0 right-0 bottom-0 z-50  `}
-        >
+        <div className={`fixed top-0 left-0 right-0 bottom-0 z-50  `}>
           <Backdrop onClick={handleClose} />
           <motion.div
             id="navbar"
@@ -97,7 +96,10 @@ function Navbar({ isOpen, setIsOpen }) {
             exit={{ x: "-100%", opacity: 0 }}
             transition={{ type: "tween", duration: 0.3 }}
           >
-            <div className="w-11/12 mx-auto mt-6 uppercase" key="navbar" >
+            <div className="w-11/12 mx-auto mt-6 uppercase" key="navbar">
+              <div className=" absolute top-2 hover:scale-110 cursor-pointer right-2">
+                <RxCross1 onClick={handleClose} />
+              </div>
               <div className="flex flex-col  text-lg gap-1 items-center">
                 <div>
                   <div className=" flex justify-center">
@@ -106,24 +108,31 @@ function Navbar({ isOpen, setIsOpen }) {
                       alt=""
                       width={50}
                       className=" rounded-full"
-                         data-aos="fade-up"
+                      data-aos="fade-up"
                     />
                   </div>
 
-                  <div className="flex items-center" data-aos="fade-up" data-aos-delay="100">
+                  <div
+                    className="flex items-center"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                  >
                     <div className="mr-2">{icon}</div>
                     <div className="flex flex-col gap-3 ">{greeting}</div>
                   </div>
                 </div>
 
                 <div className=" flex flex-col gap-1">
-                  <div className=" flex  gap-1" data-aos="fade-up" data-aos-delay="200">
+                  <div
+                    className=" flex  gap-1"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                  >
                     {user && <p>{user.name}</p>}
                   </div>
                 </div>
               </div>
               <div className="flex  w-full mt-5 flex-col">
-               
                 <ul className="flex flex-col  justify-center  text-[13px] ">
                   {NavbarLinks.map((link, index) => (
                     <Link
@@ -138,47 +147,47 @@ function Navbar({ isOpen, setIsOpen }) {
                     </Link>
                   ))}
 
-
                   {user ? (
-                  <>
+                    <>
+                      <Link
+                        to="profile"
+                        onClick={() => dispatch(setIsOpen(false))}
+                        className="   font-semibold flex items-center gap-2  p-[7px]  "
+                        data-aos="fade-up"
+                        data-aos-delay="600"
+                        data-aos-init
+                      >
+                        {" "}
+                        My Profile{" "}
+                        <FaAngleDoubleDown className=" -rotate-45 text-blue-500" />
+                      </Link>
+                      <button
+                        onClick={() => {
+                          setShowLogoutModal(true);
+                          dispatch(setIsOpen(false));
+                        }}
+                        className=" text-start  text-red-500 pl-[7px]"
+                        data-aos="fade-up"
+                        data-aos-delay="600"
+                        data-aos-init
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
                     <Link
-                      to="profile"
+                      to="/login"
+                      className="-ml-[9px] my-2 p-[7px]"
                       onClick={() => dispatch(setIsOpen(false))}
-                      className="   font-semibold flex items-center gap-2  p-[7px]  "
-                    data-aos="fade-up" data-aos-delay="600" data-aos-init
+                      data-aos="fade-up"
+                      data-aos-delay="600"
+                      data-aos-init
                     >
                       {" "}
-                      My Profile{" "}
-                      <FaAngleDoubleDown className=" -rotate-45 text-blue-500" />
+                      Login
                     </Link>
-                    <button
-                      onClick={() => {
-                        setShowLogoutModal(true);
-                        dispatch(setIsOpen(false));
-                      }}
-                      className=" text-start  text-red-500 pl-[7px]"
-                           data-aos="fade-up" data-aos-delay="600" data-aos-init
-                    >
-                      Logout
-                    </button>
-                  </>
-                ) : (
-                  <Link
-                    to="/login"
-                    className="-ml-[9px] my-2 p-[7px]"
-                    onClick={() => dispatch(setIsOpen(false))}
-                       data-aos="fade-up" data-aos-delay="600" data-aos-init
-                  >
-                    {" "}
-                    Login
-                  </Link>
-                )}
+                  )}
                 </ul>
-
-
-         
-           
-          
               </div>
             </div>
           </motion.div>
@@ -191,7 +200,6 @@ function Navbar({ isOpen, setIsOpen }) {
             onClose={() => setShowLogoutModal(false)}
             onConfirmLogout={logoutHandler}
             setIsOpen={setIsOpen}
-            
           />
         )}
       </div>
