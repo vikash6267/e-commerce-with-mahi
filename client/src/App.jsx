@@ -26,7 +26,6 @@ import Modal from "./components/core/Cart/Modal";
 import { fetchWishlist } from "./serivces/operations/product";
 
 import Wishlist from "./pages/Wishlist";
-import ShirtViewer from "./pages/Test";
 import TrackOrder from "./pages/TrackOrder";
 import Credit from "./pages/Credit";
 import Refer from "./pages/Refer";
@@ -41,7 +40,6 @@ import ContactUs from "./pages/ContactUs";
 
 
 
-import Test from './test/Test'
 
 
 
@@ -68,7 +66,6 @@ function App() {
         <Route path="/" element={<Home />} />
 
 
-        <Route path="/test" element={<Test />} />
 
         <Route path="/cart" element={<CartMain />} />
         <Route path="/contact" element={<ContactUs />} />

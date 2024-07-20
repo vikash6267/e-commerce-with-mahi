@@ -22,11 +22,11 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  background: #131313;
+  background: #000000;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #ff0000;
+  background-color: #ffffff;
   border-radius: 10px;
   visibility: hidden;
 }
@@ -427,4 +427,15 @@ top: 0;
 
 
 
+
+.swiper-container {
+  width: 100%; /* Or adjust based on your layout */
+  overflow: hidden; /* Ensure no unintended scrollbars */
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 

@@ -314,7 +314,7 @@ function ProductDetails() {
                     <h1 className=" uppercase text-xl min-w-screen font-semibold  ">
                       {product.title}
                     </h1>
-                    <h4 className="">
+                    <div className="">
                       {/* {product.description && product.description} */}
 
                       <h2 className="price">
@@ -323,7 +323,7 @@ function ProductDetails() {
                           <del className=" text-red-500">{oldPrice}</del>
                         </small>
                       </h2>
-                    </h4>
+                    </div>
                   </div>
 
                   {/* <div>

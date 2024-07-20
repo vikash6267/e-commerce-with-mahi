@@ -177,7 +177,7 @@ function Navbar({ isOpen, setIsOpen }) {
                   ) : (
                     <Link
                       to="/login"
-                      className="-ml-[9px] my-2 p-[7px]"
+                      className="hover:text-blue-600 border-b-2  p-[10px] tracking-wide"
                       onClick={() => dispatch(setIsOpen(false))}
                       data-aos="fade-up"
                       data-aos-delay="600"
