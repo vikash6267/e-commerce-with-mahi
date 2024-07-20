@@ -41,7 +41,7 @@ function ProductCard({ products }) {
           className="object-cover  w-full transition duration-500 ease-in-out transform hover:-translate-y-1"
         />
         <img
-          src={images[1].url}
+          src={images[1]?.url}
           alt=""
           className="object-cover h-full w absolute top-0 left-0 opacity-0 transition duration-500 ease-in-out transform hover:opacity-100"
         />

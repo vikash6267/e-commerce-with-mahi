@@ -1,8 +1,7 @@
 const mongoose = require("mongoose"); // Erase if already required
 
 // Declare the Schema of the Mongo model
-const productSchema = new mongoose.Schema
-(
+const productSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -30,10 +29,8 @@ const productSchema = new mongoose.Schema
     view: {
       type: Number,
       // required: true,
-      default:0
+      default: 0,
     },
-
-    
     fabric: {
       type: String,
       // required: true,
@@ -42,22 +39,34 @@ const productSchema = new mongoose.Schema
       type: String,
       // required: true,
     },
-    washingInstructions : {
+    washingInstructions: {
       type: String,
       // required: true,
     },
-    printing : {
+    printing: {
       type: String,
       // required: true,
     },
-    sizes: [{
-      type: String,
-      required: true
-    }],
-    gender: [{
-      type: String,
-      required: true
-    }],
+    sizes: [
+      {
+        size: {
+          type: String,
+          enum: ['S', 'M', 'L', 'XL', 'XXL'],
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+      },
+    ],
+    gender: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
     category: {
       type: mongoose.Schema.Types.ObjectId,
       // required: true,
@@ -77,20 +86,15 @@ const productSchema = new mongoose.Schema
         url: String,
       },
     ],
-
-
-
     ratingAndReviews: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "RatingAndReview",
       },
     ],
-
   },
   { timestamps: true }
 );
 
-
-//Export the model
+// Export the model
 module.exports = mongoose.model("Product", productSchema);

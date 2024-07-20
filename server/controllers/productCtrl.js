@@ -11,8 +11,7 @@ exports.createProduct = async (req, res) => {
       description,
       price,
       category,
-      sizes,
-      quantity,
+      sizes, // Expecting an array of size-quantity objects
       fabric,
       highPrice,
       gsm,
@@ -22,7 +21,7 @@ exports.createProduct = async (req, res) => {
     } = req.body;
 
     const imagesArray = JSON.parse(req.body.images);
-    const sizeArray = JSON.parse(sizes);
+    const sizeArray = JSON.parse(sizes); // Parsing the sizes array to handle sizes with quantities
     const genderArray = JSON.parse(gender);
 
     if (
@@ -30,8 +29,7 @@ exports.createProduct = async (req, res) => {
       !description ||
       !price ||
       !category ||
-      !sizes ||
-      !quantity ||
+      !sizes || // Ensure sizes are provided
       !fabric ||
       !gsm ||
       !washingInstructions ||
@@ -53,6 +51,9 @@ exports.createProduct = async (req, res) => {
       });
     }
 
+    // Calculate total quantity
+    const totalQuantity = sizeArray.reduce((acc, size) => acc + (size.quantity || 0), 0);
+
     // Creating a new product object
     const newProduct = await Product.create({
       title,
@@ -60,14 +61,14 @@ exports.createProduct = async (req, res) => {
       description,
       price,
       category: categoryDetails._id,
-      sizes:sizeArray,
-      gender :genderArray,
-      quantity,
+      sizes: sizeArray, // Use the parsed sizeArray directly
+      gender: genderArray,
       fabric,
-      highPrice:highPrice || 0,
+      highPrice: highPrice || 0,
       gsm,
       washingInstructions,
       printing,
+      quantity: totalQuantity, // Store the total quantity
       images: imagesArray,
     });
 
@@ -260,6 +261,7 @@ exports.getProductDetails = async (req, res) => {
       },
     });
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       success: false,
       message: error.message,

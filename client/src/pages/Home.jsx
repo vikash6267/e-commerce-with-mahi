@@ -120,7 +120,7 @@ function Home() {
             <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 text-black">
             {products &&
                 products2?.map((product) => (
-                  <ProductCard key={product._id} products={product} />
+                  <ProductCard key={product?._id} products={product} />
                 ))}
             </div>
           </div>

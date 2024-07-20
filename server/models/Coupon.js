@@ -26,5 +26,19 @@ couponSchema.methods.isExpired = function() {
   return this.expiry < new Date(); // Returns true if expiry date is in the 
 };
 
+
+couponSchema.methods.isExpired = function() {
+  return this.expiry < new Date();
+};
+
+
+couponSchema.methods.applyDiscount = function(originalPrice) {
+  if (this.discountType === 'percentage') {
+    return originalPrice - (originalPrice * (this.discount / 100));
+  } else if (this.discountType === 'fixed') {
+    return originalPrice - this.discount;
+  }
+  return originalPrice;
+};
 //Export the model
 module.exports = mongoose.model("Coupon", couponSchema);

@@ -9,7 +9,8 @@ const crypto = require("crypto")
 const axios = require("axios")
 
 const Coupon = require("../models/Coupon")
-const User = require("../models/User")
+const User = require("../models/User");
+// const { default: items } = require("razorpay/dist/types/items");
 
 // const capturePayment = async (req, res) => {
 //   const { products } = req.body;
@@ -76,7 +77,9 @@ const capturePayment = async (req, res) => {
         }
 
         // Add the price of the product to the total amount
-        total_amount += product.price;
+        let am = product.price * item.quantity
+        total_amount += am;
+    
       } catch (error) {
         console.log(error);
         return res.status(500).json({ success: false, message: error.message });
@@ -244,35 +247,7 @@ console.log(payable)
   const email = userDetails.email;
 
   try {
-    // const orders = [];
-    // for (const product of products) {
-    //   const orderId = uuidv4();
-    //   const order = await Order.create({
-    //     user: userId,
-    //     shippingInfo: {
-    //       name: userDetails.name, // assuming user has a name field
-    //       address: billingAddress,
-    //       city: billingCity,
-    //       state: billingState,
-    //       pincode: billingPincode,
-    //     },
-    //     paymentInfo: {
-    //       razorpayOrderId: razorpay_order_id,
-    //       razorpayPaymentId: razorpay_payment_id,
-    //     },
-    //     orderItems: [
-    //       {
-    //         product: product.product._id,
-    //         size: product.size,
-    //         quantity: product.quantity,
-    //       }
-    //     ],
-    //     totalPrice: product.product.price * product.quantity,
-    //     orderStatus: "Ordered",
-    //   });
-    //   orders.push(order);
-    // }
-   
+
 
     const order = await Order.create({
       order_id: orderId, // Provide order_id
@@ -334,17 +309,29 @@ console.log(payable)
       if (!product) {
         throw new Error(`Product with ID ${item.product._id} not found`);
       }
-
+    
       product.sold += item.quantity;
+    
+      // Find the size subdocument and decrement its quantity
+      const size = product.sizes.find(s => s.size === item.size);
+      if (size) {
+        size.quantity -= item.quantity;
+        if (size.quantity < 0) {
+          throw new Error(`Not enough stock for size ${item.size} of product with ID ${item.product._id}`);
+        }
+      } else {
+        throw new Error(`Size ${item.size} not found for product with ID ${item.product._id}`);
+      }
+    
+      // Update the total quantity of the product
       product.quantity -= item.quantity;
-
       if (product.quantity < 0) {
         throw new Error(`Not enough stock for product with ID ${item.product._id}`);
       }
-
+    
       await product.save();
     }
-
+    
 
 
 

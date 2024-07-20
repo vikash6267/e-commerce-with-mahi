@@ -124,7 +124,7 @@ function ProductDetails() {
   const [selectedUnavailableSize, setSelectedUnavailableSize] = useState(null);
 
   const handleSizeClick = (size) => {
-    if (product.sizes.includes(size)) {
+    if (product?.sizes?.some(one=>one.size === size)) {
       setSelectedSize(size === selectedSize ? null : size);
     } else {
       setSelectedUnavailableSize(size);
@@ -210,6 +210,9 @@ function ProductDetails() {
         }
       })();
     }
+
+    console.log(product)
+
   }, [productID]);
   useEffect(() => {
     if (product && product.price) {
@@ -401,22 +404,57 @@ function ProductDetails() {
                     <div>
                       {/* <h2>Select Size:</h2> */}
                       <div>
+
+
+
+
+
+                      
+                        {/* <div className="flex flex-wrap gap-3">
+                          {product?.sizes?.map((size) => (
+                            <div
+                              key={size}
+                              onClick={() => handleSizeClick(size)}
+                            
+                              className={`px-2 py-1 rounded border cursor-pointer
+                               ${
+                                size?.size === selectedSize
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-white text-blue-500"
+                              } ${
+                                product?.sizes?.includes(size)
+                                  ? "border-gray-500"
+                                  : "border-red-500"
+                              }`}
+                            >
+                              {product?.sizes?.includes(size) ? (
+                                size?.size
+                              ) : (
+                                <del className="text-red-500">{size}</del>
+                              )}
+                            </div>
+                          ))}
+                        </div> */}
+
+
                         <div className="flex flex-wrap gap-3">
                           {allSizes.map((size) => (
                             <div
                               key={size}
                               onClick={() => handleSizeClick(size)}
-                              className={`px-2 py-1 rounded border cursor-pointer ${
+                            
+                              className={`px-2 py-1 rounded border cursor-pointer
+                               ${
                                 size === selectedSize
                                   ? "bg-blue-500 text-white"
                                   : "bg-white text-blue-500"
                               } ${
-                                product.sizes.includes(size)
+                                product?.sizes?.some(one=>one.size === size)
                                   ? "border-gray-500"
                                   : "border-red-500"
                               }`}
                             >
-                              {product.sizes.includes(size) ? (
+                              {product?.sizes?.some(one=>one.size === size) ? (
                                 size
                               ) : (
                                 <del className="text-red-500">{size}</del>
@@ -424,6 +462,11 @@ function ProductDetails() {
                             </div>
                           ))}
                         </div>
+
+
+
+
+
                         {isModalOpen && (
                           <NotificationModal
                             closeModal={closeModal}

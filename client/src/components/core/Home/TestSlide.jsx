@@ -33,12 +33,12 @@ function TestSlide({ products }) {
             <div className="relative w-36 lg:w-60 md:w-60 h-full overflow-hidden">
               <div>
                 <img
-                  src={product.images[1]?.url}
+                  src={product?.images[1]?.url}
                   alt=""
                   className="object-cover h-full w-full transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 />
                 <img
-                  src={product.images[0]?.url}
+                  src={product?.images[0]?.url}
                   alt=""
                   className="object-cover h-full w-full absolute top-0 left-0 opacity-0 transition duration-500 ease-in-out transform hover:opacity-100 hover:scale-105"
                 />

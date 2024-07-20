@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import AddProduct from "./pages/AddProduct";
 import GetProducts from "./pages/GetProducts";
+import ProductForm from "./components/Product/SizeSelect";
 
 const App = () => {
   return (
@@ -17,6 +18,10 @@ const App = () => {
           <Route path="/admin/add-product" element={<AddProduct />} />
           <Route path="/admin/add-product/:id" element={<AddProduct />} />
           <Route path="/admin/get-products" element={<GetProducts />} />
+
+
+
+          <Route path="/admin/test" element={<ProductForm />} />
         </Routes>
       </div>
     </div>

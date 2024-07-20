@@ -274,7 +274,7 @@ function AllProduct({ products }) {
                           className="object-cover h w-full transition duration-500 ease-in-out transform hover:-translate-y-1"
                         />
                         <img
-                          src={product?.images[1].url}
+                          src={product?.images[1]?.url}
                           alt=""
                           className="object-cover h-full w absolute top-0 left-0 opacity-0 transition duration-500 ease-in-out transform hover:opacity-100"
                         />
@@ -290,7 +290,7 @@ function AllProduct({ products }) {
                         <div className="flex gap-2 text-[11px] text-red-500">
                           {product?.sizes?.map((size, index) => (
                             <div key={index} className="relative ">
-                              {size}
+                              {size?.size}
                             </div>
                           ))}
                         </div>

@@ -6,6 +6,7 @@ import Dropzone from 'react-dropzone';
 import MultiSelectDropdown from '../components/Product/MultiSelectDropDown.';
 import { fetchProductDetails } from '../serivces/operations/product';
 import { useParams } from 'react-router-dom';
+import SizeSelect from '../components/Product/SizeSelect';
 
 const ProductForm = () => {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm({
@@ -20,6 +21,13 @@ const ProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
 
+
+
+
+
+
+
+
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append('title', data.title);
@@ -32,7 +40,7 @@ const ProductForm = () => {
     formData.append('gsm', data.gsm);
     formData.append('washingInstructions', data.washingInstructions);
     formData.append('printing', data.printing);
-    formData.append('quantity', data.quantity);
+    // formData.append('quantity', data.quantity);
     formData.append('category', data.category);
     formData.append('gender', JSON.stringify(selectedGenders));
     formData.append('sizes', JSON.stringify(selectedSizes));
@@ -99,7 +107,7 @@ console.log(data)
           setValue('gsm', product.gsm);
           setValue('washingInstructions', product.washingInstructions);
           setValue('printing', product.printing);
-          setValue('quantity', product.quantity);
+          // setValue('quantity', product.quantity);
           setValue('category', product.category);
           setValue('gender', JSON.stringify(selectedGenders));
           setValue('sizes', JSON.stringify(selectedSizes));
@@ -247,13 +255,18 @@ console.log(data)
             <p className="text-red-500 text-sm mt-1">{errors.printing.message}</p>
           )}
         </div>
-
+{/* 
         <MultiSelectDropdown
           title="Sizes"
           options={sizeOptions}
           selectedOptions={selectedSizes}
           setSelectedOptions={setSelectedSizes}
-        />
+        /> */}
+
+        <SizeSelect
+        selectedSizes={selectedSizes}
+        setSelectedSizes={setSelectedSizes}
+         />
 
         <div className="form-group">
           <label htmlFor="category" className="form-label">
@@ -283,7 +296,7 @@ console.log(data)
           setSelectedOptions={setSelectedGenders}
         />
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="quantity" className="form-label">
             Quantity
           </label>
@@ -299,7 +312,7 @@ console.log(data)
           {errors.quantity && (
             <p className="text-red-500 text-sm mt-1">{errors.quantity.message}</p>
           )}
-        </div>
+        </div> */}
 
         <div className="dropzone-wrapper">
           <Dropzone onDrop={(acceptedFiles) => uploadImage(acceptedFiles)}>
