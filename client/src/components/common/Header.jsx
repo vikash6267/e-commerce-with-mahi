@@ -70,9 +70,9 @@ function Header() {
           </div>
           <div className=" ">
             <Link to="/">
-              <div className="text-xl font-bold tracking-wider text-center text-white ">
-                ABSENCE
-              </div>
+              <h1 className="text-xl font-bold uppercase tracking-wider text-center text-white ">
+                Absence
+              </h1>
             </Link>
           </div>
           <div className="flex">

@@ -272,7 +272,7 @@ function ProductDetails() {
     "brand": "Absence",
     "offers": {
       "@type": "Offer",
-      "url": `https://absense.fashion.mahitechnocrafts.in/${product?.id || 'product-id'}`,
+      "url": `https://absense.fashion.mahitechnocrafts.in/${product?.slug || 'product-id'}`,
       "priceCurrency": "INR",
       "price": product?.price || "0",
       "itemCondition": "https://schema.org/NewCondition",
@@ -322,9 +322,9 @@ function ProductDetails() {
               <div className="prod_details_right_col_001">
                 <div className="">
                   <div className=" space-y-2 flex min-w-screen items-center flex-col lg:block">
-                    <h1 className=" uppercase text-xl min-w-screen font-semibold  ">
+                    <h2 className=" uppercase text-xl min-w-screen font-semibold  ">
                       {product.title}
-                    </h1>
+                    </h2>
                     <div className="">
                       {/* {product.description && product.description} */}
 
