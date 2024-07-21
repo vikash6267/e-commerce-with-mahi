@@ -8,7 +8,7 @@ import { displayMoney } from '../../../helper/utills';
 
 const CartItems = ( props) => {
     const dispatch = useDispatch();
-    const { _id, images, title,  price, highPrice} = props.product;
+    const { _id, slug,images, title,  price, highPrice} = props.product;
     const{quantity,size} = props;
      
     const newPrice = displayMoney(price);
@@ -20,14 +20,14 @@ const CartItems = ( props) => {
     return (
         <div className="cart_item flex gap-4  py-4 items-center border-b-2 w-11/12 mx-auto">
             <figure className="w-[50%] ">
-                <Link to={`/product/${_id}`} className='' onClick={()=>dispatch(handleIsCartOpen(false))}>
+                <Link to={`/${slug}`} className='' onClick={()=>dispatch(handleIsCartOpen(false))}>
                     <img src={images[0]?.url} alt="product-img " className=''   />
                 </Link>
             </figure>
             <div className=" flex flex-col gap-1 w-full">
                 <div className=" flex items-center justify-between">
                     <h4 className="">
-                        <Link to={`/product/${_id}`} className='text-lg font-montserrat font-semibold'>{title}</Link>
+                        <Link to={`/${slug}`} className='text-lg font-montserrat font-semibold'>{title}</Link>
                     </h4>
                     <div className=" relative group flex ">
                         <span onClick={() => dispatch(removeFromCart(_id))} className="cursor-pointer group-hover:text-red-500 text-xl">

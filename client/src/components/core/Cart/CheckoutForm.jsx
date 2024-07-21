@@ -185,7 +185,7 @@ const totalDiscount = displayMoney(totalHighPrice)
             <li key={ind} className=' border p-2'>
               <div className=' flex gap-2'>
                 <div className='w-[25%] border-r-2 pr-3'>
-            <div to={`/product/${item.product._id}`} onClick={handleClose} >
+            <div to={`/${item.product.slug}`} onClick={handleClose} >
        
 
                 

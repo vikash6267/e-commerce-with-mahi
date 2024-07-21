@@ -73,8 +73,8 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/allProduct" element={<AllProduct />} />
         <Route path="/allProduct/:query" element={<AllProduct />} />
-        <Route path="product/:productID" element={<ProductDetails />} />
-        <Route path="product/:productID/:refer" element={<ProductDetails />} />
+        <Route path="/:productID" element={<ProductDetails />} />
+        <Route path="/:productID/:refer" element={<ProductDetails />} />
        
        
        

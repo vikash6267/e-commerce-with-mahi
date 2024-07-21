@@ -81,7 +81,7 @@ const GetProducts = () => {
                   <td className="px-4 py-2">
                     <div className="flex justify-center space-x-2">
                       <Link
-                        to={`/admin/add-product/${product._id}`}
+                        to={`/admin/add-product/${product?.slug}`}
                         className="bg-blue-500 text-white px-2 py-1 rounded"
                       >
                         Edit

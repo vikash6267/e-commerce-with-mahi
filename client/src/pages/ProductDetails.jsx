@@ -3,17 +3,10 @@ import { fetchProductDetails } from "../serivces/operations/product";
 import { useParams, useLocation } from "react-router-dom";
 import "./ProductDetails.css";
 import { displayMoney, calculateDiscount } from "../helper/utills";
-import useActive from "../hooks/useActive";
-import RatingStars from "../components/common/RatingStars";
-import GetAvgRating from "../helper/avgRating";
-import { MdOutlineDone } from "react-icons/md";
-import { IoClose } from "react-icons/io5";
-import Button from "@mui/material/Button";
+
 import { IoIosAdd, IoIosRemove } from "react-icons/io";
 import NotificationModal from "../components/core/Product Details/Notification";
-import { MdOutlineLocalShipping } from "react-icons/md";
 import { addToCart, handleIsCartOpen } from "../slices/cartSlice";
-import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IoMdShare } from "react-icons/io";
@@ -26,7 +19,6 @@ import {
 } from "../serivces/operations/product";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Swal from "sweetalert2";
-import Error from "./Error";
 import SizeSelectionModal from "../components/core/AllProduct.jsx/SizeSelect";
 import ImageSlider from "../components/core/Product Details/ImageSlider";
 import Details from "../components/core/Product Details/Details";
@@ -40,11 +32,8 @@ function ProductDetails() {
   const [loading, setLoading] = useState(false);
   const { productID, refer } = useParams();
   const [selectedSize, setSelectedSize] = useState(null);
-  const [previewImg, setPreviewImg] = useState("");
-  const { handleActive, activeClass } = useActive(0);
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
-  const [wishlistLoading, setWishlistLoading] = useState(false);
   const { wishlistProduct } = useSelector((state) => state.wishlist);
   const [earnings, setEarnings] = useState(0);
   const { token } = useSelector((state) => state.auth);
@@ -94,12 +83,10 @@ function ProductDetails() {
       return;
     }
     addToWish(productId, token, dispatch);
-    setWishlistLoading(true);
   };
 
   const handleRemoveFromWishlist = async (productId, token) => {
     removeFromWish(productId, token, dispatch);
-    setWishlistLoading(true);
   };
 
   const selectRandomProducts = (products) => {
@@ -185,11 +172,10 @@ function ProductDetails() {
 
   useEffect(() => {
     // Calling fetchProductDetails fucntion to fetch the details
-    const isProductAvailble = allProduct.find((item) => item._id === productID);
+    const isProductAvailble = allProduct.find((item) => item?.slug === productID);
 
     if (isProductAvailble) {
       setProduct(isProductAvailble);
-      setPreviewImg(isProductAvailble?.images[0]?.url);
       console.log(isProductAvailble)
     } else {
       (async () => {
@@ -201,7 +187,6 @@ function ProductDetails() {
           if (res.data !== undefined) {
             setProduct(res?.data?.productDetails);
             console.log(res?.data?.productDetails?.images[0]?.url);
-            setPreviewImg(res?.data?.productDetails?.images[0]?.url);
           }
           setLoading(false);
         } catch (error) {
@@ -224,7 +209,7 @@ function ProductDetails() {
   }, [product, setEarnings]);
 
   const shareProduct = () => {
-    let productUrl = `https://absencemain.vercel.app/product/${productID}`;
+    let productUrl = `https://absencemain.vercel.app/${product?.slug}`;
     if (user?.referralCode) {
       productUrl += "/" + user.referralCode;
     }
@@ -255,11 +240,7 @@ function ProductDetails() {
 
   // calculating Prices
 
-  const discountedPrice = product?.highPrice - product?.price;
-  const newPrice = product ? displayMoney(product.price) : 0;
   const oldPrice = product ? displayMoney(product.highPrice) : 0;
-  const savedPrice = displayMoney(discountedPrice);
-  const savedDiscount = calculateDiscount(discountedPrice, product?.price);
 
   const isProductInWishlist = wishlistProduct.some(
     (item) => item._id === product._id
@@ -277,20 +258,47 @@ function ProductDetails() {
   const isProductInCart =  cart.some(
     (cartItem) => cartItem.product._id === productID
   );
+
+
+
+
+  const schemaMarkup = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product?.title || "Product Title",
+    "image": product?.images?.map(img => img.url) || [],
+    "description": product?.description || "Product Description",
+    "sku": product?.slug || "Product SKU",
+    "brand": "Absence",
+    "offers": {
+      "@type": "Offer",
+      "url": `https://absense.fashion.mahitechnocrafts.in/${product?.id || 'product-id'}`,
+      "priceCurrency": "INR",
+      "price": product?.price || "0",
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": "https://schema.org/InStock"
+    }
+  };
+
   return (
     <>
       <div className="bg-black mt-[60px] text-white flex  ">
 
+    
 
       <Helmet>
-      <title>{product.title}</title>
-      <meta name="description" content={product.description} />
-      <meta property="og:title" content={product.title} />
-      <meta property="og:description" content={product.description} />
-      <meta property="og:url" content={`http://absence.fashion/product/${product.id}`} />
-      <meta property="og:type" content="product" />
-      <meta property="og:image" content={product.images[0].url} />
-    </Helmet>
+        <title>{product?.title || "Default Product Title"}</title>
+        <meta name="description" content={product?.description || "Default product description"} />
+        <meta property="og:title" content={product?.title || "Default Product Title"} />
+        <meta property="og:description" content={product?.description || "Default product description"} />
+        <meta property="og:url" content={`https://absense.fashion.mahitechnocrafts.in/${product?.id || 'product-id'}`} />
+        <meta property="og:type" content="product" />
+        <meta name="keywords" content={product?.tag?.join(', ')} />
+        <meta property="og:image" content={product?.images?.[0]?.url || 'default-image-url.jpg'} />
+        <script type="application/ld+json">
+          {JSON.stringify(schemaMarkup)}
+        </script>
+      </Helmet>
         {/* Marquee tag to continuously display earnings */}
         <marquee behavior="scroll" direction="left">
           <div className="flex gap-20">

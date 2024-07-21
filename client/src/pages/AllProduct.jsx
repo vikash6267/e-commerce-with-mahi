@@ -262,7 +262,7 @@ function AllProduct({ products }) {
               >
                 {filteredProducts.map((product) => (
                   <Link
-                    to={`/product/${product?._id}`}
+                    to={`/${product?.slug}`}
                     key={product?._id}
                     data-aos="zoom-in-down"
                   >

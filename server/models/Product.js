@@ -92,6 +92,11 @@ const productSchema = new mongoose.Schema(
         ref: "RatingAndReview",
       },
     ],
+    
+    tag: {
+      type: [String],
+      // required: true,
+    },
   },
   { timestamps: true }
 );

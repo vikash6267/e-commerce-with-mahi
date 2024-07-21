@@ -46,13 +46,13 @@ const FeaturedSlider = ({ products }) => {
       className=" flex items-center justify-center z-0 flex-nowrap"
     >
       {products.map((product) => {
-        const { _id, images, title, price,highPrice } = product;
+        const { _id, slug,images, title, price,highPrice } = product;
         let newPrice = displayMoney(price);
         const oldPrice = displayMoney(highPrice);
 
         return (
           <SwiperSlide key={_id} className="featured_slides font-montserrat shadow-2xl ">
-            <Link to={`/product/${_id}`} className="">
+            <Link to={`/${slug}`} className="">
               <div className=" p-4 rounded-md ">
                 <figure className="">
                   <img src={images[0]?.url} alt={title} className=" " />

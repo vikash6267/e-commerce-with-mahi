@@ -21,19 +21,28 @@ exports.createProduct = async (req, res) => {
       gsm,
       washingInstructions,
       printing,
+    tag:_tag,
+
       gender,
     } = req.body;
 
     const imagesArray = JSON.parse(req.body.images);
     const sizeArray = JSON.parse(sizes); // Parsing the sizes array to handle sizes with quantities
     const genderArray = JSON.parse(gender);
+    const tag = JSON.parse(_tag);
+
+ console.log(tag)
+    if (!Array.isArray(tag) || !tag.length) {
+      return res.status(400).json({ error: 'Tags must be a non-empty array' });
+    }
+
 
     if (
       !title ||
       !description ||
       !price ||
       !category ||
-      !sizes || // Ensure sizes are provided
+      !sizes || 
       !fabric ||
       !gsm ||
       !washingInstructions ||
@@ -70,6 +79,7 @@ exports.createProduct = async (req, res) => {
       fabric,
       highPrice: highPrice || 0,
       gsm,
+      tag,
       washingInstructions,
       printing,
       quantity: totalQuantity, // Store the total quantity
@@ -111,6 +121,8 @@ exports.updateProduct = async (req, res) => {
       washingInstructions,
       printing,
       gender,
+    tag: _tag,
+
     } = req.body;
 
 
@@ -118,7 +130,11 @@ exports.updateProduct = async (req, res) => {
     const imagesArray = JSON.parse(req.body.images) ;
     const sizeArray = JSON.parse(sizes);
     const genderArray = JSON.parse(gender);
+    const tag = JSON.parse(_tag)
 
+    if (!Array.isArray(tag) || !tag.length) {
+      return res.status(400).json({ error: 'Tags must be a non-empty array' });
+    }
     if (
       !title ||
       !description ||
@@ -146,18 +162,23 @@ exports.updateProduct = async (req, res) => {
       });
     }
 
+
+    const totalQuantity = sizeArray.reduce((acc, size) => acc + (size.quantity || 0), 0);
+
+
     const updatedProduct = await Product.findByIdAndUpdate(
       req.body.id,
       {
         title,
-       description,
+        description,
         price,
         category: categoryDetails._id,
         sizes:sizeArray,
         gender :genderArray,
-        quantity,
+        quantity : totalQuantity,
         fabric,
         gsm,
+        tag,
         washingInstructions,
         printing,
         images: imagesArray,
@@ -281,9 +302,9 @@ exports.getAllProduct = async (req, res) => {
 exports.getProductDetails = async (req, res) => {
   try {
     const { productID } = req.body;
-    validateMongoDbId(productID);
+    // validateMongoDbId(productID);
     const productDetails = await Product.findOne({
-      _id: productID,
+      slug: productID,
     });
 
   

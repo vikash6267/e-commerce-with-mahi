@@ -20,11 +20,25 @@ const ProductForm = () => {
   const { id } = useParams();
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
+  const [pId, setPid] = useState("")
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
 
 
+  const handleAddTag = () => {
+    if (tagInput) {
+      const updatedTags = [...tags, tagInput];
+      setTags(updatedTags);
+      setValue('tag', updatedTags);
+      setTagInput('');
+    }
+  };
 
-
-
+  const handleRemoveTag = (tagToRemove) => {
+    const updatedTags = tags.filter(tag => tag !== tagToRemove);
+    setTags(updatedTags);
+    setValue('tag', updatedTags);
+  };
 
 
 
@@ -32,6 +46,7 @@ const ProductForm = () => {
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('slug', data.slug);
+    formData.append('tag', JSON.stringify(data.tag));
     formData.append('description', data.description);
     formData.append('price', data.price);
     formData.append('highPrice', data.highPrice);
@@ -45,23 +60,18 @@ const ProductForm = () => {
     formData.append('gender', JSON.stringify(selectedGenders));
     formData.append('sizes', JSON.stringify(selectedSizes));
     formData.append('images', JSON.stringify(images));
-console.log(data)
-    if (id) {
-      formData.append('id', id); 
+  console.log(data)
+  
+  
+  if (id) {
+      formData.append('id', pId); 
       await editProduct(formData);
     } else {
       await createProduct(formData);
     }
   };
 
-  const sizeOptions = [
-    { value: 'XS', label: 'XS' },
-    { value: 'S', label: 'S' },
-    { value: 'M', label: 'M' },
-    { value: 'L', label: 'L' },
-    { value: 'XL', label: 'XL' },
-    { value: 'XXL', label: 'XXL' },
-  ];
+
 
   const genderOptions = [
     { value: 'Male', label: 'Male' },
@@ -98,20 +108,28 @@ console.log(data)
         try {
           const productResponse = await fetchProductDetails(id);
           const product = productResponse?.data?.productDetails;
-          setValue('title', product.title);
-          setValue('description', product.description);
-          setValue('price', product.price);
-          setValue('highPrice', product.highPrice);
-          setValue('view', product.view);
-          setValue('fabric', product.fabric);
-          setValue('gsm', product.gsm);
-          setValue('washingInstructions', product.washingInstructions);
-          setValue('printing', product.printing);
+
+
+          setValue('title', product?.title);
+          setValue('slug', product?.slug);
+          setValue('tag', product?.tag);
+          setValue('description', product?.description);
+          setValue('price', product?.price);
+          setValue('highPrice', product?.highPrice);
+          setValue('view', product?.view);
+          setValue('fabric', product?.fabric);
+          setValue('gsm', product?.gsm);
+          setValue('washingInstructions', product?.washingInstructions);
+          setValue('printing', product?.printing);
           // setValue('quantity', product.quantity);
-          setValue('category', product.category);
+          setValue('category', product?.category);
           setValue('gender', JSON.stringify(selectedGenders));
-          setValue('sizes', JSON.stringify(selectedSizes));
+          setValue('sizes', JSON.stringify(selectedSizes) || []);
           setValue('images', JSON.stringify(images));
+
+
+          setPid(product?._id)
+          setTags(product?.tag || [])
           setSelectedSizes(product?.sizes);
           setSelectedGenders(product?.gender);
           setImages(product.images);
@@ -127,13 +145,15 @@ console.log(data)
 
   return (
     <div className="w-11/12 mx-auto mt-10">
-      <h2 className="font-bold text-2xl text-center mb-4">
+      <h6 className="font-bold text-2xl text-center mb-4">
 {
   id ? "Edit Product" : "Add Product"
 }
 
-      </h2>
+      </h6>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    
+     {/* itle */}
         <div className="form-group">
           <label htmlFor="title" className="form-label">
             Title
@@ -148,7 +168,7 @@ console.log(data)
             <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
           )}
         </div>
-
+{/* Description */}
         <div className="form-group">
           <label htmlFor="description" className="form-label">
             Description
@@ -162,7 +182,7 @@ console.log(data)
             <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
           )}
         </div>
-
+{/* Price */}
         <div className="form-group">
           <label htmlFor="price" className="form-label">
             Price
@@ -181,6 +201,7 @@ console.log(data)
           )}
         </div>
 
+{/* High Price */}
         <div className="form-group">
           <label htmlFor="highPrice" className="form-label">
             High Price
@@ -196,6 +217,7 @@ console.log(data)
           )}
         </div>
 
+{/* Fabric */}
         <div className="form-group">
           <label htmlFor="fabric" className="form-label">
             Fabric
@@ -211,6 +233,7 @@ console.log(data)
           )}
         </div>
 
+{/* GSM */}
         <div className="form-group">
           <label htmlFor="gsm" className="form-label">
             GSM
@@ -225,7 +248,7 @@ console.log(data)
             <p className="text-red-500 text-sm mt-1">{errors.gsm.message}</p>
           )}
         </div>
-
+{/* Washing */}
         <div className="form-group">
           <label htmlFor="washingInstructions" className="form-label">
             Washing Instructions
@@ -240,7 +263,7 @@ console.log(data)
             <p className="text-red-500 text-sm mt-1">{errors.washingInstructions.message}</p>
           )}
         </div>
-
+{/* Printing */}
         <div className="form-group">
           <label htmlFor="printing" className="form-label">
             Printing
@@ -268,6 +291,36 @@ console.log(data)
         setSelectedSizes={setSelectedSizes}
          />
 
+<div>
+  
+<div className="flex items-center">
+          <input
+            type="text"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          <button
+            type="button"
+            onClick={handleAddTag}
+            className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Add Tag *
+          </button>
+        </div>
+        <div className="mt-2">
+          {tags.map((tag, index) => (
+            <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+              {tag}
+              <button type="button" onClick={() => handleRemoveTag(tag)} className="ml-2 text-red-500 hover:text-red-700">x</button>
+            </span>
+          ))}
+        </div>
+</div>
+      
+
+
+{/* Category */}
         <div className="form-group">
           <label htmlFor="category" className="form-label">
             Category
@@ -327,19 +380,10 @@ console.log(data)
           </Dropzone>
         </div>
 
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md"
-          >
-        {
-  id ? "Edit Product" : "Add Product"
-}
-          </button>
-        </div>
-      </form>
+<div className=' flex flex-col gap-2 w-full'>
 
-      <div className="images-preview flex gap-4 mt-4 flex-wrap">
+
+<div className="images-preview flex gap-4 mt-4 flex-wrap">
         {images?.map((image, index) => (
           <div className="relative" key={index}>
             <button
@@ -366,6 +410,22 @@ console.log(data)
           </div>
         ))}
       </div>
+
+        <div className="flex justify-end w-full">
+          <button
+            type="submit"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md"
+          >
+        {
+  id ? "Edit Product" : "Add Product"
+}
+          </button>
+        </div>
+
+</div>
+      </form>
+
+     
     </div>
   );
 };

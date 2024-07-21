@@ -12,7 +12,7 @@ function ProductCard({ products }) {
   useEffect(() => {
     AOS.init({ duraction: 2000, once: true });
   }, []);
-  const { _id, title, description, price, highPrice, sizes, images } = products;
+  const { _id,slug, title, description, price, highPrice, sizes, images } = products;
   const truncatedDescription =
     description.length > 25
       ? description.substring(0, 25) + "..."
@@ -29,7 +29,7 @@ function ProductCard({ products }) {
   const oldPrice = displayMoney(highPrice);
   return (
     <Link
-    to={`/product/${_id}`}
+    to={`/${slug}`}
     key={_id}
     data-aos="zoom-in-down"
   >
