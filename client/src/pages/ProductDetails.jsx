@@ -190,7 +190,7 @@ function ProductDetails() {
     if (isProductAvailble) {
       setProduct(isProductAvailble);
       setPreviewImg(isProductAvailble?.images[0]?.url);
-      // console.log(isProductAvailble)
+      console.log(isProductAvailble)
     } else {
       (async () => {
         try {
@@ -469,6 +469,7 @@ function ProductDetails() {
 
                         {isModalOpen && (
                           <NotificationModal
+                          product={product}
                             closeModal={closeModal}
                             size={selectedUnavailableSize}
                           />
@@ -541,15 +542,18 @@ function ProductDetails() {
         <button
           className="p-2 px-16 rounded-2xl text-gray border-black border"
           onClick={handleAddItem}
-          disabled={product.stock <= 0}
+          disabled={product?.quantity <= 0}
         >
-          Select Size <span className="text-[10px]">For Add To Cart</span>
+
+
+        {!product?.quantity <= 0 ? <>Select Size <span className="text-[10px]">For Add To Cart</span></> : <div>Out Of stock</div> }
+          
         </button>
       ) : (
         <button
           className="p-2 px-16 rounded-2xl bg-gray-900 text-white"
           onClick={handleAddItem}
-          disabled={product.stock <= 0}
+          disabled={product.quantity <= 0}
         >
           Add To Cart
         </button>
@@ -581,7 +585,7 @@ function ProductDetails() {
             onSelectSize={handleSizeClick}
             onClose={toggleModal}
             handleAddItem={handleAddItem}
-            stock={product.stock <= 0}
+            stock={product.quantity <= 0}
           />
         )}
 

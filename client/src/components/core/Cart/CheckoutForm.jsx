@@ -95,29 +95,35 @@ const totalDiscount = displayMoney(totalHighPrice)
       
     ]
 
-const handleCoupon = async() =>{
-
-  try {
-    const response = await fetchCoupon(couponName)
-
-    console.log(response?.data?.discount)
+    const handleCoupon = async () => {
+      try {
+        const response = await fetchCoupon(couponName);
     
-
-    if(response.success){
-      setCouponValue(response?.data?.discount)
-      console.log(couponValue)
-      setCoupon(true)
-      setCouponValid(true)
-      setPayable(total - response?.data?.discount)
-    }
-    else setCouponValid(false)
+        if (response.success) {
+          const discount = response?.data?.discount;
+          const discountType = response?.data?.discountType;
+          let finalDiscount = 0;
     
-  } catch (error) {
-    console.log(error)
+          // Calculate the final discount based on the discount type
+          if (discountType === 'percentage') {
+            finalDiscount = (total * discount) / 100;
+          } else if (discountType === 'fixed') {
+            finalDiscount = discount;
+          }
     
-  }
-
-}
+          setCouponValue(finalDiscount);
+          setCoupon(true);
+          setCouponValid(true);
+          setPayable(total - finalDiscount);
+        } else {
+          setCouponValid(false);
+        }
+      } catch (error) {
+        console.log(error);
+        setCouponValid(false);
+      }
+    };
+    
 
 
 

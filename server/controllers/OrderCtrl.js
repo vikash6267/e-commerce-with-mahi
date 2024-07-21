@@ -91,9 +91,15 @@ const capturePayment = async (req, res) => {
     // Apply coupon discount if provided
     if (coupon) {
       const couponValue = await Coupon.findOne({ name: coupon.toUpperCase() });
-      if (couponValue) {
-        total_amount -= couponValue.discount;
+      if (couponValue && !couponValue.isExpired() && couponValue.active) {
+        if (couponValue.discountType === 'percentage') {
+          total_amount -= (total_amount * (couponValue.discount / 100));
+        } else if (couponValue.discountType === 'fixed') {
+          total_amount -= couponValue.discount;
+        }
         console.log("Total amount after coupon discount:", total_amount);
+      } else {
+        console.log("Coupon is expired, inactive, or invalid.");
       }
     }
     // console.log(absenceCoinuse)

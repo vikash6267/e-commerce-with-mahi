@@ -6,9 +6,16 @@ const User = require('../models/User');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 
-// Define the getDashboardData function to fetch data
-async function getDashboardData() {
+async function getDashboardData(month) {
+  // Create filter for the specified month
   let filter = {};
+  if (month) {
+    const year = new Date().getFullYear(); // You can adjust this if you need to filter by a specific year
+    filter.createdAt = {
+      $gte: new Date(year, month - 1, 1), // Start of the month
+      $lt: new Date(year, month, 1) // Start of the next month
+    };
+  }
 
   // Fetch total orders count
   const totalOrders = await Order.countDocuments(filter);
@@ -57,10 +64,14 @@ async function getDashboardData() {
   };
 }
 
-// Endpoint to fetch dashboard data
 router.get('/dashboardData', async (req, res) => {
   try {
-    const dashboardData = await getDashboardData();
+    // Get month from query parameters
+    const month = parseInt(req.query.month);
+
+    // Fetch dashboard data with optional month filter
+    const dashboardData = await getDashboardData(month);
+    
     res.status(200).json({
       success: true,
       ...dashboardData
@@ -69,6 +80,7 @@ router.get('/dashboardData', async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
+
 
 // Endpoint to generate and download PDF report
 router.get('/downloadPDF', async (req, res) => {

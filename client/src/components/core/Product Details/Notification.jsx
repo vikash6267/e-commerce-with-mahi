@@ -1,24 +1,42 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-export default function NotificationModal({ closeModal, size }) {
+
+
+export default function NotificationModal({ closeModal, size ,product}) {
   const [email, setEmail] = useState('');
+  const BASE_URL = process.env.REACT_APP_BASE_URL
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async(e) => {
     e.preventDefault();
     // Handle form submission logic here (e.g., send email to server)
     // console.log(`Email submitted for size ${size}: ${email}`);
-    Swal.fire({
+
+
+
+    try {
+      await axios.post(`${BASE_URL}/product/notifi`, { email, size, productId:product?._id });
+      Swal.fire({
         icon: 'success',
         title: 'Thank you!',
-        text: `You will be notified when size ${size} is back in stock.`,
+        text: `You will be notified when size ${size} for product ${product?.title} is back in stock.`,
       });
+      closeModal();
+    } catch (error) {
+      console.log()
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data.message,
+      });
+
     closeModal(); // Close the modal after form submission
   };
-
+  }
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 ">
       <div className="bg-white p-6 rounded shadow-lg">

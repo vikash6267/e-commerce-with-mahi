@@ -18,7 +18,10 @@ export const productEndpoints = {
      
 
       //COUPON APIS 
-     GET_COUPON : BASE_URL + "/coupon/get"
+     GET_ALL_COUPON : BASE_URL + "/coupon/getAll",
+    ADD_COUPON_API : BASE_URL + "/coupon/create",
+    DELETE_COUPON_API : BASE_URL + "/coupon/delete",
+
      
   }
 
@@ -33,6 +36,7 @@ export const productEndpoints = {
     
     
     // Get all orders
+
     GET_ALL_ORDER: BASE_URL + "/order/get",
 
     

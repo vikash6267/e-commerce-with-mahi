@@ -36,3 +36,16 @@ body {
   background-color: var(--background);
   font-family: "Poppins", sans-serif;
 }
+.transition-wrapper {
+  overflow: hidden;
+  max-height: 0; /* Initially collapsed */
+  opacity: 0; /* Initially hidden */
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Smooth transition for height and opacity */
+}
+
+.transition-wrapper.open {
+  max-height: 600px; /* Adjust this value according to your content's height */
+  opacity: 1;
+}
+
+

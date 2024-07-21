@@ -30,28 +30,6 @@ const Dashboard = () => {
     setSelectedMonth(parseInt(event.target.value));
   };
 
-  const handleDownloadYearlyReport = async () => {
-    try {
-      console.log("first")
-      const response = await axios.get('http://localhost:4000/api/v1/downloadPDF', {
-        responseType: 'blob', // Important: Treat response as a blob
-      });
-
-      // Create blob link to download PDF
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'yearly-report.pdf');
-      document.body.appendChild(link);
-      link.click();
-
-      // Cleanup
-      link.parentNode.removeChild(link);
-    } catch (error) {
-      console.error('Error downloading PDF:', error);
-    }
-  };
-
   return (
     <div className=" mx-auto p-4 ">
       <h1 className="text-3xl font-bold mb-4">Dashboard</h1>

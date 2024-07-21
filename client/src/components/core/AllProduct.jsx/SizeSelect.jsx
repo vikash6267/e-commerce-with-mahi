@@ -27,10 +27,10 @@ const SizeSelectionModal = ({ sizes, onSelectSize, onClose,handleAddItem , stock
           {sizes.map((size) => (
             <button
               key={size}
-              onClick={() => {onSelectSize(size) ; onClose()}}
+              onClick={() => {onSelectSize(size?.size) ; onClose()}}
               className="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
             >
-              {size}
+              {size?.size}
             </button>
           ))}
         </div>

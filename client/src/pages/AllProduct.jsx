@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { CiSliderHorizontal } from "react-icons/ci";
 import { RxCross2 } from "react-icons/rx";
 import { useParams } from "react-router-dom";
-
+import { FaTag } from 'react-icons/fa';
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import Filtered from "../components/core/AllProduct.jsx/Filtered";
 import AOS from "aos";
@@ -52,7 +52,7 @@ function AllProduct({ products }) {
       // Check if product's size matches with selected sizes
       const sizeMatch =
         selectedSizes.length === 0 ||
-        product?.sizes.some((size) => selectedSizes.includes(size));
+        product?.sizes.some((size) => selectedSizes.includes(size?.size));
       // Check if product's gender matches with selected gender
       const genderMatch =
         !selectedGender ||
@@ -180,7 +180,7 @@ function AllProduct({ products }) {
             </form>
           </div>
           {/* Product Listing */}
-          <div className="lg:w-[78%] w-full bg-white p-4 min-h-screen">
+          <div className="lg:w-[78%] w-full bg-white p-4 min-h-screen ">
             {/* Product view options */}
             <div className=" border-b-2 pb-2 ">
               <div className="flex justify-between">
@@ -266,7 +266,7 @@ function AllProduct({ products }) {
                     key={product?._id}
                     data-aos="zoom-in-down"
                   >
-                    <div className="flex flex-col gap-3 mt-2">
+                    <div className="flex flex-col gap-3 mt-2 relative">
                       <div className="h-full min-w-[10rem] overflow-hidden relative">
                         <img
                           src={product?.images[0]?.url}
@@ -295,6 +295,19 @@ function AllProduct({ products }) {
                           ))}
                         </div>
                       </div>
+
+                      {/* //out of stock */}
+{
+  product?.quantity <= 0 && <div className=" absolute right-1 top-1 p-1 px-2 rounded-xl text-white font-semibold bg-red-500 ">Out Of Stock</div>
+}
+{product?.highPrice >= 0 && product?.price < product?.highPrice && (
+        <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-yellow-500 text-white text-sm font-semibold py-1 px-3 rounded-full shadow-lg flex items-center">
+          <FaTag className="mr-1 text-lg" />
+          {Math.round(((product.highPrice - product.price) / product.highPrice) * 100)}%
+        </div>
+      )}
+
+
                     </div>
                   </Link>
                 ))}

@@ -21,7 +21,7 @@ const GetProducts = () => {
 
   const handleDeleteClick = async (productId) => {
     try {
-      await deleteProduct({productId});
+      await deleteProduct({ productId });
       setProducts(products.filter((product) => product._id !== productId));
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -49,7 +49,10 @@ const GetProducts = () => {
             </thead>
             <tbody>
               {products.map((product, index) => (
-                <tr key={index} className="text-center border-b border-gray-200">
+                <tr
+                  key={index}
+                  className="text-center border-b border-gray-200"
+                >
                   <td className="px-4 py-2">{product.title}</td>
                   <td className="px-4 py-2">{product.highPrice}</td>
                   <td className="px-4 py-2">{product.price}</td>
@@ -66,7 +69,13 @@ const GetProducts = () => {
                     </div>
                   </td>
                   <td className="px-4 py-2">{product.quantity}</td>
-                  <td className="px-4 py-2">{product.sizes.join(", ")}</td>
+
+                  <td className="px-4 py-2 flex gap-2">
+                    {product.sizes?.map((one) => (
+                      <p>{one?.size}</p>
+                    ))}
+                  </td>
+
                   <td className="px-4 py-2">{product.sold}</td>
                   <td className="px-4 py-2">{product.view}</td>
                   <td className="px-4 py-2">

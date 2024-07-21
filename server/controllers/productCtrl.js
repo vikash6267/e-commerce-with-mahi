@@ -2,6 +2,10 @@ const Product = require("../models/Product");
 const slugify = require("slugify");
 const validateMongoDbId = require("../utills/validateMongoDbId");
 const Category = require("../models/Category")
+const Notification = require("../models/productNotification");
+const productStock = require("../mails/productStock");
+const mailSender = require("../utills/mailSender");
+
 // Controller to create a new product
 exports.createProduct = async (req, res) => {
   try {
@@ -110,7 +114,7 @@ exports.updateProduct = async (req, res) => {
     } = req.body;
 
 
-    console.log(req.body)
+ 
     const imagesArray = JSON.parse(req.body.images) ;
     const sizeArray = JSON.parse(sizes);
     const genderArray = JSON.parse(gender);
@@ -120,8 +124,7 @@ exports.updateProduct = async (req, res) => {
       !description ||
       !price ||
       !category ||
-      !sizes ||
-      !quantity ||
+      !sizes || // Ensure sizes are provided
       !fabric ||
       !gsm ||
       !washingInstructions ||
@@ -147,8 +150,7 @@ exports.updateProduct = async (req, res) => {
       req.body.id,
       {
         title,
-        slug: slugify(title),
-        description,
+       description,
         price,
         category: categoryDetails._id,
         sizes:sizeArray,
@@ -169,6 +171,48 @@ exports.updateProduct = async (req, res) => {
         message: "Product Not Found",
       });
     }
+
+
+
+// Notify users about the size availability
+const availableSizes = sizeArray.map(sizeObj => sizeObj.size);
+
+// Find notifications for the updated product and available sizes
+const notifications = await Notification.find({
+  product: updatedProduct._id,
+  size: { $in: availableSizes },
+});
+
+if (notifications.length > 0) {
+  await Promise.all(notifications.map(async (notification) => {
+    const emailBody = productStock({
+      size: notification.size,
+      title: updatedProduct.title,
+      photo: updatedProduct.images[0]?.url, // Assuming first image for simplicity
+      price: updatedProduct.price,
+      _id:updatedProduct._id
+    });
+
+    await mailSender(notification.email, `Good News! Size ${notification.size} is Back in Stock!`, emailBody);
+  }));
+
+  // Optionally remove notifications after sending emails
+  // await Notification.deleteMany({
+  //   product: updatedProduct._id,
+  //   size: { $in: availableSizes }
+  // });
+}
+
+
+
+
+
+
+
+
+
+
+
 
     res.status(200).json({
       success: true,
@@ -216,21 +260,22 @@ exports.deleteProduct = async (req, res) => {
 
 
 
-
 exports.getAllProduct = async (req, res) => {
   try {
-    const allProduct = await Product.find().populate("category");
+    const allProduct = await Product.find().populate("category").sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
       data: allProduct,
     });
   } catch (error) {
+    console.error("Error fetching products:", error); // Optional: Log the error for debugging
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "An error occurred while fetching products.",
     });
   }
 };
+
 
 
 exports.getProductDetails = async (req, res) => {
@@ -251,7 +296,7 @@ exports.getProductDetails = async (req, res) => {
       });
     }
 
-    productDetails.view = (productDetails.views || 0) + 1;
+    productDetails.view = (productDetails.view || 0) + 1;
     await productDetails.save();
 
     return res.status(200).json({
@@ -266,5 +311,31 @@ exports.getProductDetails = async (req, res) => {
       success: false,
       message: error.message,
     });
+  }
+};
+
+
+exports.notifi = async (req, res) => {
+  const { email, size, productId } = req.body;
+
+  try {
+    // Check if a notification with the same email, size, and product already exists
+    const existingNotification = await Notification.findOne({ email, size, product: productId });
+
+    if (existingNotification) {
+      // If a notification already exists, respond with a message
+      return res.status(400).send({ message: 'You have already requested to be notified for this size.' });
+    }
+
+    // Save new notification request to the database
+    const notification = new Notification({ email, size, product: productId });
+    await notification.save();
+
+    // Optionally, send an email to confirm receipt (not shown here)
+
+    res.status(200).send({ message: 'Notification request received' });
+  } catch (error) {
+    console.error('Error saving notification:', error);
+    res.status(500).send({ error: 'Failed to save notification' });
   }
 };

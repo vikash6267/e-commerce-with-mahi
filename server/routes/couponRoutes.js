@@ -10,12 +10,16 @@ const{
 
 const {
     createCoupon,
-    getCouponByName
+    getCouponByName,
+    getAllCoupons,
+    deleteCouponByName
 } = require("../controllers/couponCtrl")
 
 
 router.post("/create",createCoupon)
 router.post("/get",getCouponByName)
+router.get("/getAll",getAllCoupons)
+router.delete("/delete/:name",deleteCouponByName)
 
 
 

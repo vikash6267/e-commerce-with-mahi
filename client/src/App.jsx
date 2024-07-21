@@ -35,6 +35,7 @@ import Checkout from "./pages/Checkout"
 
 import Whatsapp from "./components/common/Whatsapp";
 import ContactUs from "./pages/ContactUs";
+import NotFoundPage from "./pages/404";
 
 
 
@@ -64,7 +65,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-
+    {/* not found */}
+    <Route path="*" element={<NotFoundPage />} />
 
 
         <Route path="/cart" element={<CartMain />} />

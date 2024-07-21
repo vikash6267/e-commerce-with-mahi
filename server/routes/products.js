@@ -12,7 +12,8 @@ const {
     getAllProduct,
     getProductDetails,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    notifi
 } = require("../controllers/productCtrl")
 
 
@@ -21,6 +22,10 @@ router.post("/edit",updateProduct)
 router.delete("/delete",deleteProduct)
 router.post("/getProductDetails" , getProductDetails)
 router.get("/all-product",getAllProduct)
+
+
+router.post("/notifi",notifi)
+
 
 
 
