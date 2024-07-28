@@ -17,9 +17,9 @@ function Home() {
   let selectedProducts
 
 
-  useEffect(() => {
-    window.scrollTo(0, 0); 
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0); 
+  // }, []);
 
   const selectRandomProducts = (products) => {
     if (!Array.isArray(products)) {
@@ -96,18 +96,19 @@ function Home() {
       <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between  text-white">
         {/* <MetaData title="Absence" /> */}
 
-        <div className=" min-w-screen max-w-screen   z-0 bg-white ">
+        <div className=" min-w-screen max-w-screen   z-0 bg-white pt-4 ">
 
         
 
           <div className=" text-black z-0  font-montserrat text-xl w-screen   ">
-            <h2
+          <h2
               style={{
                 textAlign: "center",
-                fontWeight: "800",
+                fontWeight: "500",
               }}
+              className=" border-b ml-3 text-lg"
             >
-              Featured Products
+              Features Products
             </h2>
             {products && <TestSlide products={products} />}
 
@@ -126,7 +127,7 @@ function Home() {
             </Link>
           </div>
 
-          {/* <div class="relative h-28 bg-gray-100 flex items-center justify-center">
+          <div class="relative h-28 bg-gray-100 flex items-center justify-center">
             <div class="absolute top-1/2 left-0 w-full transform rotate-3">
               <marquee
                 class="bg-green-500 text-white text-xl font-bold"
@@ -145,14 +146,23 @@ function Home() {
                 10% off for today
               </marquee>
             </div>
-          </div> */}
+          </div>
 
 
 <MiddlePage />
           <div className=" text-black  ">
          
-
+          <h2
+              style={{
+                textAlign: "center",
+                fontWeight: "500",
+              }}
+              className=" border-b ml-3"
+            >
+              New Drops
+            </h2>
             <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 text-black">
+           
             {products &&
                 products2?.map((product) => (
                   <ProductCard key={product?._id} products={product} />

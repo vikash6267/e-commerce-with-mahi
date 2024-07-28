@@ -5,7 +5,7 @@ import logo from "../../../assests/logo/logo.png";
 
 function MiddlePage() {
   return (
-    <div className='lg:hidden md:hidden'>
+    <div className='lg:hidden md:hidden max-w-[100vw] overflo-hidden'>
       <div className='relative'>
         <img src={image} alt="Background" className='lg:h-[100vh] mx-auto object-fill' />
         <div className='absolute bottom-[20%] right-[50px] flex justify-center items-center'>
