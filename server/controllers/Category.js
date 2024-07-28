@@ -1,9 +1,10 @@
 const Category = require("../models/Category")
+const asyncHandler = require("express-async-handler");
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max)
 }
-exports.createCategory = async (req, res) => {
+exports.createCategory = asyncHandler(async (req, res) => {
   try {
     const { name } = req.body
     if (!name ) {
@@ -27,9 +28,9 @@ exports.createCategory = async (req, res) => {
       message: error.message,
     })
   }
-}
+})
 
-exports.showAllCategories = async (req, res) => {
+exports.showAllCategories = asyncHandler(async (req, res) => {
   try {
     const allCategorys = await Category.find()
     res.status(200).json({
@@ -42,9 +43,9 @@ exports.showAllCategories = async (req, res) => {
       message: error.message,
     })
   }
-}
+})
 
-exports.categoryPageDetails = async (req, res) => {
+exports.categoryPageDetails = asyncHandler(async (req, res) => {
   try {
     const { categoryId } = req.body
 
@@ -114,43 +115,43 @@ exports.categoryPageDetails = async (req, res) => {
       error: error.message,
     })
   }
-}
-
-
-exports.editCategory = async (req,res)=>{
-try{
-  const { categoryId,name } = req.body
-  if (!name||
-      !categoryId )
-       {
-    return res
-      .status(400)
-      .json({ success: false, message: "All fields are required" })
-
-      }
-  const categories = await Category.findByIdAndUpdate(
-  {_id:categoryId},
-  {
-    name:name,
-
-  },
-  {new:true})
-
-if(!categories){
-  return res
-  .status(400)
-  .json({ success: false, message: "Category is not avaialble" })
-}
-res.status(200).json({
-  success: true,
-  message: `Category Updated successfully`,
-  data: updatedProfile,
 })
 
-}catch (error) {
-  return res.status(500).json({
-    success: false,
-    message: error.message,
+
+exports.editCategory = asyncHandler(async (req,res)=>{
+  try{
+    const { categoryId,name } = req.body
+    if (!name||
+        !categoryId )
+         {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" })
+  
+        }
+    const categories = await Category.findByIdAndUpdate(
+    {_id:categoryId},
+    {
+      name:name,
+  
+    },
+    {new:true})
+  
+  if(!categories){
+    return res
+    .status(400)
+    .json({ success: false, message: "Category is not avaialble" })
+  }
+  res.status(200).json({
+    success: true,
+    message: `Category Updated successfully`,
+    data: updatedProfile,
   })
-}
-}
+  
+  }catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+  }
+  })

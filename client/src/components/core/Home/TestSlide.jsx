@@ -26,7 +26,7 @@ function TestSlide({ products }) {
       <div className="flex lg:justify-center flex-nowrap justify-start px-6">
         {displayedProducts.map((product) => (
           <Link
-            to={`/${product?.slug}`}
+            to={`/product/${product?.slug}`}
             key={product._id}
             className="w-64 mx-2 flex flex-col"
           >

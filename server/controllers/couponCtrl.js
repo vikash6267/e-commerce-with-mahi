@@ -1,7 +1,8 @@
 const Coupon = require("../models/Coupon");
+const asyncHandler = require("express-async-handler");
 
 // Create a new coupon
-exports.createCoupon = async (req, res) => {
+exports.createCoupon = asyncHandler(async (req, res) => {
   console.log(req.body)
   let { name, expiry, discount, discountType } = req.body;
 
@@ -29,11 +30,11 @@ exports.createCoupon = async (req, res) => {
     console.log(error)
     res.status(500).json({ success: false, message: error.message });
   }
-};
+});
 
 
 // Get a coupon by name
-exports.getCouponByName = async (req, res) => {
+exports.getCouponByName = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
   try {
@@ -47,10 +48,10 @@ exports.getCouponByName = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
-};
+});
 
 
-exports.getAllCoupons = async (req, res) => {
+exports.getAllCoupons = asyncHandler(async (req, res) => {
   try {
     const coupons = await Coupon.find({});
     res.status(200).json({
@@ -63,11 +64,11 @@ exports.getAllCoupons = async (req, res) => {
       message: error.message
     });
   }
-};
+});
 
 
 // Delete a coupon by name
-exports.deleteCouponByName = async (req, res) => {
+exports.deleteCouponByName = asyncHandler(async (req, res) => {
   const { name } = req.params;
   console.log(req.params)
 
@@ -85,4 +86,4 @@ exports.deleteCouponByName = async (req, res) => {
     console.log(error)
     res.status(500).json({ success: false, message: error.message });
   }
-};
+});

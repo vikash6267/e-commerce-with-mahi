@@ -36,6 +36,7 @@ import Checkout from "./pages/Checkout"
 import Whatsapp from "./components/common/Whatsapp";
 import ContactUs from "./pages/ContactUs";
 import NotFoundPage from "./pages/404";
+import Search from "./pages/SerachFunctionallity";
 
 
 
@@ -71,10 +72,11 @@ function App() {
 
         <Route path="/cart" element={<CartMain />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/allProduct" element={<AllProduct />} />
         <Route path="/allProduct/:query" element={<AllProduct />} />
-        <Route path="/:productID" element={<ProductDetails />} />
-        <Route path="/:productID/:refer" element={<ProductDetails />} />
+        <Route path="/product/:productID" element={<ProductDetails />} />
+        <Route path="/product/:productID/:refer" element={<ProductDetails />} />
        
        
        

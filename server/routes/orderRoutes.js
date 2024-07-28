@@ -12,12 +12,17 @@ const{
 const {
     capturePayment,
     paymentVerification,
-    getAllOrder
+    getAllOrder,
+    adminAllOrders
 } = require("../controllers/OrderCtrl")
 
 
 router.post("/capturePayment", auth, isCustomre, capturePayment)
 router.post("/verifyPayment", auth, isCustomre, paymentVerification)
 router.get("/get", auth, isCustomre, getAllOrder)
+
+// Admin
+router.get("/getAll", adminAllOrders)
+
 
 module.exports = router

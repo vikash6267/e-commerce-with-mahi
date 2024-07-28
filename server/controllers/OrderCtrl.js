@@ -10,34 +10,7 @@ const axios = require("axios")
 
 const Coupon = require("../models/Coupon")
 const User = require("../models/User");
-// const { default: items } = require("razorpay/dist/types/items");
 
-// const capturePayment = async (req, res) => {
-//   const { products } = req.body;
-// try{
-
-//     const option = {
-//         amount: amount * 100,
-//         currency: "INR",
-//         receipt: Math.random(Date.now()).toString(),
-//       };
-   
-//         // Initiate the payment using Razorpay
-//         const paymentResponse = await instance.orders.create(option)
-//         console.log(paymentResponse)
-//         res.json({
-//           success: true,
-//           data: paymentResponse,
-//         })
-//       } catch (error) {
-//         console.log(error)
-//         res
-//           .status(500)
-//           .json({ success: false, message: "Could not initiate order." })
-//       }
-
-
-// };
 
 
 
@@ -535,10 +508,37 @@ message: `Fetch Orders Successfully`,
   }
 }
 
+
+const adminAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate('user', 'name email')
+      .populate({
+        path: 'orderItems.product',
+        model: 'Product',
+      })
+      .exec();
+
+    return res.status(200).json({
+      success: true,
+      message: `Fetch All Orders Successfully`,
+      orders,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: `Error During fetch all orders`,
+    });
+  }
+};
+
+
 module.exports = {
     capturePayment,
   paymentVerification,
   createOrder,
   shipRocket,
-  getAllOrder
+  getAllOrder,
+  adminAllOrders
 };

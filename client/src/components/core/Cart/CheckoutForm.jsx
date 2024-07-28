@@ -125,6 +125,9 @@ const totalDiscount = displayMoney(totalHighPrice)
     };
     
 
+    useEffect(() => {
+      window.scrollTo(0, 0); 
+    }, [step]);
 
 
 

@@ -4,6 +4,7 @@ const initialState = {
   allProduct: localStorage.getItem("allProduct")
     ? JSON.parse(localStorage.getItem("allProduct"))
     : [],
+  // allProduct:[],
     isFilterOpen:false,
     isMenuOpen:false,
 };

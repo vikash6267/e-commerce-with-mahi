@@ -1,7 +1,8 @@
 const User = require("../models/User")
+const asyncHandler = require("express-async-handler");
 
 
-exports.referCode = async (req, res) => {
+exports.referCode = asyncHandler(async (req, res) => {
     try {
         console.log("Entered referCode function");
 
@@ -36,4 +37,4 @@ exports.referCode = async (req, res) => {
             error: error.message,
         });
     }
-};
+});

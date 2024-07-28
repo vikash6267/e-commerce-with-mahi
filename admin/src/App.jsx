@@ -6,6 +6,8 @@ import AddProduct from "./pages/AddProduct";
 import GetProducts from "./pages/GetProducts";
 import ProductForm from "./components/Product/SizeSelect";
 import Coupons from "./pages/Coupons";
+import AllUsers from "./pages/AllUsers";
+import AllOrders from "./pages/AllOrders";
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
           <Route path="/admin/get-products" element={<GetProducts />} />
 
           <Route path="/admin/coupons" element={<Coupons />} />
+          <Route path="/admin/all-users" element={<AllUsers />} />
+          <Route path="/admin/all-orders" element={<AllOrders />} />
 
 
 

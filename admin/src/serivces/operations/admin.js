@@ -194,11 +194,13 @@ export const fetchCategory = async() =>{
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     });
+
+    console.log(response?.data)
      if (!response?.data?.success) {
        throw new Error("Could Not Fetch Product");
      }
    
-     const result = response?.data?.data;
+     const result = response?.data?.orders;
     
      return result;
    } catch (error) {

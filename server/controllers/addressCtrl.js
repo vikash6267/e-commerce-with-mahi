@@ -1,7 +1,8 @@
 const User = require("../models/User");
+const asyncHandler = require("express-async-handler");
 
 // Add Address
-exports.addAddress = async (req, res) => {
+exports.addAddress = asyncHandler(async (req, res) => {
     try {
         const userId = req.user.id; // Get the user ID from the request
         const { address, city, state, country="India", zipCode, phone, isDefault } = req.body;
@@ -45,11 +46,11 @@ exports.addAddress = async (req, res) => {
         console.error("Error adding address:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
     }
-};
+})
 
 
 // Update Address
-exports.updateAddress = async (req, res) => {
+exports.updateAddress = asyncHandler(async (req, res) => {
     try {
         const userId = req.user._id; // Get the user ID from the request
         const addressId = req.params.id;
@@ -77,7 +78,7 @@ exports.updateAddress = async (req, res) => {
         console.error("Error updating address:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
     }
-};
+})
 
 // Delete Address
 exports.deleteAddress = async (req, res) => {

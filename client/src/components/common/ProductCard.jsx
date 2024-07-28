@@ -29,7 +29,7 @@ function ProductCard({ products }) {
   const oldPrice = displayMoney(highPrice);
   return (
     <Link
-    to={`/${slug}`}
+    to={`/product/${slug}`}
     key={_id}
     data-aos="zoom-in-down"
   >

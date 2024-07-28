@@ -44,7 +44,7 @@ function Wishlist() {
             </div>
             <div className='flex justify-between items-center mt-4'>
               <Link
-                to={`/${product?.slug}`}
+                to={`/product/${product?.slug}`}
                 className='text-blue-600 hover:underline cursor-pointer'
               >
                 View Product

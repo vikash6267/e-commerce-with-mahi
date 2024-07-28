@@ -5,9 +5,10 @@ const Category = require("../models/Category")
 const Notification = require("../models/productNotification");
 const productStock = require("../mails/productStock");
 const mailSender = require("../utills/mailSender");
+const asyncHandler = require("express-async-handler");
 
 // Controller to create a new product
-exports.createProduct = async (req, res) => {
+exports.createProduct = asyncHandler(async (req, res) => {
   try {
     // Extracting data from the request body
     const {
@@ -99,7 +100,7 @@ exports.createProduct = async (req, res) => {
       error: error.message,
     });
   }
-};
+});
 
 
 
@@ -107,7 +108,7 @@ exports.createProduct = async (req, res) => {
 
 
 // Update Product
-exports.updateProduct = async (req, res) => {
+exports.updateProduct = asyncHandler(async (req, res) => {
   try {
     const {
       title,
@@ -248,9 +249,9 @@ if (notifications.length > 0) {
       error: error.message,
     });
   }
-};
+});
 
-exports.deleteProduct = async (req, res) => {
+exports.deleteProduct = asyncHandler(async (req, res) => {
   const { productId } = req.body;
   try {
     // Check if the product exists
@@ -277,11 +278,11 @@ exports.deleteProduct = async (req, res) => {
       message: error.message,
     });
   }
-};
+});
 
 
 
-exports.getAllProduct = async (req, res) => {
+exports.getAllProduct = asyncHandler(async (req, res) => {
   try {
     const allProduct = await Product.find().populate("category").sort({ createdAt: -1 });
     res.status(200).json({
@@ -295,11 +296,11 @@ exports.getAllProduct = async (req, res) => {
       message: "An error occurred while fetching products.",
     });
   }
-};
+});
 
 
 
-exports.getProductDetails = async (req, res) => {
+exports.getProductDetails = asyncHandler(async (req, res) => {
   try {
     const { productID } = req.body;
     // validateMongoDbId(productID);
@@ -333,10 +334,56 @@ exports.getProductDetails = async (req, res) => {
       message: error.message,
     });
   }
-};
+});
 
 
-exports.notifi = async (req, res) => {
+exports.searchProducts = asyncHandler(async (req, res) => {
+  console.log("hello")
+  try {
+    const { query } = req.query; // Query parameter from the request
+
+    // Validate query input
+    if (!query) {
+      return res.status(400).json({
+        success: false,
+        message: 'Search query is required',
+      });
+    }
+
+    const terms = query.split(' ');
+
+    // Create a search filter
+    const searchFilter = {
+      $or: terms.map(term => ({
+        $or: [
+          { title: new RegExp(term, 'i') },
+          { description: new RegExp(term, 'i') },
+          { tag: { $in: [term] } },
+          { fabric: { $regex: new RegExp(term, 'i') } },
+          { gsm: { $regex: new RegExp(term, 'i') } },
+          { printing: { $regex: new RegExp(term, 'i') } },
+        ]
+      }))
+    };
+
+
+    // Execute search query
+    const products = await Product.find(searchFilter);
+
+    return res.status(200).json({
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    console.error(error); // Log error for debugging
+    return res.status(500).json({
+      success: false,
+      message: `Server Error: ${error.message}`,
+    });
+  }
+});
+
+exports.notifi = asyncHandler(async (req, res) => {
   const { email, size, productId } = req.body;
 
   try {
@@ -359,4 +406,14 @@ exports.notifi = async (req, res) => {
     console.error('Error saving notification:', error);
     res.status(500).send({ error: 'Failed to save notification' });
   }
-};
+});
+
+
+
+
+
+
+
+
+
+

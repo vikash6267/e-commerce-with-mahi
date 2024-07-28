@@ -14,7 +14,7 @@ function Address() {
     billingAddress: '',
     billingPhone: ''
   });
-  const [isPincodeValid, setIsPincodeValid] = useState(false);
+  
 
 
   const areAllFieldsFilled = () => {
@@ -35,18 +35,18 @@ function Address() {
               billingState: locationData.State,
               billingCountry: locationData.Country
             });
-            setIsPincodeValid(true);
+          
           } else {
             console.log('Invalid Pincode');
-            setIsPincodeValid(false);
+          
           }
         })
         .catch(error => {
           console.error('Error fetching location data:', error);
-          setIsPincodeValid(false);
+        
         });
     } else {
-      setIsPincodeValid(false);
+    
     }
   }, [formData.billingPincode]);
 
@@ -73,15 +73,15 @@ function Address() {
       <div className="bg-white  rounded-lg ">
         <h2 className="text-xl font-semibold mb-6 text-center text-gray-800">Billing Address</h2>
         <div className="w-11/12 mx-auto    pl-2 p-2 billing">
-          <div className="mb-3">
+          <div className="mb-3 text-start">
             <label className="block mb-1 text-gray-600">Pincode</label>
             <input
-              type="text"
+              type="number"
               name="billingPincode"
               placeholder="Pincode"
               value={formData.billingPincode}
               onChange={handleChange}
-              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-semibold placeholder:font-normal"
+              className="min-w-full text-left border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-semibold placeholder:font-normal"
               required
             />
           </div>

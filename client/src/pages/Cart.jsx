@@ -95,18 +95,18 @@ function Cart() {
                         </div>
                       </div>
                  <Link to="/checkout">
-                 <button
-                        type="button"
-                        className={`w-11/12 bg-gray-900 hover:bg-gray-950 text-white p-2 mt-3 rounded-xl mx-auto font-bold ${
-                          cartQuantity === 0
-                            ? "opacity-50 cursor-not-allowed"
-                            : "hover:scale-105"
-                        }`}
-                        onClick={checkoutHandel}
-                        disabled={cartQuantity === 0}
-                      >
-                        Checkout
-                      </button>
+                 
+<button
+  type="button"
+  className="checkout-button"
+  onClick={checkoutHandel}
+  disabled={cartQuantity === 0}
+>
+  Checkout
+</button>
+
+
+
                  </Link>
                     </div>
                   </div>

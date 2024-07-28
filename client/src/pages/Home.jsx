@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/common/ProductCard";
-import { IoShirtSharp } from "react-icons/io5";
-
-import { FaGrinHearts } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
+import { Helmet } from 'react-helmet';
 import TestSlide from "../components/core/Home/TestSlide";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ThreeScene from "./Test";
+import MiddlePage from "../components/core/Home/MiddlePage";
 function Home() {
+
+
 
   const [products, setProduct] = useState([]);
   const { allProduct } = useSelector((state) => state.product);
@@ -55,8 +55,41 @@ function Home() {
   //   // fetchSubLinks();
   //   setProduct(allProduct);
   // }, [allProduct]);
+  const schemaMarkup = {
+    "@context": "https://schema.org/",
+    "@type": "WebSite",
+    "name": "Absence Fashion",
+    "url": "https://absense.fashion.mahitechnocrafts.in/",
+    "description": "Absence Fashion offers the latest in fashion trends with a wide range of clothing and accessories. Explore our collection to find your perfect style.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Absence",
+      "url": "https://absense.fashion.mahitechnocrafts.in/"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://absense.fashion.mahitechnocrafts.in/search?query={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+
+  
   return (
     <div className="">
+
+<Helmet>
+    <title>Absence - Discover the Latest Trends</title>
+    <meta name="description" content="Explore the latest fashion trends and find your perfect style at Absence Fashion. Discover new arrivals and popular items." />
+    <meta property="og:title" content="Absence Fashion - Discover the Latest Trends" />
+    <meta property="og:description" content="Explore the latest fashion trends and find your perfect style at Absence Fashion. Discover new arrivals and popular items." />
+    <meta property="og:url" content="https://wearabsence.com/" />
+    <meta property="og:type" content="website" />
+    <meta name="keywords" content="fashion, clothing, trends, Absence Fashion" />
+    <meta property="og:image" content="https://wearabsence.com/logo.png" />
+    <script type="application/ld+json">
+      {JSON.stringify(schemaMarkup)}
+    </script>
+  </Helmet>
           <div className="  min-h-[80vh] " >
             <ThreeScene />
           </div>
@@ -67,15 +100,15 @@ function Home() {
 
         
 
-          <div className=" text-black z-0  font-montserrat text-xl w-screen  ">
-            {/* <h2
+          <div className=" text-black z-0  font-montserrat text-xl w-screen   ">
+            <h2
               style={{
                 textAlign: "center",
                 fontWeight: "800",
               }}
             >
               Featured Products
-            </h2> */}
+            </h2>
             {products && <TestSlide products={products} />}
 
             <Link
@@ -93,7 +126,7 @@ function Home() {
             </Link>
           </div>
 
-          <div class="relative h-28 bg-gray-100 flex items-center justify-center">
+          {/* <div class="relative h-28 bg-gray-100 flex items-center justify-center">
             <div class="absolute top-1/2 left-0 w-full transform rotate-3">
               <marquee
                 class="bg-green-500 text-white text-xl font-bold"
@@ -112,8 +145,10 @@ function Home() {
                 10% off for today
               </marquee>
             </div>
-          </div>
+          </div> */}
 
+
+<MiddlePage />
           <div className=" text-black  ">
          
 

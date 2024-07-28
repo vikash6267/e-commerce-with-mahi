@@ -13,9 +13,13 @@ import { handleIsMenuOpen } from "../../slices/product";
 import { CiMenuFries } from "react-icons/ci";
 import { RiMenu4Fill } from "react-icons/ri";
 import { useLocation } from 'react-router-dom';
-
+import { FaWallet } from "react-icons/fa";
+import coin from "../../assests/logo/coin.png"
+import logo from "../../assests/logo/logo.png"
+import logo2 from "../../assests/logo/tlogo.png"
 function Header() {
-  const { token } = useSelector((state) => state.auth);
+  const { token} = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
   const { totalItems, isCartOpen } = useSelector((state) => state.cart);
   const { isMenuOpen } = useSelector((state) => state.product);
   const dispatch = useDispatch();
@@ -69,16 +73,18 @@ function Header() {
             <Navbar isOpen={isMenuOpen} setIsOpen={handleIsMenuOpen} />
           </div>
           <div className=" ">
-            <Link to="/">
-              <h1 className="text-xl font-bold uppercase tracking-wider text-center text-white ">
+            <Link to="/" className=" flex items-center gap-2">
+              <img src={logo} alt="Absence" className=" invert lg:h-6 h-4 md:h-5  " />
+              <img src={logo2} alt="Absence" className=" invert lg:h-5 h-3 " />
+              {/* <h1 className="text-xl font-bold uppercase tracking-wider text-center text-white ">
                 Absence
-              </h1>
+              </h1> */}
             </Link>
           </div>
           <div className="flex">
             {/* <SearchBar /> */}
             {/* <div className="min-h-[80%] bg-slate-800 min-w-[1px] mx-3"></div> */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 test-white">
               {/* {token ? (
               <Link to="/profile" className="mobile">
                 <FaUserAlt />
@@ -96,6 +102,16 @@ function Header() {
             </div> */}
 
               <Cart />
+
+            {
+              user &&   
+               <Link to={"/wallet"} className=" text-white flex gap-1 items-center p-1 px-2 rounded-2xl border border-gray-900  font-montserrat text-[12px]">
+              <FaWallet />
+              
+        {user?.totalCredit}
+              {/* <img src={coin} className=" rounded-full h-4" alt="" /> */}
+              </Link>
+            }
 
               <div
                 title="Cart"

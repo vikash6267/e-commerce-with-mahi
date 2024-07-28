@@ -177,10 +177,14 @@ function ProductDetails() {
     if (isProductAvailble) {
       setProduct(isProductAvailble);
       console.log(isProductAvailble)
-    } else {
+    } 
+    
       (async () => {
         try {
-          setLoading(true);
+          if(!isProductAvailble){
+
+            setLoading(true);
+          }
           const res = await fetchProductDetails(productID);
           // console.log("Product details res: ", res);
 
@@ -194,7 +198,7 @@ function ProductDetails() {
           setLoading(false);
         }
       })();
-    }
+   
 
     console.log(product)
 
@@ -209,7 +213,7 @@ function ProductDetails() {
   }, [product, setEarnings]);
 
   const shareProduct = () => {
-    let productUrl = `https://absencemain.vercel.app/${product?.slug}`;
+    let productUrl = `https://absencemain.vercel.app/product/${product?.slug}`;
     if (user?.referralCode) {
       productUrl += "/" + user.referralCode;
     }
@@ -492,9 +496,9 @@ function ProductDetails() {
                 </div>
                 <div className="seprator2"></div>
 
-                <div className="prod_details_additem mt-2">
+                <div className="prod_details_additem mt-2 flex ">
                   <h5>QTY :</h5>
-                  <div className="additem">
+                  <div className=" flex ">
                     <button
                       onClick={deceraseQuantityHandler}
                       className="additem_decrease"
@@ -505,7 +509,7 @@ function ProductDetails() {
                       readOnly
                       type="number"
                       value={quantity}
-                      className="input"
+                      className="input text-center w-[32px] text-[1rem]"
                     />
                     <button
                       onClick={increaseQuantityHandler}

@@ -262,7 +262,7 @@ function AllProduct({ products }) {
               >
                 {filteredProducts.map((product) => (
                   <Link
-                    to={`/${product?.slug}`}
+                    to={`/product/${product?.slug}`}
                     key={product?._id}
                     data-aos="zoom-in-down"
                   >
@@ -301,8 +301,8 @@ function AllProduct({ products }) {
   product?.quantity <= 0 && <div className=" absolute right-1 top-1 p-1 px-2 rounded-xl text-white font-semibold bg-red-500 ">Out Of Stock</div>
 }
 {product?.highPrice >= 0 && product?.price < product?.highPrice && (
-        <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-yellow-500 text-white text-sm font-semibold py-1 px-3 rounded-full shadow-lg flex items-center">
-          <FaTag className="mr-1 text-lg" />
+        <div className="absolute top-2 left-2 text-[10px] bg-gradient-to-r from-red-500 to-yellow-500 text-white text-sm font-semibold py-1 px-2 rounded-full shadow-lg flex items-center">
+          <FaTag className="mr-1 text-sm" />
           {Math.round(((product.highPrice - product.price) / product.highPrice) * 100)}%
         </div>
       )}
