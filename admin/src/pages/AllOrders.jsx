@@ -17,8 +17,16 @@ function AllOrders() {
         <div className="container mx-auto p-4">
             <h2 className="text-2xl font-bold mb-4">All Orders</h2>
             <div className="overflow-x-auto">
+             
+             
+             
+            <div className="overflow-x-auto mt-6 overflow-y-auto max-h-[400px]">
+    <div className="relative">
+    
+             
+             
                 <table className="min-w-full bg-white shadow-md rounded border border-gray-200">
-                    <thead className="bg-gray-100">
+                    <thead className="bg-gray-100 sticky top-0  lg:text-[15px] text-[12px] rounded-lg ">
                         <tr>
                             <th className="py-2 px-4 border-b">Order ID</th>
                             <th className="py-2 px-4 border-b">User</th>
@@ -75,6 +83,7 @@ function AllOrders() {
                         ))}
                     </tbody>
                 </table>
+                </div></div>
             </div>
         </div>
     );

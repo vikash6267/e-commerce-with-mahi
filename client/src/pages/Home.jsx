@@ -59,16 +59,16 @@ function Home() {
     "@context": "https://schema.org/",
     "@type": "WebSite",
     "name": "Absence Fashion",
-    "url": "https://absense.fashion.mahitechnocrafts.in/",
+    "url": "https://wearabsence.com/",
     "description": "Absence Fashion offers the latest in fashion trends with a wide range of clothing and accessories. Explore our collection to find your perfect style.",
     "publisher": {
       "@type": "Organization",
       "name": "Absence",
-      "url": "https://absense.fashion.mahitechnocrafts.in/"
+      "url": "https://wearabsence.com/"
     },
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://absense.fashion.mahitechnocrafts.in/search?query={search_term_string}",
+      "target": "https://wearabsence.com/search?query={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }

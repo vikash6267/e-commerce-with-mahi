@@ -18,6 +18,7 @@ const couponRoute = require("./routes/couponRoutes")
 const orderRoutes = require("./routes/orderRoutes")
 const categoryRoutes = require("./routes/categoryRoutes")
 const dashboardRoutes = require("./routes/dashboardRoute")
+const adminAuthRoute = require("./routes/adminAuth")
 // Loading environment variables from .env file
 dotenv.config();
 
@@ -54,6 +55,7 @@ cloudinaryConnect();
 // Setting up routes
 app.use("/api/v1/product", productsRoutes);
 app.use("/api/v1/user",userRoutes)
+app.use("/api/v1/admin",adminAuthRoute)
 
 app.use("/api/v1/image", imageRoute);
 app.use("/api/v1/address", addressRoute);

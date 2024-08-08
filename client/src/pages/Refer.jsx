@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const Refer = () => {
   const { user } = useSelector((state) => state.profile);
-  const link = `https://absencemain.vercel.app/login?refer=${user?.referralCode}`;
+  const link = `https://www.wearabsence.com/login?refer=${user?.referralCode}`;
 
   const copyToClipboard = () => {
     navigator?.clipboard
@@ -19,7 +19,7 @@ const Refer = () => {
 
 
   const moreShare = () => {
-    const link = `https://absencemain.vercel.app/login?refer=${user?.referralCode}`;
+    const link = `https://www.wearabsence.com/login?refer=${user?.referralCode}`;
     const shareData = {
       title: "Check out this exclusive offer on Absence!",
       text: "Don't miss out on the latest trends and deals. Click the link to explore and join the fashion revolution!",

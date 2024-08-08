@@ -2,6 +2,7 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const User = require("../models/User");
+const Admin = require("../models/admin");
 const asyncHandler = require("express-async-handler");
 
 // Configuring dotenv to load environment variables from .env file
@@ -13,11 +14,11 @@ exports.auth = asyncHandler(async (req, res, next) => {
 	try {
 		// Extracting JWT from request cookies, body or header
 		const token =
-			req.cookies.token ||
-			req.body.token ||
-			req.header("Authorization").replace("Bearer ", "");
-
-			// console.log(token)
+		req.cookies.token ||
+		req.body.token ||
+		req.header("Authorization").replace("Bearer ", "");
+		
+		// console.log(token)
 		
 		// If JWT is missing, return 401 Unauthorized response
 		if (!token) {
@@ -45,7 +46,7 @@ exports.auth = asyncHandler(async (req, res, next) => {
 		// If JWT is valid, move on to the next middleware or request handler
 		next();
 	} catch (error) {
-		// console.log(error)
+		console.log(error)
 		// If there is an error during the authentication process, return 401 Unauthorized response
 		return res.status(401).json({
 			success: false,
@@ -72,10 +73,10 @@ exports.isCustomre = asyncHandler(async (req, res, next) => {
 });
 exports.isAdmin = asyncHandler(async (req, res, next) => {
 	try {
-		const userDetails = await User.findOne({ email: req.user.email });
+		const userDetails = await Admin.findOne({ email: req.user.email });
 
 
-		if (userDetails.accountType !== "Admin") {
+		if (userDetails.role !== "Admin") {
 			return res.status(401).json({
 				success: false,
 				message: "This is a Protected Route for Admin",

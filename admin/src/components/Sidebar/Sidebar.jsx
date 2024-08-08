@@ -1,302 +1,100 @@
-import React, { useState } from "react";
-
-//All the svg files
-import logo from "../assets/logo.svg";
-import Home from "../assets/home-solid.svg";
-import Team from "../assets/social.svg";
-import Calender from "../assets/sceduled.svg";
-import Projects from "../assets/starred.svg";
-import Documents from "../assets/draft.svg";
-import PowerOff from "../assets/power-off-solid.svg";
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-
-const Container = styled.div`
-  position: fixed;
-
-  .active {
-    border-right: 4px solid var(--white);
-
-    img {
-      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg)
-        brightness(103%) contrast(103%);
-    }
-  }
-`;
-
-const Button = styled.button`
-  background-color: var(--black);
-  border: none;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  margin: 0.5rem 0 0 0.5rem;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  position: relative;
-
-  &::before,
-  &::after {
-    content: "";
-    background-color: var(--white);
-    height: 2px;
-    width: 1rem;
-    position: absolute;
-    transition: all 0.3s ease;
-  }
-
-  &::before {
-    top: ${(props) => (props.clicked ? "1.5" : "1rem")};
-    transform: ${(props) => (props.clicked ? "rotate(135deg)" : "rotate(0)")};
-  }
-
-  &::after {
-    top: ${(props) => (props.clicked ? "1.2" : "1.5rem")};
-    transform: ${(props) => (props.clicked ? "rotate(-135deg)" : "rotate(0)")};
-  }
-`;
-
-const SidebarContainer = styled.div`
-  background-color: var(--black);
-  width: 3.5rem;
-  height: 80vh;
-  margin-top: 1rem;
-  border-radius: 0 30px 30px 0;
-  padding: 1rem 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-
-  position: relative;
-`;
-
-const Logo = styled.div`
-  width: 2rem;
-
-  img {
-    width: 100%;
-    height: auto;
-  }
-`;
-
-const SlickBar = styled.ul`
-  color: var(--white);
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--black);
-
-  padding: 2rem 0;
-
-  position: absolute;
-  top: 6rem;
-  left: 0;
-
-  width: ${(props) => (props.clicked ? "12rem" : "3.5rem")};
-  transition: all 0.5s ease;
-  border-radius: 0 30px 30px 0;
-`;
-
-const Item = styled(NavLink)`
-  text-decoration: none;
-  color: var(--white);
-  width: 100%;
-  padding: 1rem 0;
-  cursor: pointer;
-
-  display: flex;
-  padding-left: 1rem;
-
-  &:hover {
-    border-right: 4px solid var(--white);
-
-    img {
-      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg)
-        brightness(103%) contrast(103%);
-    }
-  }
-
-  img {
-    width: 1.2rem;
-    height: auto;
-    filter: invert(92%) sepia(4%) saturate(1033%) hue-rotate(169deg)
-      brightness(78%) contrast(85%);
-  }
-`;
-
-const Text = styled.span`
-  width: ${(props) => (props.clicked ? "100%" : "0")};
-  overflow: hidden;
-  margin-left: ${(props) => (props.clicked ? "1.5rem" : "0")};
-  transition: all 0.3s ease;
-`;
-
-const Profile = styled.div`
-  width: ${(props) => (props.clicked ? "14rem" : "3rem")};
-  height: 3rem;
-
-  padding: 0.5rem 1rem;
-  /* border: 2px solid var(--white); */
-  border-radius: 20px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: ${(props) => (props.clicked ? "9rem" : "0")};
-
-  background-color: var(--black);
-  color: var(--white);
-
-  transition: all 0.3s ease;
-
-  img {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    cursor: pointer;
-
-    &:hover {
-      border: 2px solid var(--grey);
-      padding: 2px;
-    }
-  }
-`;
-
-const Details = styled.div`
-  display: ${(props) => (props.clicked ? "flex" : "none")};
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Name = styled.div`
-  padding: 0 1.5rem;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  h4 {
-    display: inline-block;
-  }
-
-  a {
-    font-size: 0.8rem;
-    text-decoration: none;
-    color: var(--grey);
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
-
-const Logout = styled.button`
-  border: none;
-  width: 2rem;
-  height: 2rem;
-  background-color: transparent;
-
-  img {
-    width: 100%;
-    height: auto;
-    filter: invert(15%) sepia(70%) saturate(6573%) hue-rotate(2deg)
-      brightness(100%) contrast(126%);
-    transition: all 0.3s ease;
-    &:hover {
-      border: none;
-      padding: 0;
-      opacity: 0.5;
-    }
-  }
-`;
+import { useState } from "react";
+import { VscSignOut, VscChevronLeft, VscChevronRight } from "react-icons/vsc";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { sidebarLinks } from "../../data/dashboard-links.js";
+import { logout } from "../../serivces/operations/user.js";
+import ConfirmationModal from "./ConfirmationModal";
+import { motion } from "framer-motion";
+import * as Icons from "react-icons/vsc";
 
 const Sidebar = () => {
-  const [click, setClick] = useState(false);
-  const handleClick = () => setClick(!click);
+  const { user } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [confirmationModal, setConfirmationModal] = useState(null);
+  const [collapsed, setCollapsed] = useState(false);
 
-  const [profileClick, setprofileClick] = useState(false);
-  const handleProfileClick = () => setprofileClick(!profileClick);
+  const toggleSidebar = () => setCollapsed(!collapsed);
 
   return (
-    <Container>
-      <Button clicked={click} onClick={() => handleClick()}>
-        Click
-      </Button>
-      <SidebarContainer>
-        <Logo>
-          <img src={logo} alt="logo" />
-        </Logo>
-        <SlickBar clicked={click}>
-          <Item
-            onClick={() => setClick(false)}
-            exact
-            activeClassName="active"
-            to="/"
-          >
-            <img src={Home} alt="Home" />
-            <Text clicked={click}>Dashboard</Text>
-          </Item>
-          <Item
-            onClick={() => setClick(false)}
-            activeClassName="active"
-            to="/admin/add-product"
-          >
-            <img src={Team} alt="Team" />
-            <Text clicked={click}>Add Product</Text>
-          </Item>
-          <Item
-            onClick={() => setClick(false)}
-            activeClassName="active"
-            to="/admin/get-products"
-          >
-            <img src={Calender} alt="Calender" />
-            <Text clicked={click}>Get Products</Text>
-          </Item>
-          {/* <Item
-            onClick={() => setClick(false)}
-            activeClassName="active"
-            to="/documents"
-          >
-            <img src={Documents} alt="Documents" />
-            <Text clicked={click}>Documents</Text>
-          </Item>
-          <Item
-            onClick={() => setClick(false)}
-            activeClassName="active"
-            to="/projects"
-          >
-            <img src={Projects} alt="Projects" />
-            <Text clicked={click}>Projects</Text>
-          </Item> */}
-        </SlickBar>
+    <motion.div
+      className={`flex flex-col h-screen bg-gray-900 text-white shadow-lg transition-all duration-300 ${collapsed ? "w-16" : "w-56"} min-w-fit`}
+      initial={{ width: "w-16" }}
+      animate={{ width: collapsed ? "w-16" : "w-56" }}
+      transition={{ duration: 0.3 }}
+    >
+      {/* Toggle Button */}
+      <button
+        onClick={toggleSidebar}
+        className="p-2 text-white bg-gray-800 hover:bg-gray-700 rounded-md mt-2 ml-2 flex items-center justify-center"
+      >
+        {collapsed ? <VscChevronRight className="text-xl" /> : <VscChevronLeft className="text-xl" />}
+      </button>
 
-        <Profile clicked={profileClick}>
-          <img
-            onClick={() => handleProfileClick()}
-            src="https://picsum.photos/200"
-            alt="Profile"
-          />
-          <Details clicked={profileClick}>
-            <Name>
-              <h4>Jhon&nbsp;Doe</h4>
-              <a href="/#">view&nbsp;profile</a>
-            </Name>
+      {/* Sidebar Content */}
+      <div className="flex flex-col h-full">
+        {/* Logo and Branding */}
+        {!collapsed && (
+          <div className="flex items-center justify-center h-16 bg-gray-800 border-b border-gray-700">
+            <span className="text-xl font-bold">A B S E N C E</span>
+          </div>
+        )}
 
-            <Logout>
-              <img src={PowerOff} alt="logout" />
-            </Logout>
-          </Details>
-        </Profile>
-      </SidebarContainer>
-    </Container>
+        {/* Sidebar Links */}
+        <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden py-4">
+          {sidebarLinks.map((link) => {
+            if (link.type && user?.accountType !== link.type) return null;
+
+            const IconComponent = Icons[link.icon];
+
+            if (!IconComponent) {
+              console.error(`Icon component ${link.icon} not found`);
+              return null;
+            }
+
+            return (
+              <motion.div
+                key={link.id}
+                className={`flex items-center py-2 px-4 hover:bg-gray-700 rounded-md transition-colors duration-200 cursor-pointer ${collapsed ? "justify-center" : ""}`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate(link.path)}
+                // Ensure pointer events are enabled
+                style={{ pointerEvents: 'auto' }}
+              >
+                <IconComponent className="text-xl mr-3" />
+                {!collapsed && <span className="text-lg">{link.name}</span>}
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Logout */}
+        <div className="flex flex-col mt-auto py-4 px-2 border-t border-gray-700">
+          <button
+            onClick={() => {
+            //   setConfirmationModal({
+            //     text1: "Are you sure?",
+            //     text2: "You will be logged out of your account.",
+            //     btn1Text: "Logout",
+            //     btn1Handler: () => dispatch(logout(navigate)),
+            //     btn2Text: "Cancel",
+            //     btn2Handler: () => setConfirmationModal(null),
+            //   });
+            // }
+            dispatch(logout(navigate))
+            }}
+            className="flex items-center px-4 py-2 text-sm font-medium text-red-400 hover:bg-gray-700 rounded-md transition-colors duration-200 cursor-pointer"
+          >
+            <VscSignOut className="text-lg mr-2" />
+            {!collapsed && <span>Logout</span>}
+          </button>
+        </div>
+      </div>
+
+      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
+    </motion.div>
   );
 };
 

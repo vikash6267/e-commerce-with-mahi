@@ -7,7 +7,8 @@ const{
     signup,
     sendotp,
     compareOtp,
-    fetchMyProfile
+    fetchMyProfile,
+    allUsers
 } = require("../controllers/Auth")
 
 const{
@@ -15,7 +16,8 @@ const{
 } = require("../controllers/referCodeKnow")
 const{
     auth,
-    isCustomre
+    isCustomre,
+    isAdmin
 } = require("../middlewares/auth")
 
 router.post("/login", login)
@@ -28,6 +30,8 @@ router.post("/refer", referCode)
 
 
 router.get("/fetchMyProfile",auth,fetchMyProfile )
+
+router.get("/all-user",auth,isAdmin,allUsers )
 
 
 

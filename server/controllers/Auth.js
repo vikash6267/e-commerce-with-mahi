@@ -454,3 +454,22 @@ exports.adminLogin = asyncHandler(async (req, res) => {
     });
   }
 });
+
+
+exports.allUsers = asyncHandler(async (req, res) => {
+  try {
+    const allUsers = await User.find({});
+
+    res.status(200).json({
+      success: true,
+      data: allUsers
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+});

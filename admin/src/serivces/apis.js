@@ -3,10 +3,11 @@ const BASE_URL = process.env.REACT_APP_BASE_URL
 
 // ??USER APIS
 export const userEndpoints = {
-    LOGIN_API : BASE_URL + "/user/login",
-    SIGNUP_API : BASE_URL +"/user/signup",
-    FETCH_PROFILE : BASE_URL + "/user/fetchMyProfile",
-    CONTACT_US_API: BASE_URL + "/user/contact",
+    LOGIN_API : BASE_URL + "/admin/login",
+    VERIFY_API : BASE_URL +"/admin/verify-otp",
+
+    ALL_USERS :BASE_URL + "/user/all-user"
+   
 
 }
 
@@ -46,6 +47,7 @@ export const productEndpoints = {
     DELETE_PRODUCT_API : BASE_URL + "/product/delete",
 
 
+    //
 
     //Category
     ADD_CATEGORY_API : BASE_URL + "/cat/createCategory",

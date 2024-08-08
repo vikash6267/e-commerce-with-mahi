@@ -76,7 +76,7 @@ const productStock = (product) => {
           </div>
           <p>Price: <strong>INR ${product.price}/-</strong></p>
           <p>Click the button below to purchase the item before it's gone again!</p>
-          <a href="https://absense.fashion.mahitechnocrafts.in/product/${product?._id}" class="cta">View Product</a>
+          <a href="https://wearabsence.com/product/${product?._id}" class="cta">View Product</a>
         </div>
         <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a href="mailto:support@mahitechnocrats.in">support@mahitechnocrats.in</a>. We are here to help!</div>
       </div>

@@ -33,8 +33,13 @@ const GetProducts = () => {
       <h1>Products</h1>
       {products.length > 0 ? (
         <div className="container mx-auto px-4">
+         
+                 
+        <div className="overflow-x-auto mt-6 overflow-y-auto max-h-[400px]">
+    <div className="relative">
+    
           <table className="min-w-full bg-white shadow-md rounded">
-            <thead className="bg-gray-800 text-white">
+            <thead className="bg-gray-800 text-white sticky top-0  lg:text-[15px] text-[12px] rounded-lg" >
               <tr>
                 <th className="w-1/12 px-4 py-2">Title</th>
                 <th className="w-1/12 px-4 py-2">High Price</th>
@@ -98,6 +103,8 @@ const GetProducts = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        </div>
         </div>
       ) : (
         <p className="no-products-message">No products found.</p>

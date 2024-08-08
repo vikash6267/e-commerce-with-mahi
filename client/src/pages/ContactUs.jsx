@@ -12,12 +12,12 @@ function ContactUs() {
         <div className="flex items-center mb-4">
           <FaInstagram className="text-pink-600 text-3xl mr-4" />
           <a 
-            href="https://www.instagram.com/absence.fashion?igsh=MWZ6eGI2ZmZjZmVkbQ=="
+            href="https://www.instagram.com/wearabsence/?locale=en-us"
             className="text-lg text-gray-700 hover:text-gray-900"
             target="_blank"
             rel="noopener noreferrer"
           >
-            @absence.fashion
+            @wearabsence
           </a>
         </div>
         

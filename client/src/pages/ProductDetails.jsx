@@ -276,7 +276,7 @@ function ProductDetails() {
     "brand": "Absence",
     "offers": {
       "@type": "Offer",
-      "url": `https://absense.fashion.mahitechnocrafts.in/${product?.slug || 'product-id'}`,
+      "url": `https://wearabsence.com/${product?.slug || 'product-id'}`,
       "priceCurrency": "INR",
       "price": product?.price || "0",
       "itemCondition": "https://schema.org/NewCondition",
@@ -295,7 +295,7 @@ function ProductDetails() {
         <meta name="description" content={product?.description || "Default product description"} />
         <meta property="og:title" content={product?.title || "Default Product Title"} />
         <meta property="og:description" content={product?.description || "Default product description"} />
-        <meta property="og:url" content={`https://absense.fashion.mahitechnocrafts.in/${product?.id || 'product-id'}`} />
+        <meta property="og:url" content={`https://wearabsence.com/${product?.id || 'product-id'}`} />
         <meta property="og:type" content="product" />
         <meta name="keywords" content={product?.tag?.join(', ')} />
         <meta property="og:image" content={product?.images?.[0]?.url || 'default-image-url.jpg'} />
