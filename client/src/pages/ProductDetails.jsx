@@ -174,14 +174,15 @@ function ProductDetails() {
     // Calling fetchProductDetails fucntion to fetch the details
     const isProductAvailble = allProduct.find((item) => item?.slug === productID);
 
-    if (isProductAvailble) {
+    if (false) {
       setProduct(isProductAvailble);
       console.log(isProductAvailble)
     } 
     
       (async () => {
         try {
-          if(!isProductAvailble){
+          // if(!isProductAvailble){
+          if(true){
 
             setLoading(true);
           }
