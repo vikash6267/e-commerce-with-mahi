@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'; // Import OrbitControls
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'; // Import GLTFLoader
-
+import video from "../assests/herovid.mp4"
 const ThreeScene = () => {
   const canvasRef = useRef();
   const [hintVisible, setHintVisible] = useState(true);
@@ -111,8 +111,8 @@ const ThreeScene = () => {
     <div className="container mb-10">
       <canvas ref={canvasRef} className="three-canvas" />
       <div className="video-background">
-        <video autoPlay loop muted playsInline className="video  lg:hidden sm:hidden md:hidden">
-          <source src="https://cdn.shopify.com/videos/c/o/v/e27e50ee8a7e453b9044463347621952.mp4" type="video/mp4" />
+        <video autoPlay loop muted playsInline className="video  ">
+          <source src={video} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>

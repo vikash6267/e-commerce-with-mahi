@@ -128,18 +128,18 @@ function Home() {
           </div>
 
           <div class="relative h-28 bg-gray-100 flex items-center justify-center">
-            <div class="absolute top-1/2 left-0 w-full transform rotate-3">
+            <div class="absolute top-1/2 left-0 w-full transform rotate-6">
               <marquee
-                class="bg-green-500 text-white text-xl font-bold"
+                class="bg-yellow-500 text-white text-xl font-bold"
                 direction="left"
                 loop=""
               >
                 10% off for today
               </marquee>
             </div>
-            <div class="absolute top-1/2 left-0 w-full transform -rotate-3">
+            <div class="absolute top-1/2 left-0 w-full transform -rotate-6">
               <marquee
-                class="bg-green-500 text-white text-xl font-bold"
+                class="bg-yellow-500 text-white text-xl font-bold"
                 direction="right"
                 loop=""
               >
@@ -157,7 +157,7 @@ function Home() {
                 textAlign: "center",
                 fontWeight: "500",
               }}
-              className=" border-b ml-3"
+              className=" border-b ml-3 mb-5"
             >
               New Drops
             </h2>
