@@ -112,7 +112,7 @@ const ThreeScene = () => {
       <canvas ref={canvasRef} className="three-canvas" />
       <div className="video-background">
         <video autoPlay loop muted playsInline className="video  ">
-          <source src={video} type="video/mp4" />
+          <source src={video} type="video/mp4"  />
           Your browser does not support the video tag.
         </video>
       </div>

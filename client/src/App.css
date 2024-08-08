@@ -329,6 +329,7 @@ top: 0;
   height: auto;
   position: absolute;
   top: 50%;
+  object-fit: cover;
   left: 50%;
   transform: translate(-50%, -50%);
 }
