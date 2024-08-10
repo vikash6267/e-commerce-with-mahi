@@ -1,92 +1,117 @@
-import React, { useEffect, useState } from 'react';
-import { getAllOrders } from '../serivces/operations/admin';
+import React, { useEffect, useState } from "react";
+import { getAllOrders } from "../serivces/operations/admin";
 
 function AllOrders() {
-    const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
 
-    const fetchOrders = async () => {
-        const response = await getAllOrders();
-        setOrders(response || []);
-    };
+  const fetchOrders = async () => {
+    const response = await getAllOrders();
+    setOrders(response || []);
+  };
 
-    useEffect(() => {
-        fetchOrders();
-    }, []);
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
-    return (
-        <div className="container mx-auto p-4">
-            <h2 className="text-2xl font-bold mb-4">All Orders</h2>
-            <div className="overflow-x-auto">
-             
-             
-             
-            <div className="overflow-x-auto mt-6 overflow-y-auto max-h-[400px]">
-    <div className="relative">
-    
-             
-             
-                <table className="min-w-full bg-white shadow-md rounded border border-gray-200">
-                    <thead className="bg-gray-100 sticky top-0  lg:text-[15px] text-[12px] rounded-lg ">
-                        <tr>
-                            <th className="py-2 px-4 border-b">Order ID</th>
-                            <th className="py-2 px-4 border-b">User</th>
-                            <th className="py-2 px-4 border-b">Product Image</th>
-                            <th className="py-2 px-4 border-b">Product</th>
-                            <th className="py-2 px-4 border-b">Size</th>
-                            <th className="py-2 px-4 border-b">Quantity</th>
-                            <th className="py-2 px-4 border-b">Total Price</th>
-                            <th className="py-2 px-4 border-b">Order Status</th>
-                            <th className="py-2 px-4 border-b">Order Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orders.map(order => (
-                            <React.Fragment key={order._id}>
-                                {order.orderItems.map((item, index) => (
-                                    <tr key={item._id} className=' my-4 '>
-                                        {index === 0 && (
-                                            <>
-                                                <td rowSpan={order.orderItems.length} className="py-2 px-4 border-b">
-                                                    {order.order_id}
-                                                </td>
-                                                <td rowSpan={order.orderItems.length} className="py-2 px-4 border-b">
-                                                    {order.user?.name} ({order.user?.email})
-                                                </td>
-                                            </>
-                                        )}
-                                        <td className="py-2 px-4 border-b">
-                                            <img
-                                                src={item.product?.images[0]?.url} // Adjust according to your data structure
-                                                alt={item.product?.title}
-                                                className="h-16 w-16 object-cover"
-                                            />
-                                        </td>
-                                        <td className="py-2 px-4 border-b">{item.product?.title}</td>
-                                        <td className="py-2 px-4 border-b">{item.size}</td>
-                                        <td className="py-2 px-4 border-b">{item.quantity}</td>
-                                        {index === 0 && (
-                                            <>
-                                                <td rowSpan={order.orderItems.length} className="py-2 px-4 border-b">
-                                                    {order.totalPrice}
-                                                </td>
-                                                <td rowSpan={order.orderItems.length} className="py-2 px-4 border-b">
-                                                    {order.orderStatus}
-                                                </td>
-                                                <td rowSpan={order.orderItems.length} className="py-2 px-4 border-b">
-                                                    {new Date(order.createdAt).toLocaleString()}
-                                                </td>
-                                            </>
-                                        )}
-                                    </tr>
-                                ))}
-                            </React.Fragment>
-                        ))}
-                    </tbody>
-                </table>
-                </div></div>
-            </div>
+  return (
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">All Orders</h2>
+      <div className="overflow-x-auto">
+        <div className="overflow-x-auto mt-6 overflow-y-auto max-h-[400px]">
+          <div className="relative">
+            <table className="min-w-full bg-white shadow-md rounded border border-gray-200">
+              <thead className="bg-gray-100 sticky top-0  lg:text-[15px] text-[12px] rounded-lg ">
+                <tr>
+                  <th className="py-2 px-4 border-b">Order ID</th>
+                  <th className="py-2 px-4 border-b">User</th>
+                  <th className="py-2 px-4 border-b">Product Image</th>
+                  <th className="py-2 px-4 border-b">Product</th>
+                  <th className="py-2 px-4 border-b">Size</th>
+                  <th className="py-2 px-4 border-b">Quantity</th>
+                  <th className="py-2 px-4 border-b">Address</th>
+                  <th className="py-2 px-4 border-b">Total Price</th>
+                  <th className="py-2 px-4 border-b">Order Status</th>
+                  <th className="py-2 px-4 border-b">Order Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <React.Fragment key={order._id}>
+                    {order.orderItems.map((item, index) => (
+                      <tr key={item._id} className=" my-4 ">
+                        {index === 0 && (
+                          <>
+                            <td
+                              rowSpan={order.orderItems.length}
+                              className="py-2 px-4 border-b"
+                            >
+                              {order.order_id}
+                            </td>
+                            <td
+                              rowSpan={order.orderItems.length}
+                              className="py-2 px-4 border-b"
+                            >
+                              {order.user?.name} ({order.user?.email})
+                            </td>
+                          </>
+                        )}
+                        <td className="py-2 px-4 border-b">
+                          <img
+                            src={item.product?.images[0]?.url} // Adjust according to your data structure
+                            alt={item.product?.title}
+                            className="h-16 w-16 object-cover"
+                          />
+                        </td>
+                        <td className="py-2 px-4 border-b">
+                          {item.product?.title}
+                        </td>
+                        <td className="py-2 px-4 border-b">{item.size}</td>
+                        <td className="py-2 px-4 border-b">{item.quantity}</td>
+
+                        {index === 0 && (
+                          <>
+                            <td
+                              rowSpan={order.orderItems.length}
+                              className="py-2 px-4 border-b"
+                            >
+                              <div className=" flex flex-col gap-4">
+                                <p> {order?.shippingInfo?.address}</p>
+                                <p> {order?.shippingInfo?.city}</p>
+                                <p> {order?.shippingInfo?.pincode}</p>
+                              </div>
+                            </td>
+                            <td
+                              rowSpan={order.orderItems.length}
+                              className="py-2 px-4 border-b"
+                            >
+                              {order.totalPrice}
+                            </td>
+                            <td
+                              rowSpan={order.orderItems.length}
+                              className="py-2 px-4 border-b"
+                            >
+                              {order.orderStatus}
+                            </td>
+                            <td
+                              rowSpan={order.orderItems.length}
+                              className="py-2 px-4 border-b"
+                            >
+                              {new Date(order.createdAt).toLocaleString()}
+                            </td>
+                          </>
+                        )}
+                      </tr>
+                    ))}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default AllOrders;
+``

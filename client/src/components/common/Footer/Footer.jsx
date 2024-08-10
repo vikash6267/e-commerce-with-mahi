@@ -7,7 +7,7 @@ const links = [
   { to: "/allProduct", text: "Shop" },
   { to: "/about-us", text: "About Us" },
   { to: "/contact", text: "Contact Us" },
-  { to: "/contact-us", text: "FAQ" },
+  { to: "/fqa", text: "FAQ" },
   { to: "/shipping-policy", text: "Shipping Policy" },
   { to: "/return-refund-policy", text: "Return/Refund Policy" },
   { to: "/privacy-policy", text: "Privacy Policy" },

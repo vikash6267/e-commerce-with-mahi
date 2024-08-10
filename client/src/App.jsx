@@ -37,6 +37,9 @@ import Whatsapp from "./components/common/Whatsapp";
 import ContactUs from "./pages/ContactUs";
 import NotFoundPage from "./pages/404";
 import Search from "./pages/SerachFunctionallity";
+import TermsConditions from "./pages/TermAndCondition";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import FAQ from "./pages/FAQ";
 
 
 
@@ -79,6 +82,10 @@ function App() {
         <Route path="/product/:productID/:refer" element={<ProductDetails />} />
        
        
+        <Route path="/terms-conditions" element={<TermsConditions />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/fqa" element={<FAQ />} />
+
        
        
 
