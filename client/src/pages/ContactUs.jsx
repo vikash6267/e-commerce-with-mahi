@@ -1,9 +1,19 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 function ContactUs() {
   return (
     <div className="min-h-[90] mt-16 bg-gray-100 p-6 flex flex-col items-center">
+      <Helmet>
+        <title>Contact Us | Absence</title>
+        <meta name="description" content="Contact Absence for inquiries, collaborations, or support. Reach out to us via Instagram or WhatsApp." />
+        <meta property="og:title" content="Contact Us | Absence" />
+        <meta property="og:description" content="Get in touch with Absence for any questions or support. Follow us on Instagram or contact us on WhatsApp." />
+        <meta property="og:url" content="https://wearabsence.com/contact" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://wearabsence.com/default-image.jpg" />
+      </Helmet>
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Contact Us</h1>
       
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">

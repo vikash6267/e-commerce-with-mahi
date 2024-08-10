@@ -191,7 +191,7 @@ function ProductDetails() {
 
           if (res.data !== undefined) {
             setProduct(res?.data?.productDetails);
-            console.log(res?.data?.productDetails?.images[0]?.url);
+            // console.log(res?.data?.productDetails);
           }
           setLoading(false);
         } catch (error) {
@@ -201,7 +201,9 @@ function ProductDetails() {
       })();
    
 
-    console.log(product)
+    // console.log(product)
+    console.log(product?.tag)
+    console.log(product?.tag?.join(', '))
 
   }, [productID]);
   useEffect(() => {
@@ -285,6 +287,9 @@ function ProductDetails() {
     }
   };
 
+
+  
+
   return (
     <>
       <div className="bg-black mt-[60px] text-white flex  ">
@@ -293,6 +298,7 @@ function ProductDetails() {
 
       <Helmet>
         <title>{product?.title || "Default Product Title"}</title>
+          <link rel="canonical" href={`https://wearabsence.com/product/${product.slug}`} />
         <meta name="description" content={product?.description || "Default product description"} />
         <meta property="og:title" content={product?.title || "Default Product Title"} />
         <meta property="og:description" content={product?.description || "Default product description"} />

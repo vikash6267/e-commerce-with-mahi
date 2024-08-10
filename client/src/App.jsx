@@ -40,7 +40,7 @@ import Search from "./pages/SerachFunctionallity";
 import TermsConditions from "./pages/TermAndCondition";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import FAQ from "./pages/FAQ";
-
+import usePageTracking from "./seo/usePageTracking"
 
 
 
@@ -53,7 +53,8 @@ function App() {
   const navigate = useNavigate()
   const { checkout } = useSelector((state) => state.payment);
   const { token } = useSelector((state) => state.auth);
-
+  usePageTracking()
+  
   useEffect(() => {
     dispatch(getAllProduct());
 
@@ -65,7 +66,9 @@ function App() {
 
   return (
     <div className="min-w-screen min-h-screen flex flex-col font-montserrat ">
+
       <Header />
+     
 
       <Routes>
         <Route path="/" element={<Home />} />
