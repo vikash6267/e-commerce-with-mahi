@@ -10,8 +10,7 @@ import { addToCart, handleIsCartOpen } from "../slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IoMdShare } from "react-icons/io";
-import { Helmet } from 'react-helmet';
-
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import {
   addToWish,
   removeFromWish,
@@ -291,11 +290,7 @@ function ProductDetails() {
   
 
   return (
-    <>
-      <div className="bg-black mt-[60px] text-white flex  ">
-
-    
-
+    <HelmetProvider>
       <Helmet>
         <title>{product?.title || "Default Product Title"}</title>
           <link rel="canonical" href={`https://wearabsence.com/product/${product.slug}`} />
@@ -310,6 +305,10 @@ function ProductDetails() {
           {JSON.stringify(schemaMarkup)}
         </script>
       </Helmet>
+      <div className="bg-black mt-[60px] text-white flex  ">
+
+    
+
         {/* Marquee tag to continuously display earnings */}
         <marquee behavior="scroll" direction="left">
           <div className="flex gap-20">
@@ -666,7 +665,7 @@ function ProductDetails() {
           </div>
         </div>
       </div>
-    </>
+    </HelmetProvider>
   );
 }
 

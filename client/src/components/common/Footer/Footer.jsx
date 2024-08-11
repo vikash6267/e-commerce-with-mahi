@@ -40,7 +40,10 @@ const Footer = () => {
           {/* Brand Information */}
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
             <h3 className="text-2xl font-bold  text-white mb-2">A B S E N C E</h3>
-            <p className='text-[13px]'>Discover the latest trends in fashion and stay ahead with our exclusive collection.</p>
+            <p className='text-[13px]'>
+  Discover the latest trends in fashion with Wear Absence and stay ahead with our exclusive collection. At Wear Absence, we offer a curated selection of stylish apparel to keep you on the cutting edge of fashion.
+</p>
+
           </div>
           {/* Customer Service Links */}
 

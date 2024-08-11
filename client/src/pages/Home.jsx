@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/common/ProductCard";
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import TestSlide from "../components/core/Home/TestSlide";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -75,12 +75,13 @@ function Home() {
 
   
   return (
-    <div className="">
+    <HelmetProvider>
+    
 
 <Helmet>
-    <title>Absence - Discover the Latest Trends</title>
+    <title>Wear Absence - Discover the Latest Trends</title>
     <meta name="description" content="Explore the latest fashion trends and find your perfect style at Absence Fashion. Discover new arrivals and popular items." />
-    <meta property="og:title" content="Absence Fashion - Discover the Latest Trends" />
+    <meta property="og:title" content="Wear Absence - Discover the Latest Trends" />
     <meta property="og:description" content="Explore the latest fashion trends and find your perfect style at Absence Fashion. Discover new arrivals and popular items." />
     <meta property="og:url" content="https://wearabsence.com/" />
     <meta property="og:type" content="website" />
@@ -171,7 +172,7 @@ function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </HelmetProvider>
   );
 }
 
