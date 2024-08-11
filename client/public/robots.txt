@@ -1,3 +1,12 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /login/
+Disallow: /user-profile/
+Allow: /product/
+Allow: /allProduct/
+Allow: /
+
+Sitemap: https://www.wearabsence.com/sitemap.xml

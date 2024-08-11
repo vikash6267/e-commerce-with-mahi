@@ -57,10 +57,10 @@ function Home() {
   // }, [allProduct]);
   const schemaMarkup = {
     "@context": "https://schema.org/",
-    "@type": "WebSite",
-    "name": "Absence Fashion",
+    "@type": "Website",
+    "name": "Wear Absence ",
     "url": "https://wearabsence.com/",
-    "description": "Absence Fashion offers the latest in fashion trends with a wide range of clothing and accessories. Explore our collection to find your perfect style.",
+    "description": "Wear Absence Fashion offers the latest in fashion trends with a wide range of clothing and accessories. Explore our collection to find your perfect style.",
     "publisher": {
       "@type": "Organization",
       "name": "Absence",
@@ -109,7 +109,7 @@ function Home() {
               }}
               className=" border-b ml-3 text-lg"
             >
-              Features Products
+             Absence Features Products
             </h2>
             {products && <TestSlide products={products} />}
 
@@ -160,7 +160,7 @@ function Home() {
               }}
               className=" border-b ml-3 mb-5"
             >
-              New Drops
+              New Drops Absence
             </h2>
             <div className="  w-11/12 mx-auto  grid lg:grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-2 text-black">
            

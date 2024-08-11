@@ -11,7 +11,7 @@ const Search = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
+  const baseurl = process.env.REACT_APP_BASE_URL
   const location = useLocation();
   const navigate = useNavigate();
 
