@@ -16,7 +16,7 @@ const ComingSoon = () => {
     e.preventDefault();
     try {
       await axios.post('https://e-commerce-with-mahi-vt9j.onrender.com/api/v1/product/comming', { email });
-      await axios.post('http://localhost:4000/api/v1/product/comming', { email });
+      // await axios.post('http://localhost:4000/api/v1/product/comming', { email });
       setMessage('Thank you! We will notify you when our site is live.');
       setEmail('');
     } catch (error) {
