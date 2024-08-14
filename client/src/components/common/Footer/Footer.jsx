@@ -20,7 +20,7 @@ const Footer = () => {
   return (
 
     <>
-<div className=' min-h-[100px] bg-white z-0 '></div>
+{/* <div className=' min-h-[100px] bg-white z-0 '></div> */}
    
     <footer className=" bg-black  text-gray-300  text-center transition duration-300 z-0 ">
       <div className="container mx-auto px-4 mt-7">

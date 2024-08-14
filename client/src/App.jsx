@@ -41,6 +41,9 @@ import TermsConditions from "./pages/TermAndCondition";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import FAQ from "./pages/FAQ";
 import usePageTracking from "./seo/usePageTracking"
+import MyComingSoonPage from "./pages/ComminSoon";
+import CancellationRefund from "./pages/ReturnRefundPolicy";
+import ShippingDelivery from "./pages/ShipingPolicy";
 
 
 
@@ -71,7 +74,8 @@ function App() {
      
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<MyComingSoonPage />} />
+        {/* <Route path="/" element={<Home />} /> */}
     {/* not found */}
     <Route path="*" element={<NotFoundPage />} />
 
@@ -86,6 +90,8 @@ function App() {
        
        
         <Route path="/terms-conditions" element={<TermsConditions />} />
+        <Route path="/return-refund-policy" element={<CancellationRefund />} />
+        <Route path="/shipping-policy" element={<ShippingDelivery />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/fqa" element={<FAQ />} />
 

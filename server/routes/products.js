@@ -16,6 +16,7 @@ const {
     searchProducts,
     notifi
 } = require("../controllers/productCtrl")
+const { createCommingSoon } = require("../controllers/commingSoonCtrl")
 
 
 router.post("/create",createProduct)
@@ -30,6 +31,7 @@ router.post("/notifi",notifi)
 
 
 
+router.post("/comming",createCommingSoon)
 
 // export all router
 module.exports = router
