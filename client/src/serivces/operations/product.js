@@ -134,7 +134,7 @@ export const fetchWishlist = async (token,dispatch) => {
     }
     result = response?.data
 
-   console.log(response?.data?.wishlist)
+  //  console.log(response?.data?.wishlist)
     dispatch(allWishlist(response?.data?.wishlist))
   } catch (error) {
     console.log("GET_WISHLIST_DETAILS API ERROR............", error)

@@ -8,63 +8,6 @@ require("dotenv").config();
 
 const asyncHandler = require("express-async-handler");
 
-// Signup Controller for Registering USers
-
-// exports.signup = async (req, res) => {
-//   try {
-//     // Destructure fields from the request body
-//     const {
-//       name,
-//       email,
-//       password,
-//       confirmPassword,
-//       contactNumber,
-//     } = req.body
-//     // Check if All Details are there or not
-//     if (
-//       !name ||
-//       !email ||
-//       !password ||
-//       !confirmPassword
-//     ) {
-//       return res.status(403).send({
-//         success: false,
-//         message: "All Fields are required",
-//       })
-//     }
-//     // Check if password and confirm password match
-//     if (password !== confirmPassword) {
-//       return res.status(400).json({
-//         success: false,
-//         message:
-//           "Password and Confirm Password do not match. Please try again.",
-//       })
-//     }
-
-//     // Hash the password
-//     const hashedPassword = await bcrypt.hash(password, 10)
-
-//     const user = await User.create({
-//       name,
-//       email,
-//       contactNumber,
-//       password: hashedPassword,
-//       image: `https://api.dicebear.com/5.x/initials/svg?seed=${name} `,
-//     })
-
-//     return res.status(200).json({
-//       success: true,
-//       user,
-//       message: "User registered successfully",
-//     })
-//   } catch (error) {
-//     console.error(error)
-//     return res.status(500).json({
-//       success: false,
-//       message: "User cannot be registered. Please try again.",
-//     })
-//   }
-// }
 
 exports.signup = asyncHandler(async (req, res) => {
   try {
@@ -455,21 +398,48 @@ exports.adminLogin = asyncHandler(async (req, res) => {
   }
 });
 
-
 exports.allUsers = asyncHandler(async (req, res) => {
   try {
     const allUsers = await User.find({});
 
     res.status(200).json({
       success: true,
-      data: allUsers
+      data: allUsers,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       success: false,
-      message: 'Server error',
-      error: error.message
+      message: "Server error",
+      error: error.message,
+    });
+  }
+});
+
+exports.getReferData = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // console.log(userId)
+    const userDetails = await User.findById(userId).populate("network.id");
+    // console.log(userDetails)
+
+    if (userDetails) {
+      res.status(200).json({
+        success: true,
+        network: userDetails?.network,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
     });
   }
 });

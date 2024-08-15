@@ -1,9 +1,19 @@
-import React from "react";
-import { FaFacebook, FaWhatsapp, FaCopy, FaTwitter, FaLinkedin } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import {
+  FaFacebook,
+  FaWhatsapp,
+  FaCopy,
+  FaTwitter,
+  FaLinkedin,
+} from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { referDetails } from "../serivces/operations/user";
+import MyReferralProgram from "../components/core/Profile/ReferRalProgram";
 
 const Refer = () => {
   const { user } = useSelector((state) => state.profile);
+  const { token } = useSelector((state) => state.auth);
+  const [referData,setReferData] = useState([])
   const link = `https://www.wearabsence.com/login?refer=${user?.referralCode}`;
 
   const copyToClipboard = () => {
@@ -17,7 +27,6 @@ const Refer = () => {
       });
   };
 
-
   const moreShare = () => {
     const link = `https://www.wearabsence.com/login?refer=${user?.referralCode}`;
     const shareData = {
@@ -25,42 +34,67 @@ const Refer = () => {
       text: "Don't miss out on the latest trends and deals. Click the link to explore and join the fashion revolution!",
       url: link,
     };
-  
+
     if (navigator?.share) {
-      navigator.share(shareData)
+      navigator
+        .share(shareData)
         .then(() => console.log("Shared successfully"))
         .catch((error) => console.error("Error sharing:", error));
     } else {
       // Fallback
-      alert("Sharing is not supported on this browser. Copy this link to share: " + link);
+      alert(
+        "Sharing is not supported on this browser. Copy this link to share: " +
+          link
+      );
     }
   };
-  
-  
 
-  
   const shareOnFacebook = () => {
-    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      link
+    )}`;
     window.open(url, "_blank");
   };
 
   const shareOnWhatsApp = () => {
-    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(link)}`;
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+      link
+    )}`;
     window.open(url, "_blank");
   };
 
   const shareOnTwitter = () => {
-    const url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(link)}&text=Check%20this%20out!`;
+    const url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+      link
+    )}&text=Check%20this%20out!`;
     window.open(url, "_blank");
   };
 
   const shareOnLinkedIn = () => {
-    const url = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(link)}`;
+    const url = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+      link
+    )}`;
     window.open(url, "_blank");
   };
 
+
+  const fetchReferData = async()=>{
+     const response = await referDetails(token)
+     console.log(response)
+    setReferData(response)
+  }
+  useEffect(()=>{
+    if(token){
+      fetchReferData()
+    }
+
+    
+  },[])
   return (
-    <div className="flex flex-col w-11/12 mx-auto justify-center items-center space-y-4 md:space-y-0 md:flex-row md:justify-center md:items-center mt-[130px] gap-11">
+    <div className="min-h-screen flex flex-col gap-5">
+
+
+    <div className="flex flex-col w-11/12 mx-auto justify-center items-center space-y-4 md:space-y-0 md:flex-row md:justify-center md:items-center mt-[130px] gap-11 ">
       <button
         onClick={shareOnFacebook}
         className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded flex items-center"
@@ -97,7 +131,15 @@ const Refer = () => {
       >
         More option
       </button>
+    
+     
     </div>
+
+    {
+        referData &&  <MyReferralProgram referralData={referData} />
+      }
+    </div>
+
   );
 };
 

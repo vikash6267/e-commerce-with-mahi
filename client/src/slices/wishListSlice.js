@@ -12,7 +12,7 @@ const wishListSlice = createSlice({
   initialState,
   reducers: {
     allWishlist: (state, action) => {
-        console.log("first",action.payload)
+        // console.log("first",action.payload)
       state.wishlistProduct = action.payload;
       localStorage.setItem("wishlist", JSON.stringify(state.wishlistProduct));
 

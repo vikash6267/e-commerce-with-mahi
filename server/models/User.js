@@ -71,10 +71,14 @@ const userSchema = new mongoose.Schema(
       type: String,
 
     },
-    network:[{
-     id:String,
-     referralCode:String
-    }],
+ network: [{
+  id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User" // यहां 'SomeOtherModel' वो मॉडल है जिससे आप डेटा पॉप्युलेट करना चाहते हैं
+  },
+  referralCode: String
+}]
+,
     password: {
       type: String,
       required: true,

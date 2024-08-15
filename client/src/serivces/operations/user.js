@@ -15,7 +15,8 @@ const {
   LOGIN_API,
   ADD_ADDRESS,
   FETCH_PROFILE,
-  REFER_CODE
+  REFER_CODE,
+  REFER_DATA_API
 } = userEndpoints
 
 
@@ -143,7 +144,7 @@ export function fetchMyProfile(token,navigate) {
         Authorization: `Bearer ${token}`,
       })
 
-      console.log("APP JS RESPONSE............", response)
+      // console.log("APP JS RESPONSE............", response)
 
       if (!response?.data?.success) {
         throw new Error(response?.data?.message)
@@ -258,6 +259,30 @@ export async function referCodeKnow(refer) {
   }
 
   toast.dismiss(toastId);
+  return result; // Returning the result of the asynchronous operation
+}
+export async function referDetails(token) {
+  // const toastId = toast.loading("Loading...");
+  let result = [];
+
+  try {
+    const response = await apiConnector("GET", REFER_DATA_API,null,{
+      Authorization: `Bearer ${token}`,
+    } );
+
+
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+
+    // console.log(response?.data?.network);
+
+    result = response?.data?.network;
+  } catch (error) {
+    console.log("REFER API ERROR:", error);
+  }
+
+  // toast.dismiss(toastId);
   return result; // Returning the result of the asynchronous operation
 }
 

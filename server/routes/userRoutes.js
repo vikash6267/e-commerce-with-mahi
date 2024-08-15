@@ -8,7 +8,8 @@ const{
     sendotp,
     compareOtp,
     fetchMyProfile,
-    allUsers
+    allUsers,
+    getReferData
 } = require("../controllers/Auth")
 
 const{
@@ -32,6 +33,7 @@ router.post("/refer", referCode)
 router.get("/fetchMyProfile",auth,fetchMyProfile )
 
 router.get("/all-user",auth,isAdmin,allUsers )
+router.get("/getReferData",auth,isCustomre,getReferData )
 
 
 

@@ -14,6 +14,7 @@ export const userEndpoints = {
     DELETE_ADDRESS : BASE_URL +"/address/delete",
     UPDATE_ADDRESS : BASE_URL +"/address/update",
     REFER_CODE : BASE_URL +"/user/refer",
+    REFER_DATA_API : BASE_URL +"/user/getReferData",
 
     
 

@@ -22,7 +22,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      console.log(action.payload.quantity);
+      // console.log(action.payload.quantity);
       const product = action.payload.products;
       const index = state.cart.findIndex((item) => item.product._id === product._id);
     
@@ -77,7 +77,7 @@ const cartSlice = createSlice({
     
     removeFromCart: (state, action) => {
       const productID = action.payload
-      console.log(productID)
+      // console.log(productID)
       const index = state.cart.findIndex((item) => item.product._id === productID)
 
       if (index >= 0) {
