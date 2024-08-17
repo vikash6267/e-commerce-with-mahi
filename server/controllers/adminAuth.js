@@ -4,6 +4,35 @@ const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
+const Session = require("../models/sessionModel");
+const getLocation = require("../utills/goeLocation");
+
+
+
+function generateSessionId() {
+  return otpGenerator.generate(32, { alphabets: true, specialChars: false });
+}
+
+function getClientIp(req) {
+  let ipAddress = req.headers['x-forwarded-for'] || 
+                  req.connection?.remoteAddress || 
+                  req.socket?.remoteAddress || 
+                  (req.connection?.socket ? req.connection.socket.remoteAddress : null);
+
+  // Handle multiple IPs in the x-forwarded-for header
+  if (ipAddress && ipAddress.includes(',')) {
+      ipAddress = ipAddress.split(',')[0].trim();
+  }
+
+  // Handle IPv6 to IPv4 mapping if needed
+  if (ipAddress && ipAddress.startsWith('::ffff:')) {
+      ipAddress = ipAddress.substring(7);
+  }
+
+  return ipAddress || 'Unknown IP';
+}
+
+
 
 exports.adminSignup = asyncHandler(async (req, res) => {
   try {
@@ -165,6 +194,31 @@ exports.verifyAdmin = asyncHandler(async (req, res) => {
       }
     );
 
+
+    const sessionId = generateSessionId();
+    const device = req.headers['user-agent'];
+    console.log(req.ip)
+    console.log(req.headers); // To see all headers received
+console.log(req.headers['x-forwarded-for']); // To specifically check this header
+
+    const ipAddress = await getClientIp(req);
+    console.log(ipAddress)
+    // const location = await getLocation(ipAddress); // You can use a geolocation API
+
+    await Session.create({
+      userId: admin._id,
+      device,
+      location,
+      loginTime: new Date(),
+      sessionId, 
+      ipAddress,
+    });
+
+      // Logout previous sessions if needed
+    // await Session.deleteMany({ userId: user._id, sessionId: { $ne: sessionId } });
+
+
+
     // Save token to admin document in database
     admin.token = token;
     admin.password = undefined;
@@ -178,6 +232,7 @@ exports.verifyAdmin = asyncHandler(async (req, res) => {
       success: true,
       token,
       admin,
+      sessionId,    
       message: `admin Login Success`,
     });
   } catch (error) {

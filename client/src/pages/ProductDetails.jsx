@@ -10,7 +10,7 @@ import { addToCart, handleIsCartOpen } from "../slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IoMdShare } from "react-icons/io";
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
   addToWish,
   removeFromWish,
@@ -41,9 +41,7 @@ function ProductDetails() {
   const [showModal, setShowModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useSelector((state) => state.profile);
-  const { cart} = useSelector(
-    (state) => state.cart
-  );
+  const { cart } = useSelector((state) => state.cart);
   // Function to handle showing/hiding the modal
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -110,7 +108,7 @@ function ProductDetails() {
   const [selectedUnavailableSize, setSelectedUnavailableSize] = useState(null);
 
   const handleSizeClick = (size) => {
-    if (product?.sizes?.some(one=>one.size === size)) {
+    if (product?.sizes?.some((one) => one.size === size)) {
       setSelectedSize(size === selectedSize ? null : size);
     } else {
       setSelectedUnavailableSize(size);
@@ -150,7 +148,7 @@ function ProductDetails() {
     } else {
       dispatch(addToCart({ products: product, quantity, size: selectedSize }));
 
-      dispatch(handleIsCartOpen())
+      dispatch(handleIsCartOpen());
     }
   };
 
@@ -171,39 +169,38 @@ function ProductDetails() {
 
   useEffect(() => {
     // Calling fetchProductDetails fucntion to fetch the details
-    const isProductAvailble = allProduct.find((item) => item?.slug === productID);
+    const isProductAvailble = allProduct.find(
+      (item) => item?.slug === productID
+    );
 
     if (false) {
       setProduct(isProductAvailble);
-      console.log(isProductAvailble)
-    } 
-    
-      (async () => {
-        try {
-          // if(!isProductAvailble){
-          if(true){
+      console.log(isProductAvailble);
+    }
 
-            setLoading(true);
-          }
-          const res = await fetchProductDetails(productID);
-          // console.log("Product details res: ", res);
-
-          if (res.data !== undefined) {
-            setProduct(res?.data?.productDetails);
-            // console.log(res?.data?.productDetails);
-          }
-          setLoading(false);
-        } catch (error) {
-          console.log("Could not fetch Course Details");
-          setLoading(false);
+    (async () => {
+      try {
+        // if(!isProductAvailble){
+        if (true) {
+          setLoading(true);
         }
-      })();
-   
+        const res = await fetchProductDetails(productID);
+        // console.log("Product details res: ", res);
+
+        if (res.data !== undefined) {
+          setProduct(res?.data?.productDetails);
+          // console.log(res?.data?.productDetails);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.log("Could not fetch Course Details");
+        setLoading(false);
+      }
+    })();
 
     // console.log(product)
-    console.log(product?.tag)
-    console.log(product?.tag?.join(', '))
-
+    console.log(product?.tag);
+    console.log(product?.tag?.join(", "));
   }, [productID]);
   useEffect(() => {
     if (product && product.price) {
@@ -226,7 +223,8 @@ function ProductDetails() {
     };
 
     if (navigator?.share) {
-      navigator.share(shareData)
+      navigator
+        .share(shareData)
         .then(() => console.log("Shared successfully"))
         .catch((error) => console.error("Error sharing:", error));
     } else {
@@ -260,55 +258,63 @@ function ProductDetails() {
     }
   };
 
-
-  const isProductInCart =  cart.some(
+  const isProductInCart = cart.some(
     (cartItem) => cartItem.product._id === productID
   );
-
-
-
 
   const schemaMarkup = {
     "@context": "https://schema.org/",
     "@type": "Product",
-    "name": product?.title || "Product Title",
-    "image": product?.images?.map(img => img.url) || [],
-    "description": product?.description || "Product Description",
-    "sku": product?.slug || "Product SKU",
-    "brand": "Absence",
-    "offers": {
+    name: product?.title || "Product Title",
+    image: product?.images?.map((img) => img.url) || [],
+    description: product?.description || "Product Description",
+    sku: product?.slug || "Product SKU",
+    brand: "Absence",
+    offers: {
       "@type": "Offer",
-      "url": `https://wearabsence.com/${product?.slug || 'product-id'}`,
-      "priceCurrency": "INR",
-      "price": product?.price || "0",
-      "itemCondition": "https://schema.org/NewCondition",
-      "availability": "https://schema.org/InStock"
-    }
+      url: `https://wearabsence.com/${product?.slug || "product-id"}`,
+      priceCurrency: "INR",
+      price: product?.price || "0",
+      itemCondition: "https://schema.org/NewCondition",
+      availability: "https://schema.org/InStock",
+    },
   };
-
-
-  
 
   return (
     <HelmetProvider>
       <Helmet>
         <title>{product?.title || "Default Product Title"}</title>
-          <link rel="canonical" href={`https://wearabsence.com/product/${product.slug}`} />
-        <meta name="description" content={product?.description || "Default product description"} />
-        <meta property="og:title" content={product?.title || "Default Product Title"} />
-        <meta property="og:description" content={product?.description || "Default product description"} />
-        <meta property="og:url" content={`https://wearabsence.com/${product?.id || 'product-id'}`} />
+        <link
+          rel="canonical"
+          href={`https://wearabsence.com/product/${product.slug}`}
+        />
+        <meta
+          name="description"
+          content={product?.description || "Default product description"}
+        />
+        <meta
+          property="og:title"
+          content={product?.title || "Default Product Title"}
+        />
+        <meta
+          property="og:description"
+          content={product?.description || "Default product description"}
+        />
+        <meta
+          property="og:url"
+          content={`https://wearabsence.com/${product?.id || "product-id"}`}
+        />
         <meta property="og:type" content="product" />
-        <meta name="keywords" content={product?.tag?.join(', ')} />
-        <meta property="og:image" content={product?.images?.[0]?.url || 'default-image-url.jpg'} />
+        <meta name="keywords" content={product?.tag?.join(", ")} />
+        <meta
+          property="og:image"
+          content={product?.images?.[0]?.url || "default-image-url.jpg"}
+        />
         <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
         </script>
       </Helmet>
       <div className="bg-black mt-[60px] text-white flex  ">
-
-    
-
         {/* Marquee tag to continuously display earnings */}
         <marquee behavior="scroll" direction="left">
           <div className="flex gap-20">
@@ -422,12 +428,6 @@ function ProductDetails() {
                     <div>
                       {/* <h2>Select Size:</h2> */}
                       <div>
-
-
-
-
-
-                      
                         {/* <div className="flex flex-wrap gap-3">
                           {product?.sizes?.map((size) => (
                             <div
@@ -454,25 +454,25 @@ function ProductDetails() {
                           ))}
                         </div> */}
 
-
                         <div className="flex flex-wrap gap-3">
                           {allSizes.map((size) => (
                             <div
                               key={size}
                               onClick={() => handleSizeClick(size)}
-                            
                               className={`px-2 py-1 rounded border cursor-pointer
                                ${
-                                size === selectedSize
-                                  ? "bg-blue-500 text-white"
-                                  : "bg-white text-blue-500"
-                              } ${
-                                product?.sizes?.some(one=>one.size === size)
+                                 size === selectedSize
+                                   ? "bg-blue-500 text-white"
+                                   : "bg-white text-blue-500"
+                               } ${
+                                product?.sizes?.some((one) => one.size === size)
                                   ? "border-gray-500"
                                   : "border-red-500"
                               }`}
                             >
-                              {product?.sizes?.some(one=>one.size === size) ? (
+                              {product?.sizes?.some(
+                                (one) => one.size === size
+                              ) ? (
                                 size
                               ) : (
                                 <del className="text-red-500">{size}</del>
@@ -481,13 +481,9 @@ function ProductDetails() {
                           ))}
                         </div>
 
-
-
-
-
                         {isModalOpen && (
                           <NotificationModal
-                          product={product}
+                            product={product}
                             closeModal={closeModal}
                             size={selectedUnavailableSize}
                           />
@@ -550,34 +546,37 @@ function ProductDetails() {
                 Add to cart
               </button> */}
 
-              {isProductInCart ? (
-        
-          <button className="p-2 px-16 rounded-2xl bg-gray-900 text-white w-full" onClick={()=>dispatch(handleIsCartOpen())}>
-            Go to Cart
-          </button>
-      
-      ) : selectedSize === null ? (
-        <button
-          className="p-2 px-16 rounded-2xl text-gray border-black border"
-          onClick={handleAddItem}
-          disabled={product?.quantity <= 0}
-        >
-
-
-        {!product?.quantity <= 0 ? <>Select Size <span className="text-[10px]">For Add To Cart</span></> : <div>Out Of stock</div> }
-          
-        </button>
-      ) : (
-        <button
-          className="p-2 px-16 rounded-2xl bg-gray-900 text-white"
-          onClick={handleAddItem}
-          disabled={product.quantity <= 0}
-        >
-          Add To Cart
-        </button>
-      )}
-
-             
+                  {isProductInCart ? (
+                    <button
+                      className="p-2 px-16 rounded-2xl bg-gray-900 text-white w-full"
+                      onClick={() => dispatch(handleIsCartOpen())}
+                    >
+                      Go to Cart
+                    </button>
+                  ) : selectedSize === null ? (
+                    <button
+                      className="p-2 px-16 rounded-2xl text-gray border-black border"
+                      onClick={handleAddItem}
+                      disabled={product?.quantity <= 0}
+                    >
+                      {!product?.quantity <= 0 ? (
+                        <>
+                          Select Size{" "}
+                          <span className="text-[10px]">For Add To Cart</span>
+                        </>
+                      ) : (
+                        <div>Out Of stock</div>
+                      )}
+                    </button>
+                  ) : (
+                    <button
+                      className="p-2 px-16 rounded-2xl bg-gray-900 text-white"
+                      onClick={handleAddItem}
+                      disabled={product.quantity <= 0}
+                    >
+                      Add To Cart
+                    </button>
+                  )}
                 </div>
 
                 <div className="  mt-[10px] text-[13px]    ">
