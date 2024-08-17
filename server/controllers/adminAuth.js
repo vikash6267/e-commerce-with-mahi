@@ -197,13 +197,13 @@ exports.verifyAdmin = asyncHandler(async (req, res) => {
 
     const sessionId = generateSessionId();
     const device = req.headers['user-agent'];
-    console.log(req.ip)
-    console.log(req.headers); // To see all headers received
-console.log(req.headers['x-forwarded-for']); // To specifically check this header
+    // console.log(req.ip)
+    // console.log(req.headers); // To see all headers received
+// console.log(req.headers['x-forwarded-for']); // To specifically check this header
 
     const ipAddress = await getClientIp(req);
-    console.log(ipAddress)
-    // const location = await getLocation(ipAddress); // You can use a geolocation API
+    // console.log(ipAddress)
+    const location = await getLocation(ipAddress); // You can use a geolocation API
 
     await Session.create({
       userId: admin._id,
