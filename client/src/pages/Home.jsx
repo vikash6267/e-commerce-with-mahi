@@ -94,6 +94,9 @@ function  Home() {
     </script>
   </Helmet>
 
+  <ComingSoon />
+
+
   { false &&
     <>
     <div className="  min-h-[80vh] " >
@@ -181,7 +184,6 @@ function  Home() {
   }
       
 
-     <ComingSoon />
     </HelmetProvider>
   );
 }

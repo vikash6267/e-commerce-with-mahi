@@ -30,7 +30,7 @@ const ComingSoon = () => {
 
   const renderer = ({ days, hours, minutes, seconds }) => {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-800 to-gray-900 text-white p-8">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-800 to-gray-900 text-white p-8 min-w-[100vw]">
 
         <h2 className="text-2xl font-semibold mb-12">Coming Soon</h2>
         <p className="text-2xl mb-12">We are launching in:</p>
