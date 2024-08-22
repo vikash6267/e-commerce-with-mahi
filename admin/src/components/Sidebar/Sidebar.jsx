@@ -14,9 +14,18 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [confirmationModal, setConfirmationModal] = useState(null);
   const [collapsed, setCollapsed] = useState(false);
+  const{token,sessionID} = useSelector(state=>state.profile)
 
   const toggleSidebar = () => setCollapsed(!collapsed);
-
+  
+  const Adminlogout = async () => {
+  try {
+    
+    await dispatch(logout(token,sessionID,navigate))
+  } catch (error) {
+    
+  }
+}
   return (
     <motion.div
       className={`flex flex-col h-screen bg-gray-900 text-white shadow-lg transition-all duration-300 ${collapsed ? "w-16" : "w-56"} min-w-fit`}
@@ -73,7 +82,7 @@ const Sidebar = () => {
         {/* Logout */}
         <div className="flex flex-col mt-auto py-4 px-2 border-t border-gray-700">
           <button
-            onClick={() => {
+            onClick={
             //   setConfirmationModal({
             //     text1: "Are you sure?",
             //     text2: "You will be logged out of your account.",
@@ -83,8 +92,9 @@ const Sidebar = () => {
             //     btn2Handler: () => setConfirmationModal(null),
             //   });
             // }
-            dispatch(logout(navigate))
-            }}
+            // dispatch(logout(navigate))
+            Adminlogout
+            }
             className="flex items-center px-4 py-2 text-sm font-medium text-red-400 hover:bg-gray-700 rounded-md transition-colors duration-200 cursor-pointer"
           >
             <VscSignOut className="text-lg mr-2" />

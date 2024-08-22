@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import OpenRoute from "./components/routes/OpenRoute";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import MainSidebar from "./components/Dashboard/index"
+import LoginActivity from "./pages/LoginActivity";
 //Routes
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
 
           <Route path="/admin/coupons" element={<Coupons />} />
           <Route path="/admin/all-users" element={<AllUsers />} />
+          <Route path="/admin/login-activity" element={<LoginActivity />} />
           <Route path="/admin/all-orders" element={<AllOrders />} />
 
           <Route path="/admin/test" element={<ProductForm />} />

@@ -243,3 +243,53 @@ exports.verifyAdmin = asyncHandler(async (req, res) => {
     });
   }
 });
+
+
+
+
+
+
+// In your authController.js or a similar file
+exports.logoutSession = async (req, res) => {
+  const { sessionId } = req.body; // Extract session ID from the request body
+  const userId = req.user?.id; // Extract user ID from authenticated user info
+
+  if (!sessionId) {
+      return res.status(400).json({ success: false, message: 'Session ID required.' });
+  }
+
+  try {
+      // Find and remove the session
+      const result = await Session.deleteOne({ userId, sessionId });
+
+      if (result.deletedCount === 0) {
+          return res.status(404).json({ success: false, message: 'Session not found.' });
+      }
+
+      res.status(200).json({ success: true, message: 'Session logged out successfully.' });
+  } catch (error) {
+      console.error('Error logging out session:', error);
+      res.status(500).json({ success: false, message: 'Error logging out session.' });
+  }
+};
+
+
+
+// In your authController.js or a similar file
+
+exports.getSessions = async (req, res) => {
+    const userId = req.user?.id; // Extract user ID from authenticated user info
+
+    if (!userId) {
+        return res.status(400).json({ success: false, message: 'User ID required.' });
+    }
+
+    try {
+        // Retrieve all sessions for the user
+        const sessions = await Session.find({ userId });
+        res.status(200).json({ success: true, sessions });
+    } catch (error) {
+        console.error('Error retrieving sessions:', error);
+        res.status(500).json({ success: false, message: 'Error retrieving sessions.' });
+    }
+};

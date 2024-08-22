@@ -6,7 +6,9 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ThreeScene from "./Test";
 import MiddlePage from "../components/core/Home/MiddlePage";
-function Home() {
+import ComingSoon from "./ComminSoon";
+
+function  Home() {
 
 
 
@@ -91,7 +93,10 @@ function Home() {
       {JSON.stringify(schemaMarkup)}
     </script>
   </Helmet>
-          <div className="  min-h-[80vh] " >
+
+  { false &&
+    <>
+    <div className="  min-h-[80vh] " >
             <ThreeScene />
           </div>
       <div className=" mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between  text-white">
@@ -172,6 +177,11 @@ function Home() {
           </div>
         </div>
       </div>
+    </>
+  }
+      
+
+     <ComingSoon />
     </HelmetProvider>
   );
 }

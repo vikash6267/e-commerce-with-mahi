@@ -41,4 +41,10 @@ export const sidebarLinks = [
     path: "/admin/all-orders",
     icon: "VscListOrdered",
   },
+  {
+    id: 7,
+    name: "Login Status",
+    path: "/admin/login-activity",
+    icon: "VscServerProcess",
+  },
 ];

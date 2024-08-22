@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import { createCoupon, fetchCoupons, deleteCoupon } from "../serivces/operations/product";
 import { format } from 'date-fns';
-
+import { useSelector } from 'react-redux';
 
 function Coupons() {
   const [openCreate, setCreate] = useState(false);
-  const token = "your-auth-token"; // Update this with your actual token
+  const{token,sessionID} = useSelector(state=>state.profile)
   const [couponsList, setCouponsList] = useState([]);
   const [coupon, setCoupon] = useState({
     name: "",
@@ -33,11 +33,11 @@ function Coupons() {
 
   const handleCreateCoupon = async () => {
     try {
-      await createCoupon(coupon, token);
+      await createCoupon(coupon, token,sessionID);
       const response = await fetchCoupons();
       setCouponsList(response || []);
-      setCreate(false);
-      setCoupon({ name: "", expiry: "", discount: 0, discountType: "percentage" });
+      // setCreate(false);
+      // setCoupon({ name: "", expiry: "", discount: 0, discountType: "percentage" });
     } catch (error) {
       console.error("Error creating coupon:", error);
     }

@@ -3,8 +3,11 @@ const router = express.Router()
 
 const{
     auth,
+     
+    adminAuth,
     isAdmin,
-    isCustomre
+    isCustomre,
+    verifySession
 }= require("../middlewares/auth")
 
 
@@ -16,7 +19,7 @@ const {
 } = require("../controllers/couponCtrl")
 
 
-router.post("/create",createCoupon)
+router.post("/create",adminAuth,verifySession,isAdmin,createCoupon)
 router.post("/get",getCouponByName)
 router.get("/getAll",getAllCoupons)
 router.delete("/delete/:name",deleteCouponByName)

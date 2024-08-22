@@ -4,6 +4,7 @@ const initialState = {
   user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
   loading: false,
   token: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null,
+  sessionID: localStorage.getItem("sessionID") ? JSON.parse(localStorage.getItem("sessionID")) : null,
 
 }
 
@@ -20,9 +21,12 @@ const profileSlice = createSlice({
     setToken(state, value) {
       state.token = value.payload;
     },
+    setSessionID(state, value) {
+      state.sessionID = value.payload;
+    },
   },
 })
 
-export const { setUser, setLoading ,setToken} = profileSlice.actions
+export const { setUser, setLoading ,setToken,setSessionID} = profileSlice.actions
 
 export default profileSlice.reducer

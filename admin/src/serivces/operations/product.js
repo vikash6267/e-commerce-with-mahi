@@ -79,8 +79,8 @@ export const fetchCoupon = async (name,token) => {
   return result
 }
 
-export const createCoupon = async (data, token) => {
-  console.log(data)
+export const createCoupon = async (data, token,sessionId) => {
+  console.log(sessionId)
   let result = [];
   const toastId = toast.loading("Loading...");
 
@@ -88,6 +88,8 @@ export const createCoupon = async (data, token) => {
     const response = await apiConnector("POST", ADD_COUPON_API, data, {
       "Content-Type": "application/json", // Assuming JSON format; change to "multipart/form-data" if needed
       Authorization: `Bearer ${token}`,
+      'Session-ID': sessionId,
+
     });
 
     console.log("CREATE COUPON API RESPONSE............", response);

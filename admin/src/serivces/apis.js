@@ -6,9 +6,11 @@ export const userEndpoints = {
     LOGIN_API : BASE_URL + "/admin/login",
     VERIFY_API : BASE_URL +"/admin/verify-otp",
 
-    ALL_USERS :BASE_URL + "/user/all-user"
-   
-
+    ALL_USERS :BASE_URL + "/user/all-user",
+    
+    
+    LOGOUT_API :BASE_URL + "/admin/logout",
+    ALL_SESSION_API :BASE_URL + "/admin/getsession",
 }
 
 

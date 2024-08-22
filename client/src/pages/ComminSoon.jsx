@@ -7,21 +7,25 @@ const ComingSoon = () => {
   const launchDate = new Date('2024-09-01T00:00:00');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-
+  const [loading,setLoading] = useState(false)
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
-      await axios.post('https://e-commerce-with-mahi-vt9j.onrender.com/api/v1/product/comming', { email });
+      // await axios.post('https://e-commerce-with-mahi-vt9j.onrender.com/api/v1/product/comming', { email });
+      await axios.post('https://demo.mahitechnocrafts.in/api/v1/product/comming', { email });
       // await axios.post('http://localhost:4000/api/v1/product/comming', { email });
       setMessage('Thank you! We will notify you when our site is live.');
       setEmail('');
     } catch (error) {
       setMessage('Sorry, something went wrong. Please try again later.');
     }
+    setLoading(false)
+
   };
 
   const renderer = ({ days, hours, minutes, seconds }) => {
@@ -64,7 +68,10 @@ const ComingSoon = () => {
               type="submit"
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
-              Notify Me
+             
+             {
+              loading ? <>Lodingg...</> : "Notify Me"
+             } 
             </button>
           </div>
         </form>

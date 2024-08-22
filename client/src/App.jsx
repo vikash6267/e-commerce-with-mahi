@@ -74,8 +74,8 @@ function App() {
      
 
       <Routes>
-        <Route path="/" element={<MyComingSoonPage />} />
-        {/* <Route path="/" element={<Home />} /> */}
+        {/* <Route path="/" element={<MyComingSoonPage />} /> */}
+        <Route path="/" element={<Home />} />
     {/* not found */}
     <Route path="*" element={<NotFoundPage />} />
 
