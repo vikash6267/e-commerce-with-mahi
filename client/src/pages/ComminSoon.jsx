@@ -17,12 +17,14 @@ const ComingSoon = () => {
     setLoading(true)
     try {
       // await axios.post('https://e-commerce-with-mahi-vt9j.onrender.com/api/v1/product/comming', { email });
-      await axios.post('https://demo.mahitechnocrafts.in/api/v1/product/comming', { email });
-      // await axios.post('http://localhost:4000/api/v1/product/comming', { email });
+    // const response =   await axios.post('https://demo.mahitechnocrafts.in/api/v1/product/comming', { email });
+      const response = await axios.post('http://localhost:4000/api/v1/product/comming', { email });
+     console.log(response)
       setMessage('Thank you! We will notify you when our site is live.');
       setEmail('');
     } catch (error) {
-      setMessage('Sorry, something went wrong. Please try again later.');
+      // console.log(error?.response.data.message)
+      setMessage(error?.response?.data?.message || "Something Went Wrong");
     }
     setLoading(false)
 
