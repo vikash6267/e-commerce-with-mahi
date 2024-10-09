@@ -4,7 +4,7 @@ import { FaClock, FaEnvelope } from 'react-icons/fa';
 import axios from 'axios';
 
 const ComingSoon = () => {
-  const launchDate = new Date('2024-10-05T00:00:00');
+  const launchDate = new Date('2024-10-20T00:00:00');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [loading,setLoading] = useState(false)
