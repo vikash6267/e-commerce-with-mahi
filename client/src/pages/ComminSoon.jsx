@@ -28,7 +28,7 @@ const ComingSoon = () => {
 
   const renderer = ({ days, hours, minutes, seconds }) => {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-800 to-gray-900 text-white p-8 min-w-[100vw]">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-800 to-gray-900 text-white p-8 min-w-[100vw] text-center mt-[50px]">
         <h1 className="text-4xl font-extrabold mb-4 text-center">🎉 Launching Our Exciting Giveaway! 🎉</h1>
         <p className="text-lg mb-8 text-center">
           Be ready for something exciting! We are launching soon with exclusive rewards for participants.
