@@ -1,41 +1,40 @@
 import React, { useState } from 'react';
 import Countdown from 'react-countdown';
-import { FaClock, FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope } from 'react-icons/fa';
 import axios from 'axios';
 
 const ComingSoon = () => {
-  const launchDate = new Date('2024-11-25T00:00:00');
+  const launchDate = new Date('2024-12-05T00:00:00'); // Set a placeholder date for countdown
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     try {
-      // await axios.post('https://e-commerce-with-mahi-vt9j.onrender.com/api/v1/product/comming', { email });
-    const response =   await axios.post('https://demo.mahitechnocrafts.in/api/v1/product/comming', { email });
-      // const response = await axios.post('http://localhost:4000/api/v1/product/comming', { email });
-    //  console.log(response)
-      setMessage('Thank you! We will notify you when our site is live.');
+      const response = await axios.post('https://demo.mahitechnocrafts.in/api/v1/product/comming', { email });
+      setMessage('Thank you for signing up! You are now part of our exciting giveaway.');
       setEmail('');
     } catch (error) {
-      // console.log(error?.response.data.message)
-      setMessage(error?.response?.data?.message || "Something Went Wrong");
+      setMessage(error?.response?.data?.message || 'Something went wrong. Please try again.');
     }
-    setLoading(false)
-
+    setLoading(false);
   };
 
   const renderer = ({ days, hours, minutes, seconds }) => {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-800 to-gray-900 text-white p-8 min-w-[100vw]">
+        <h1 className="text-4xl font-extrabold mb-4 text-center">🎉 Launching Our Exciting Giveaway! 🎉</h1>
+        <p className="text-lg mb-8 text-center">
+          Be ready for something exciting! We are launching soon with exclusive rewards for participants.
+        </p>
+        <p className="text-2xl mb-8">Countdown to Launch:</p>
 
-        <h2 className="text-2xl font-semibold mb-12">Coming Soon</h2>
-        <p className="text-2xl mb-12">We are launching in:</p>
         <div className="flex space-x-8 text-center mb-12">
           <div className="flex flex-col items-center">
             <span className="text-6xl font-bold">{days}</span>
@@ -55,6 +54,10 @@ const ComingSoon = () => {
           </div>
         </div>
 
+        <p className="text-lg mb-8 text-center">
+          Enter your email to be a part of our <b>exciting giveaway</b>. Don’t miss out on amazing rewards!
+        </p>
+
         <form onSubmit={handleEmailSubmit} className="w-full max-w-lg">
           <div className="flex items-center border-b border-white py-2">
             <FaEnvelope className="text-xl text-white mr-3" />
@@ -70,14 +73,12 @@ const ComingSoon = () => {
               type="submit"
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
-             
-             {
-              loading ? <>Lodingg...</> : "Notify Me"
-             } 
+              {loading ? 'Submitting...' : 'Join Giveaway'}
             </button>
           </div>
         </form>
-        {message && <p className="mt-6 text-green-400">{message}</p>}
+
+        {message && <p className="mt-6 text-green-400 text-center">{message}</p>}
       </div>
     );
   };

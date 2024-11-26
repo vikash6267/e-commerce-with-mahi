@@ -12,7 +12,7 @@ const links = [
   { to: "/return-refund-policy", text: "Return/Refund Policy" },
   { to: "/privacy-policy", text: "Privacy Policy" },
   { to: "/terms-conditions", text: "Terms & Conditions" },
-  { to: "/help-center", text: "Help Center" },
+  // { to: "/help-center", text: "Help Center" },
 ];
 
 

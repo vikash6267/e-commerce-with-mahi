@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { HelmetProvider } from 'react-helmet-async';
 
 const ShippingDelivery = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
   return (
     <HelmetProvider>
 

@@ -10,7 +10,7 @@ import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import Filtered from "../components/core/AllProduct.jsx/Filtered";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import { FaGift } from 'react-icons/fa';
 import { handleIsFilterOpen } from "../slices/product";
 // Exporting available sizes and genders
 export const sizes = ["S", "M", "L", "XL", "XXL"];
@@ -106,7 +106,28 @@ function AllProduct({ products }) {
   return (
     <div className="min-h-screen  mt-[54px] min-w-[100vw] mx-auto mb-[100px] ">
       <div className="min-h-full ">
-        <div className="flex ">
+
+
+      <div className="flex flex-col justify-center items-center text-center w-11/12 mx-auto mt-[100px] py-10 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-lg shadow-lg">
+      <h2 className="text-4xl font-extrabold mb-4 flex items-center justify-center">
+        <FaGift className="text-yellow-300 mr-3" /> 
+        Very Soon: Update Collection
+      </h2>
+      <p className="text-lg leading-relaxed mb-6">
+        Stay tuned for our exciting new collection! Get ready to explore fresh styles and amazing updates. 
+        Register now and grab exclusive rewards!
+      </p>
+      <Link 
+        to="/" 
+        className="mt-6 px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold text-lg rounded-lg shadow-lg flex items-center"
+      >
+        <FaGift className="mr-2" /> Register for Rewards
+      </Link>
+    </div>
+    
+    
+      {
+        false &&   <div className="flex ">
           <div className="w-1/5 mt-10 pl-5 mobile">
             {/* Size and Gender filter */}
 
@@ -315,6 +336,9 @@ function AllProduct({ products }) {
             )}
           </div>
         </div>
+      }
+
+        
       </div>
     </div>
   );

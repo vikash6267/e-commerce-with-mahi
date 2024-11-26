@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState(null);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
   // Updated FAQ data
   const faqData = [
     {

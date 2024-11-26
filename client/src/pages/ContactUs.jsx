@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 function ContactUs() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
   return (
     <div className="min-h-[90] mt-16 bg-gray-100 p-6 flex flex-col items-center">
       <Helmet>

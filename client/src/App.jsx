@@ -44,6 +44,7 @@ import usePageTracking from "./seo/usePageTracking"
 import MyComingSoonPage from "./pages/ComminSoon";
 import CancellationRefund from "./pages/ReturnRefundPolicy";
 import ShippingDelivery from "./pages/ShipingPolicy";
+import AboutUs from "./pages/AboutUs";
 
 
 
@@ -82,6 +83,7 @@ function App() {
 
         <Route path="/cart" element={<CartMain />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="/search" element={<Search />} />
         <Route path="/allProduct" element={<AllProduct />} />
         <Route path="/allProduct/:query" element={<AllProduct />} />
